@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="AbzzezzUtil">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Out/AbzzezzUtil.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Libraries/slick.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Libraries/PNGDecoder-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Libraries/lwjgl_util.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Libraries/lwjgl.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
