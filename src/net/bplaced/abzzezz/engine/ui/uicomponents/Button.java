@@ -10,10 +10,7 @@
 
 package net.bplaced.abzzezz.engine.ui.uicomponents;
 
-import ga.abzzezz.util.logging.Logger;
-import net.bplaced.abzzezz.engine.utils.MouseUtil;
-import net.bplaced.abzzezz.engine.utils.RenderUtil;
-import net.bplaced.abzzezz.engine.utils.Util;
+import net.bplaced.abzzezz.engine.utils.*;
 
 public class Button implements UIComponent {
 
@@ -22,6 +19,12 @@ public class Button implements UIComponent {
     private final float yPos;
     private final float id;
     private final int width, height;
+    /**
+     * Button pressed
+     *
+     * @param mouseButton
+     */
+    private ButtonPressed buttonPressed;
 
     /**
      * Simple button. Buttons can be added just use this as a parent
@@ -78,13 +81,6 @@ public class Button implements UIComponent {
     public void keyListener(int keyCode, char keyTyped) {
     }
 
-    /**
-     * Button pressed
-     *
-     * @param mouseButton
-     */
-    private ButtonPressed buttonPressed;
-
     public void setButtonPressed(ButtonPressed buttonPressed) {
         this.buttonPressed = buttonPressed;
     }
@@ -97,7 +93,7 @@ public class Button implements UIComponent {
             if (buttonPressed != null)
                 buttonPressed.onButtonPressed(mouseButton, this);
             else
-                Logger.log("Button pressed handler not initialised", Logger.LogType.INFO);
+                Logger.log("Button pressed handler not initialised", LogType.WARNING);
         }
     }
 

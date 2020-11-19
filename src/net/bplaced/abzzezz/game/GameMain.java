@@ -13,34 +13,32 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+/**
+ * Singleton main
+ */
 
-public class MainClass {
+public class GameMain {
 
-    /**
-     * Basic main class
-     */
+    private static GameMain instance;
 
     private DialogHandler dialogHandler;
-    private static MainClass inst;
     private SoundPlayer soundPlayer;
     private String serverURL;
     private SettingsHandler settingsHandler;
     private GLSLShaderUtil glslShaderUtil, shader;
 
-    public static void main(String[] args) {
-        MainClass mainClass = new MainClass();
-        mainClass.initHandlers();
+    public static GameMain getInstance() {
+        return instance;
     }
 
     private void startEngine() {
-        /*
-        Init Engine
-         */
-        EngineCore engineCore = new EngineCore(600, 600, new MainMenu());
+        //Initialise and start engine
+        final EngineCore engineCore = new EngineCore(600, 600, new MainMenu());
         engineCore.setGameName("Chatroom");
         engineCore.setMainDir(new File(System.getProperty("user.home"), "Chatroom"));
         engineCore.setBackgroundColor(Color.BLACK);
         engineCore.addSaveFile(new SettingsFile());
+
         engineCore.setOpenGLReference(new EngineCore.OpenGLReference() {
             @Override
             public void onGLInitialised() {
@@ -52,22 +50,22 @@ public class MainClass {
             public void closeRequested() {
                 dialogHandler.savePreviousDialog();
             }
+
         });
         engineCore.start();
 
     }
 
-    private void initHandlers() {
+    public void initHandlers() {
         /*
         Handlers before Engine
          */
-        inst = this;
+        instance = this;
         this.serverURL = "http://abzzezz.bplaced.net/Chatroom/";
         this.dialogHandler = new DialogHandler();
         this.settingsHandler = new SettingsHandler();
         this.soundPlayer = new SoundPlayer();
         this.startEngine();
-
     }
 
     public GLSLShaderUtil getGlslShaderUtil() {
@@ -105,9 +103,4 @@ public class MainClass {
     public SoundPlayer getSoundPlayer() {
         return soundPlayer;
     }
-
-    public static MainClass getInstance() {
-        return inst;
-    }
-
 }

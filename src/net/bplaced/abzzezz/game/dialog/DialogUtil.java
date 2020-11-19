@@ -1,10 +1,10 @@
 package net.bplaced.abzzezz.game.dialog;
 
-public class DialogUtil {
+/**
+ * Contains keywords
+ */
 
-    /**
-     * Contains keywords
-     */
+public class DialogUtil {
 
     /*
     Taken syntax:
@@ -28,9 +28,12 @@ public class DialogUtil {
     public static final String QUESTION_CALL = "::question";
     public static final String GOTO_KEY = "#goto";
     public static final String DIR_KEY = "$dir";
+    public static final String ASSET_KEY = "$assets";
     public static final String PLAY_SOUND_CALL = "::playsound";
     public static final String COLOR_CODE_KEY = "$#";
     public static final String END_KEY = "#end";
     public static final String BACKGROUND_MUSIC_CALL = "::backgroundmusic";
     public static final String BACKGROUND_CALL = "::background";
+
+    public static final String DEFINE_KEY = "=";
 }

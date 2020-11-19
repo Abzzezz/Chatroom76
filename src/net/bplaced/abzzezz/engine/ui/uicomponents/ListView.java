@@ -10,11 +10,7 @@
 
 package net.bplaced.abzzezz.engine.ui.uicomponents;
 
-import ga.abzzezz.util.logging.Logger;
-import net.bplaced.abzzezz.engine.utils.MouseUtil;
-import net.bplaced.abzzezz.engine.utils.RenderUtil;
-import net.bplaced.abzzezz.engine.utils.ScissorUtil;
-import net.bplaced.abzzezz.engine.utils.Util;
+import net.bplaced.abzzezz.engine.utils.*;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
@@ -23,16 +19,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ListView implements UIComponent {
 
-    /*
-    TODO: More work
-     */
-    protected int scrollY;
     private final List<ListViewElement> list;
     private final float xPos;
     private final float yPos;
     private final int width;
     private final int height;
     private final String title;
+    /*
+    TODO: More work
+     */
+    protected int scrollY;
+    private onListViewElementClicked clickListener;
 
     public ListView(List<Object> list, float xPos, float yPos, int height, String title) {
         this.xPos = xPos;
@@ -95,8 +92,6 @@ public class ListView implements UIComponent {
     public void keyListener(int keyCode, char keyTyped) {
     }
 
-    private onListViewElementClicked clickListener;
-
     public void setClickListener(onListViewElementClicked clickListener) {
         this.clickListener = clickListener;
     }
@@ -108,7 +103,7 @@ public class ListView implements UIComponent {
                 if (clickListener != null) {
                     clickListener.onItemClicked(list.indexOf(listViewElement), listViewElement);
                 } else {
-                    Logger.log("On item click listener for class " + getClass() + "not initialised", Logger.LogType.WARNING);
+                    Logger.log("On item click listener for class " + getClass() + "not initialised", LogType.WARNING);
                 }
             }
         });
@@ -140,12 +135,12 @@ public class ListView implements UIComponent {
             return object.toString();
         }
 
-        public void setyPos(float yPos) {
-            this.yPos = yPos;
-        }
-
         public float getyPos() {
             return yPos;
+        }
+
+        public void setyPos(float yPos) {
+            this.yPos = yPos;
         }
 
         public boolean isHovered() {

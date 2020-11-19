@@ -7,6 +7,17 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1dlnHHoPUJfWGMth3AB4vQtwI9y" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -15,19 +26,27 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Libraries/lwjgl.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/net/bplaced/abzzezz/engine/utils" />
     <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.16308594" />
     <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.bplaced.abzzezz.engine.utils" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Code\Projects\Chatroom76\src\net\bplaced\abzzezz\engine\utils" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="MainClass" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="net.bplaced.abzzezz.game.MainClass" />
+      <option name="MAIN_CLASS_NAME" value="net.bplaced.abzzezz.MainClass" />
       <module name="Chatroom76" />
       <option name="VM_PARAMETERS" value="-Djava.library.path=&quot;E:\Code\Libraries\windows&quot;" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="net.bplaced.abzzezz.game.*" />
+          <option name="PATTERN" value="net.bplaced.abzzezz.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -41,6 +60,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -55,49 +75,49 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593008539109">
+    <state x="440" y="94" key="#Project_Structure" timestamp="1605801939578">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1593008539109" />
-    <state x="666" y="261" key="FileChooserDialogImpl" timestamp="1593008499475">
+    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1605801939578" />
+    <state x="1256" y="256" width="390" height="586" key="#com.intellij.ide.util.MemberChooser" timestamp="1605814264781">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="666" y="261" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1593008499475" />
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1593008692515">
+    <state x="1256" y="256" width="390" height="586" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1605814264781" />
+    <state x="513" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1605811721195">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1593008692515" />
-    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1593008692515">
+    <state x="513" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1605811721195" />
+    <state x="551" y="476" key="FileChooserDialogImpl" timestamp="1605809727402">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1593008692515" />
-    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1593008692515">
+    <state x="551" y="476" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1605809727402" />
+    <state width="1877" height="486" key="GridCell.Tab.0.bottom" timestamp="1605819944723">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1593008692515" />
-    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1593008692515">
+    <state width="1877" height="486" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1605819944723" />
+    <state width="1877" height="486" key="GridCell.Tab.0.center" timestamp="1605819944723">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1593008692515" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1593008692515">
+    <state width="1877" height="486" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1605819944723" />
+    <state width="1877" height="486" key="GridCell.Tab.0.left" timestamp="1605819944723">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1593008692515" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1593008692515">
+    <state width="1877" height="486" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1605819944723" />
+    <state width="1877" height="486" key="GridCell.Tab.0.right" timestamp="1605819944723">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1593008692515" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1593008692515">
+    <state width="1877" height="486" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1605819944723" />
+    <state x="214" y="95" key="SettingsEditor" timestamp="1605810125732">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1593008692515" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1593008692515">
+    <state x="214" y="95" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1605810125732" />
+    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605813787685">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1593008692515" />
-    <state x="440" y="94" key="SettingsEditor" timestamp="1593008502029">
+    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1605813787685" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1605815735421">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1593008502029" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1605815735421" />
   </component>
 </project>

@@ -2,7 +2,7 @@ package net.bplaced.abzzezz.game.screen;
 
 import net.bplaced.abzzezz.engine.ui.uicomponents.Button;
 import net.bplaced.abzzezz.engine.utils.ScissorUtil;
-import net.bplaced.abzzezz.game.MainClass;
+import net.bplaced.abzzezz.game.GameMain;
 
 import java.awt.*;
 
@@ -31,7 +31,7 @@ public class CustomButton extends Button {
     public void drawShader() {
         ScissorUtil.enableScissor();
         ScissorUtil.scissor(getXPos() - 20, getYPos(), getDimensions()[0] + 40, getDimensions()[1]);
-        MainClass.getInstance().getShader().draw();
+        GameMain.getInstance().getShader().draw();
         ScissorUtil.disableScissor();
         super.drawShader();
     }

@@ -1,35 +1,75 @@
 package net.bplaced.abzzezz.game.dialog;
 
-import ga.abzzezz.util.data.data.DataFormat;
-import net.bplaced.abzzezz.engine.EngineCore;
+import net.bplaced.abzzezz.engine.utils.data.FileUtil;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class Dialog {
 
-    private final File configurationFile;
-    private final File dialogFile;
-    private final File dialogDir;
     private final String dialogName;
+    private final File cfgFile, dialogFile, dialogDir, assetDir;
+    private final JSONObject metaData;
 
-    public Dialog(File dialogDir) {
+    public Dialog(final File dialogDir) {
         this.dialogDir = dialogDir;
         this.dialogName = dialogDir.getName();
-        this.configurationFile = new File(EngineCore.getInstance().getMainDir(), dialogName + ".txt");
-        this.dialogFile = new File(dialogDir, dialogName + getConfig()[0]);
+        this.cfgFile = new File(dialogDir, dialogName.concat(".cfg"));
+        this.dialogFile = new File(dialogDir, dialogName.concat(".dlg"));
+        this.assetDir = new File(dialogDir, "assets");
+        this.metaData = new JSONObject();
+        createDirectories();
     }
 
-    public String[] getConfig() {
-        DataFormat<String> dataFormat = new DataFormat<>(configurationFile);
-        return new String[]{dataFormat.decode("FileExtension"), dataFormat.decode("Created"), String.valueOf(dataFormat.decode("LastLine"))};
+    public Dialog(final File dialogDir, final JSONObject metaData) {
+        this.dialogDir = dialogDir;
+        this.dialogName = dialogDir.getName();
+        this.cfgFile = new File(dialogDir, dialogName.concat(".cfg"));
+        this.dialogFile = new File(dialogDir, dialogName.concat(".dlg"));
+        this.assetDir = new File(dialogDir, "assets");
+        this.metaData = metaData;
+        createDirectories();
+    }
+
+    private void createDirectories() {
+        try {
+            if (!dialogDir.exists()) dialogDir.mkdir();
+            if (!cfgFile.exists()) cfgFile.createNewFile();
+            if (!assetDir.exists()) assetDir.mkdir();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createMetaData() {
+        metaData.put("created", DateFormat.getInstance().format(new Date())).put("last", 0);
+    }
+
+    public void save() {
+        try {
+            FileUtil.writeStringToFile(metaData.toString(), cfgFile);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getCreationDate() {
+        return metaData.getString("created");
+    }
+
+    public int getLastLine() {
+        return metaData.getInt("last");
     }
 
     public String getDialogName() {
         return dialogName;
     }
 
-    public File getConfigurationFile() {
-        return configurationFile;
+    public File getCfgFile() {
+        return cfgFile;
     }
 
     public File getDialogFile() {
@@ -38,5 +78,9 @@ public class Dialog {
 
     public File getDialogDir() {
         return dialogDir;
+    }
+
+    public File getAssetDir() {
+        return assetDir;
     }
 }

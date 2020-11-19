@@ -13,8 +13,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class TextureLoader {
 
-    public static int loadPNGTexture(URL file) throws IOException {
-        BufferedImage image = ImageIO.read(file);
+    public static int loadPNGTexture(final URL file) throws IOException {
+        final BufferedImage image = ImageIO.read(file);
         int[] pixels = new int[image.getWidth() * image.getHeight()];
         image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
         ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * 4); //3 for RGB , 4 for RGBA

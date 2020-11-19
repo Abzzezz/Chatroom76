@@ -25,8 +25,8 @@ public class TextField implements UIComponent {
     private final float yPos;
     private final int width;
     private final int height;
-    private boolean clicked, selectedAll;
     private final String name;
+    private boolean clicked, selectedAll;
     private FontUtil fontUtil;
 
     /*

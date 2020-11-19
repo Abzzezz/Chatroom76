@@ -3,7 +3,7 @@ package net.bplaced.abzzezz.game.screen;
 import net.bplaced.abzzezz.engine.EngineCore;
 import net.bplaced.abzzezz.engine.ui.Screen;
 import net.bplaced.abzzezz.engine.utils.*;
-import net.bplaced.abzzezz.game.MainClass;
+import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -13,18 +13,17 @@ import java.awt.*;
 public class GameScreen extends Screen {
 
     private FontUtil textFont;
-    private MainClass mainInst;
+    private GameMain mainInst;
     private boolean paused;
+    private int scrollY;
 
     @Override
     public void init() {
         this.textFont = new FontUtil(Util.textFont, 20);
-        this.mainInst = MainClass.getInstance();
-        MainClass.getInstance().getDialogHandler().getNextDialog();
+        this.mainInst = GameMain.getInstance();
+        GameMain.getInstance().getDialogHandler().getNextDialog();
         super.init();
     }
-
-    private int scrollY;
 
     @Override
     public void drawScreen() {
@@ -64,7 +63,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void drawShader() {
-        MainClass.getInstance().getGlslShaderUtil().draw();
+        GameMain.getInstance().getGlslShaderUtil().draw();
         super.drawShader();
     }
 

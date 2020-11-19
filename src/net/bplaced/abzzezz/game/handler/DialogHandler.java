@@ -1,15 +1,10 @@
 package net.bplaced.abzzezz.game.handler;
 
-import ga.abzzezz.util.data.FileUtil;
-import ga.abzzezz.util.data.data.Block;
-import ga.abzzezz.util.data.data.BlockFormatter;
-import ga.abzzezz.util.data.data.DataFormat;
-import ga.abzzezz.util.data.data.DataObject;
-import ga.abzzezz.util.logging.Logger;
-import ga.abzzezz.util.misc.DateUtil;
-import ga.abzzezz.util.stringing.StringUtil;
 import net.bplaced.abzzezz.engine.EngineCore;
-import net.bplaced.abzzezz.game.MainClass;
+import net.bplaced.abzzezz.engine.utils.LogType;
+import net.bplaced.abzzezz.engine.utils.Logger;
+import net.bplaced.abzzezz.engine.utils.data.FileUtil;
+import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
 import net.bplaced.abzzezz.game.dialog.DialogUtil;
@@ -19,27 +14,27 @@ import net.bplaced.abzzezz.game.screen.MainMenu;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class DialogHandler {
 
-    private List<String> dialog;
     private final List<DialogLine> displayDialogLine;
+    private final HashMap<String, String> defined;
+    private List<String> dialog;
     private int lastLine;
     private boolean pending;
     private String[] options;
-    private final HashMap<String, String> defined;
-    private final BlockFormatter blockFormatter;
     private Dialog dialogObject;
 
 
     public DialogHandler() {
         this.dialog = new ArrayList<>();
         this.displayDialogLine = new CopyOnWriteArrayList<>();
-        this.blockFormatter = new BlockFormatter();
         this.defined = new HashMap<>();
     }
 
@@ -61,22 +56,22 @@ public class DialogHandler {
     }
 
     private int next(final String nextString) {
-        String[] split = nextString.split(" ");
+        final String[] split = nextString.split(" ");
         switch (split[0]) {
             //"Goto" command
             case DialogUtil.GOTO_KEY:
                 return dialog.indexOf(":" + split[1]) + 1;
             case DialogUtil.END_KEY:
-                MainClass.getInstance().getGlslShaderUtil().texture = -1;
+                GameMain.getInstance().getGlslShaderUtil().texture = -1;
                 lastLine = 0;
                 savePreviousDialog();
                 EngineCore.getInstance().setScreen(new MainMenu());
                 return 0;
             case DialogUtil.BACKGROUND_CALL:
                 try {
-                    MainClass.getInstance().setShaderTexture(new File(getArguments(nextString)[0]).toURI().toURL());
-                } catch (MalformedURLException e) {
-                    Logger.log("Background texture not applied: " + e.getMessage(), Logger.LogType.ERROR);
+                    GameMain.getInstance().setShaderTexture(new File(getArguments(nextString)[0]).toURI().toURL());
+                } catch (final MalformedURLException e) {
+                    Logger.log("Background texture not applied: " + e.getMessage(), LogType.ERROR);
                 }
                 return (lastLine + 2);
             default:
@@ -102,7 +97,7 @@ public class DialogHandler {
                 addToDialog(args[1], Color.decode(args[0]));
                 return "";
             case DialogUtil.END_SOUNDS_CALL:
-                MainClass.getInstance().getSoundPlayer().stopSounds();
+                GameMain.getInstance().getSoundPlayer().stopSounds();
                 return args[0];
             default:
                 break;
@@ -111,27 +106,31 @@ public class DialogHandler {
     }
 
     private String[] getArguments(final String string) {
-        String[] args = new String[StringUtil.getTotalCharInString(string, '\"') / 2];
-        StringBuilder stringBuilder = new StringBuilder(string);
+        final String[] args = new String[Math.toIntExact(string.chars().filter(value -> value == '\"').count() / 2)];
+
+        int lastIndex = 0;
         for (int i = 0; i < args.length; i++) {
-            int begin = stringBuilder.indexOf("\"") + 1;
-            int end = stringBuilder.indexOf("\"", begin);
-            args[i] = stringBuilder.substring(begin, end);
-            stringBuilder.delete(begin - 1, end + 1);
+            final int begin = string.indexOf("\"", lastIndex) + 1;
+            final int end = string.indexOf("\"", begin);
+
+            args[i] = string.substring(begin, end);
+            lastIndex = begin + 1;
         }
         return args;
     }
 
-    private void question(final String in) {
-        int blockSize = blockFormatter.getBlockElements(in);
-        StringBuilder builderLine = new StringBuilder(in);
+    private void question(final String string) {
+        final int blockSize = Math.toIntExact(string.chars().filter(value -> value == '{' || value == '}').count()) / 2;
         this.options = new String[blockSize + 1];
+
+        int lastIndex = 0;
         for (int i = 0; i < blockSize; i++) {
-            Block block = new Block(builderLine.toString());
-            int[] blockBounds = block.getBlock();
-            addToDialog(block.getInnerBlock().split(StringUtil.splitter)[0] + "(" + i + ")");
-            options[i] = block.getInnerBlock().split(StringUtil.splitter)[1];
-            builderLine.delete(blockBounds[0], blockBounds[1]);
+            final int begin = string.indexOf("{", lastIndex) + 1;
+            final int end = string.indexOf("}", begin);
+            final String[] option = string.substring(begin, end).split(DialogUtil.DEFINE_KEY);
+            options[i] = option[1];
+            addToDialog(option[0].concat("(" + i + ")"));
+            lastIndex = begin + 1;
         }
         pending = true;
     }
@@ -139,6 +138,7 @@ public class DialogHandler {
     public void selectOption(final char keyChar) {
         if (pending) {
             if (!Character.isDigit(keyChar)) return;
+
             for (int i = 0; i < options.length; i++) {
                 if (i == Integer.parseInt(String.valueOf(keyChar))) {
                     addToDialog(String.valueOf(keyChar), Color.decode("#FB7E3F"));
@@ -151,12 +151,12 @@ public class DialogHandler {
     }
 
     private String playSound(final String format) {
-        String[] args = getArguments(format);
+        final String[] args = getArguments(format);
         if (args.length >= 3) {
-            MainClass.getInstance().getSoundPlayer().playSound(new File(args[2].replace("\\", "\\\\")), Float.parseFloat(args[0]));
+            GameMain.getInstance().getSoundPlayer().playSound(new File(args[2].replace("\\", "\\\\")), Float.parseFloat(args[0]));
             return args[1];
         } else {
-            MainClass.getInstance().getSoundPlayer().playSound(new File(args[1].replace("\\", "\\\\")), Float.parseFloat(args[0]));
+            GameMain.getInstance().getSoundPlayer().playSound(new File(args[1].replace("\\", "\\\\")), Float.parseFloat(args[0]));
         }
         return "";
     }
@@ -185,21 +185,32 @@ public class DialogHandler {
     }
 
     private void prepare() {
-        String[] remove = new String[dialog.size()];
+        final String[] remove = new String[dialog.size()];
         for (int i = 0; i < dialog.size(); i++) {
-            String s1 = dialog.get(i);
-            String[] split = this.dialog.get(i).split(" ");
-            if (dialog.get(i).isEmpty()) remove[i] = s1;
+            final String stringAt = dialog.get(i);
+            if (stringAt.isEmpty()) {
+                remove[i] = stringAt;
+                continue;
+            }
+
+            final String[] split = stringAt.split(" ");
+
             switch (split[0]) {
                 case DialogUtil.IMPORT_KEY:
-                    File file = new File(this.dialogObject.getDialogDir(), split[1]);
-                    if (!file.exists()) FileUtil.copyFileFromURL(file, split[2]);
-                    remove[i] = s1;
+                    final File file = new File(this.dialogObject.getAssetDir(), split[1]);
+                    if (!file.exists()) {
+                        try {
+                            FileUtil.copyFileFromUrl(file, new URL(split[2]));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    remove[i] = stringAt;
                     break;
                 case DialogUtil.DEFINED_KEY:
-                    String[] args = getArguments(s1);
+                    final String[] args = getArguments(stringAt);
                     this.defined.put(args[0], args[1]);
-                    remove[i] = s1;
+                    remove[i] = stringAt;
                     break;
                 default:
                     break;
@@ -207,35 +218,27 @@ public class DialogHandler {
         }
 
         for (int i = 0; i < dialog.size(); i++) {
-            String s1 = this.dialog.get(i);
-            for (Map.Entry<String, String> entry : defined.entrySet()) {
-                if (s1.contains(entry.getKey()) && !(s1.startsWith(DialogUtil.KEY)))
+            final String s1 = this.dialog.get(i);
+            for (final Map.Entry<String, String> entry : defined.entrySet()) {
+                if (s1.contains(entry.getKey()) && !s1.startsWith(DialogUtil.KEY))
                     replaceInDialog(i, entry.getKey(), entry.getValue());
             }
+
+            if (s1.contains(DialogUtil.ASSET_KEY))
+                replaceInDialog(i, DialogUtil.ASSET_KEY, this.dialogObject.getAssetDir().getAbsolutePath());
             if (s1.contains(DialogUtil.DIR_KEY))
                 replaceInDialog(i, DialogUtil.DIR_KEY, this.dialogObject.getDialogDir().getAbsolutePath());
         }
 
 
-        try {
-            Optional<String> result = this.dialog.stream().filter(s -> s.startsWith(DialogUtil.BACKGROUND_MUSIC_CALL)).findFirst();
-            if (result.isPresent()) {
-                String bgMusic = result.get();
-                File bgMusicFile = new File(getArguments(bgMusic)[1].replace("\\", "\\\\"));
-                MainClass.getInstance().getSoundPlayer().playBackgroundMusic(bgMusicFile, Float.parseFloat(getArguments(bgMusic)[0]));
-                this.dialog.remove(bgMusic);
-            }
-        } catch (NullPointerException e) {
-            Logger.log("No Background-Music selected: ", Logger.LogType.WARNING);
+        for (final String j : remove) {
+            dialog.remove(j);
         }
-
-        for (String o : remove) {
-            this.dialog.remove(o);
-        }
+        System.out.println(dialog);
 
         this.defined.clear();
         this.lastLine = this.dialog.indexOf(":start");
-        Logger.log("Start line defined: " + lastLine, Logger.LogType.INFO);
+        Logger.log("Start line defined: " + lastLine, LogType.INFO);
     }
 
     /**
@@ -243,12 +246,16 @@ public class DialogHandler {
      */
     public void downloadDialog() {
         new Thread(() -> {
-            String url = JOptionPane.showInputDialog("URL to download");
-            String fileName = url.substring(url.lastIndexOf('/') + 1);
-            saveDialogDetails(fileName);
-            File file = new File(EngineCore.getInstance().getMainDir(), fileName.substring(0, fileName.lastIndexOf('.')));
-            if (!file.exists()) file.mkdir();
-            FileUtil.copyFileFromURL(new File(file, fileName), url);
+            final String input = JOptionPane.showInputDialog("URL to download");
+            final String fileName = input.substring(input.lastIndexOf('/') + 1);
+
+            final Dialog newDialog = new Dialog(new File(EngineCore.getInstance().getMainDir(), fileName.substring(0, fileName.lastIndexOf('.'))));
+            newDialog.createMetaData();
+            try {
+                FileUtil.copyFileFromUrl(newDialog.getDialogFile(), new URL(input));
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
         }).start();
     }
 
@@ -262,10 +269,11 @@ public class DialogHandler {
         this.unloadPreviousDialog();
         //Set Dialog Object
         this.dialogObject = new Dialog(file);
-        this.lastLine = Integer.parseInt(this.dialogObject.getConfig()[2]);
+        // this.lastLine = dialogObject.getLastLine();
+
         try {
-            this.setDialog(FileUtil.getFileContentAsList(this.dialogObject.getDialogFile()));
-        } catch (MalformedURLException e) {
+            this.setDialog(FileUtil.readListFromFile(this.dialogObject.getDialogFile()));
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         EngineCore.getInstance().setScreen(new GameScreen());
@@ -276,27 +284,9 @@ public class DialogHandler {
      */
     public void savePreviousDialog() {
         if (this.dialogObject != null) {
-            DataObject dataObject = new DataObject();
-            dataObject.addObject("LastLine", this.lastLine);
-            dataObject.addObject("FileExtension", this.dialogObject.getConfig()[0]);
-            dataObject.addObject("Created", this.dialogObject.getConfig()[1]);
-            DataFormat.formatData(dataObject, this.dialogObject.getConfigurationFile(), false, false);
-            Logger.log("Saved previous state", Logger.LogType.INFO);
+            dialogObject.save();
+            Logger.log("Saved previous state", LogType.INFO);
         }
-    }
-
-    /**
-     * Save the dialog details for the first time
-     *
-     * @param fileName
-     */
-    private void saveDialogDetails(final String fileName) {
-        //First save
-        DataObject dataObject = new DataObject();
-        dataObject.addObject("FileExtension", fileName.substring(fileName.lastIndexOf('.')));
-        dataObject.addObject("Created", DateUtil.getCurrentDay());
-        dataObject.addObject("LastLine", 0);
-        DataFormat.formatData(dataObject, new File(EngineCore.getInstance().getMainDir(), fileName), false, true);
     }
 
     /**
@@ -316,23 +306,29 @@ public class DialogHandler {
      * @param file
      */
     public void deleteDialog(final File file) {
-        Dialog dialog = new Dialog(file);
-        for (File listFile : Objects.requireNonNull(dialog.getDialogDir().listFiles()))
-            Logger.log("Deleting dialog files: " + listFile.delete(), Logger.LogType.INFO);
-        Logger.log("Deleting dialog dir:" + dialog.getDialogDir().delete(), Logger.LogType.INFO);
-        Logger.log("Deleting dialog config:" + dialog.getConfigurationFile().delete(), Logger.LogType.INFO);
+        final Dialog dialog = new Dialog(file);
+        for (final File listFile : Objects.requireNonNull(dialog.getDialogDir().listFiles()))
+            Logger.log("Deleting dialog files: " + listFile.delete(), LogType.INFO);
+        Logger.log("Deleting dialog dir:" + dialog.getDialogDir().delete(), LogType.INFO);
+        Logger.log("Deleting dialog config:" + dialog.getCfgFile().delete(), LogType.INFO);
     }
 
     public boolean isPending() {
         return pending;
     }
 
+    /**
+     *
+     */
     private void unloadPreviousDialog() {
         lastLine = 0;
         displayDialogLine.clear();
         dialog.clear();
     }
 
+    /**
+     * @param dialog
+     */
     public void setDialog(final List<String> dialog) {
         this.dialog = dialog;
         this.prepare();

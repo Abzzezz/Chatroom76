@@ -7,7 +7,7 @@ public class DialogLine {
     private final String dialog;
     private final Color textColor;
 
-    public DialogLine(String dialog, Color textColor) {
+    public DialogLine(final String dialog, final Color textColor) {
         this.dialog = dialog;
         this.textColor = textColor;
     }

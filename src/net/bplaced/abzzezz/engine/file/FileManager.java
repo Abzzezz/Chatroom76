@@ -10,8 +10,6 @@
 
 package net.bplaced.abzzezz.engine.file;
 
-import ga.abzzezz.util.logging.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,22 +19,14 @@ public class FileManager {
 
     public FileManager() {
         this.files = new ArrayList<>();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            save();
-            Logger.log("Saving Files", Logger.LogType.INFO);
-        }));
     }
 
     public void load() {
-        files.forEach(customFile -> {
-            customFile.read();
-        });
+        files.forEach(CustomFile::read);
     }
 
     public void save() {
-        files.forEach(customFile -> {
-            customFile.write();
-        });
+        files.forEach(CustomFile::write);
     }
 
     public List<CustomFile> getFiles() {

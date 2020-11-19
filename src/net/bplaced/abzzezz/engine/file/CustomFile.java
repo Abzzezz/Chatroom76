@@ -10,8 +10,9 @@
 
 package net.bplaced.abzzezz.engine.file;
 
-import ga.abzzezz.util.logging.Logger;
 import net.bplaced.abzzezz.engine.EngineCore;
+import net.bplaced.abzzezz.engine.utils.LogType;
+import net.bplaced.abzzezz.engine.utils.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,11 +29,11 @@ public class CustomFile {
     public CustomFile(String fileName) {
         this.thisFile = new File(EngineCore.getInstance().getMainDir(), fileName);
         if (!thisFile.exists()) {
-            Logger.log("Creating new file", Logger.LogType.INFO);
+            Logger.log("Creating new file", LogType.INFO);
             try {
                 thisFile.createNewFile();
             } catch (IOException e) {
-                Logger.log("Creating new file", Logger.LogType.ERROR);
+                Logger.log("Creating new file", LogType.ERROR);
                 e.printStackTrace();
             }
         }

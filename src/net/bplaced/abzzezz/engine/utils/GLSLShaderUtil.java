@@ -28,7 +28,7 @@ public class GLSLShaderUtil {
 
 
     public GLSLShaderUtil(String vertexShader, String fragmentShader) {
-        int vertexShader1 = 0, fragmentShader1 = 0;
+        int vertexShader1, fragmentShader1;
         this.program = ARBShaderObjects.glCreateProgramObjectARB();
 
         try {
@@ -42,7 +42,7 @@ public class GLSLShaderUtil {
     }
 
     public GLSLShaderUtil(URL vertexShader, URL fragmentShader) {
-        int vertexShader1 = 0, fragmentShader1 = 0;
+        int vertexShader1, fragmentShader1;
         this.program = ARBShaderObjects.glCreateProgramObjectARB();
 
         try {

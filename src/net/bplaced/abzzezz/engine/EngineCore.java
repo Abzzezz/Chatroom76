@@ -10,10 +10,11 @@
 
 package net.bplaced.abzzezz.engine;
 
-import ga.abzzezz.util.logging.Logger;
 import net.bplaced.abzzezz.engine.file.CustomFile;
 import net.bplaced.abzzezz.engine.file.FileManager;
 import net.bplaced.abzzezz.engine.ui.Screen;
+import net.bplaced.abzzezz.engine.utils.LogType;
+import net.bplaced.abzzezz.engine.utils.Logger;
 import net.bplaced.abzzezz.engine.utils.Util;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -29,13 +30,13 @@ import java.io.File;
 public class EngineCore {
 
     private static EngineCore instance;
+    private final int width;
+    private final int height;
     private String gameName, fontDir;
     private float gameVersion;
     private Screen screen;
     private File mainDir;
     private int fpsSync;
-    private final int width;
-    private final int height;
     private OpenGLReference openGLReference;
 
     /*
@@ -94,7 +95,7 @@ public class EngineCore {
      */
     private void initHeaders() {
         instance = this;
-        Logger.log("Initialising headers", Logger.LogType.INFO);
+        Logger.log("Initialising headers", LogType.INFO);
         /*
         Create directory if it does not exists
          */
@@ -108,12 +109,12 @@ public class EngineCore {
         /*
         For Debug purposes
          */
-        Logger.log("Game Engine starting", Logger.LogType.INFO);
-        Logger.log("Game name:" + gameName, Logger.LogType.INFO);
-        Logger.log("Game version: " + gameVersion, Logger.LogType.INFO);
-        Logger.log("fps Sync: " + fpsSync, Logger.LogType.INFO);
-        Logger.log("Font Path: " + fontDir, Logger.LogType.INFO);
-        Logger.log("Loading files", Logger.LogType.INFO);
+        Logger.log("Game Engine starting", LogType.INFO);
+        Logger.log("Game name:" + gameName, LogType.INFO);
+        Logger.log("Game version: " + gameVersion, LogType.INFO);
+        Logger.log("fps Sync: " + fpsSync, LogType.INFO);
+        Logger.log("Font Path: " + fontDir, LogType.INFO);
+        Logger.log("Loading files", LogType.INFO);
 
         if (!mainDir.exists()) mainDir.mkdir();
         /*
@@ -121,7 +122,7 @@ public class EngineCore {
         TODO: Add more handlers
          */
         fileManager.load();
-        Logger.log("Game starting", Logger.LogType.INFO);
+        Logger.log("Game starting", LogType.INFO);
 
         /*
         Call run
@@ -143,10 +144,18 @@ public class EngineCore {
             Display.sync(fpsSync);
             if (Display.isCloseRequested()) {
                 if (openGLReference != null) openGLReference.closeRequested();
+                shutdown();
                 Display.destroy();
                 System.exit(0);
             }
         }
+    }
+
+    private void shutdown() {
+        fileManager.save();
+        Logger.log("Saving files", LogType.INFO);
+
+
     }
 
     /**

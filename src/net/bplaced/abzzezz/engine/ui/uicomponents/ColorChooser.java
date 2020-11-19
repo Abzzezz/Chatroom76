@@ -10,10 +10,10 @@
 
 package net.bplaced.abzzezz.engine.ui.uicomponents;
 
-import ga.abzzezz.util.easing.Sine;
-import ga.abzzezz.util.math.AnimationUtil;
+import net.bplaced.abzzezz.engine.utils.animation.AnimationUtil;
 import net.bplaced.abzzezz.engine.utils.MouseUtil;
 import net.bplaced.abzzezz.engine.utils.RenderUtil;
+import net.bplaced.abzzezz.engine.utils.animation.easing.Sine;
 
 import java.awt.*;
 
@@ -22,11 +22,13 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class ColorChooser implements UIComponent {
 
-
     private final int size, lineWidth;
     private final float xPos;
     private final float yPos;
+    private final float[] xy = new float[2];
+    boolean clicked;
     private AnimationUtil animationUtil;
+    private ColorSelectedListener colorSelectedListener;
 
     public ColorChooser(float xPos, float yPos, int size) {
         this.size = size;
@@ -34,8 +36,6 @@ public class ColorChooser implements UIComponent {
         this.yPos = yPos;
         this.lineWidth = size / 5;
     }
-
-    boolean clicked;
 
     @Override
     public void initComponent() {
@@ -94,8 +94,6 @@ public class ColorChooser implements UIComponent {
         RenderUtil.endGL();
     }
 
-    private ColorSelectedListener colorSelectedListener;
-
     private boolean colorChooserHovered(float x, float y) {
         return MouseUtil.mouseHovered(xPos + x, yPos + y, 1.205);
     }
@@ -141,8 +139,6 @@ public class ColorChooser implements UIComponent {
     public void drawShader() {
 
     }
-
-    private final float[] xy = new float[2];
 
     public interface ColorSelectedListener {
         void onColorSelected(Color color);

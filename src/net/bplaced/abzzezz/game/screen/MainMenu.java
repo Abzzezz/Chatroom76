@@ -4,7 +4,7 @@ import net.bplaced.abzzezz.engine.EngineCore;
 import net.bplaced.abzzezz.engine.ui.Screen;
 import net.bplaced.abzzezz.engine.utils.FontUtil;
 import net.bplaced.abzzezz.engine.utils.Util;
-import net.bplaced.abzzezz.game.MainClass;
+import net.bplaced.abzzezz.game.GameMain;
 
 public class MainMenu extends Screen {
 
@@ -36,7 +36,7 @@ public class MainMenu extends Screen {
 
     @Override
     public void drawShader() {
-        MainClass.getInstance().getGlslShaderUtil().draw();
+        GameMain.getInstance().getGlslShaderUtil().draw();
         super.drawShader();
     }
 }

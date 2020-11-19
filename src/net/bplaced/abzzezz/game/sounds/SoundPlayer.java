@@ -1,6 +1,6 @@
 package net.bplaced.abzzezz.game.sounds;
 
-import net.bplaced.abzzezz.game.MainClass;
+import net.bplaced.abzzezz.game.GameMain;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
@@ -10,13 +10,14 @@ import java.io.IOException;
 
 public class SoundPlayer {
 
+    private final int pitch = 1;
     private Music effect;
     private Music backgroundMusic;
 
     public void playSound(File soundLocation, float volume) {
         try {
             this.effect = new Music(soundLocation.toURI().toURL());
-            effect.play(1.0F, volume * MainClass.getInstance().getSettingsHandler().getVolume());
+            effect.play(pitch, volume * GameMain.getInstance().getSettingsHandler().getVolume());
         } catch (IOException | SlickException e) {
             e.printStackTrace();
         }
@@ -33,7 +34,7 @@ public class SoundPlayer {
         try {
             this.backgroundMusic = new Music(soundLocation.toURI().toURL());
             backgroundMusic.play();
-            backgroundMusic.loop(1.0F, volume * MainClass.getInstance().getSettingsHandler().getVolume());
+            backgroundMusic.loop(pitch, volume * GameMain.getInstance().getSettingsHandler().getVolume());
         } catch (IOException | SlickException e) {
             e.printStackTrace();
         }

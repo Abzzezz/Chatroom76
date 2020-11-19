@@ -5,7 +5,7 @@ import net.bplaced.abzzezz.engine.ui.Screen;
 import net.bplaced.abzzezz.engine.utils.FontUtil;
 import net.bplaced.abzzezz.engine.utils.MouseUtil;
 import net.bplaced.abzzezz.engine.utils.Util;
-import net.bplaced.abzzezz.game.MainClass;
+import net.bplaced.abzzezz.game.GameMain;
 
 import java.awt.*;
 import java.io.File;
@@ -39,9 +39,9 @@ public class RoomScreen extends Screen {
     @Override
     public void buttonPressed(float buttonID) {
 
-        if (buttonID == 1) MainClass.getInstance().getDialogHandler().downloadDialog();
-        else if (buttonID == 2) MainClass.getInstance().getDialogHandler().deleteDialog(selected);
-        else if (buttonID == 0) MainClass.getInstance().getDialogHandler().loadDialog(selected);
+        if (buttonID == 1) GameMain.getInstance().getDialogHandler().downloadDialog();
+        else if (buttonID == 2) GameMain.getInstance().getDialogHandler().deleteDialog(selected);
+        else if (buttonID == 0) GameMain.getInstance().getDialogHandler().loadDialog(selected);
         super.buttonPressed(buttonID);
     }
 
@@ -71,7 +71,7 @@ public class RoomScreen extends Screen {
 
     @Override
     public void drawShader() {
-        MainClass.getInstance().getGlslShaderUtil().draw();
+        GameMain.getInstance().getGlslShaderUtil().draw();
         super.drawShader();
     }
 }

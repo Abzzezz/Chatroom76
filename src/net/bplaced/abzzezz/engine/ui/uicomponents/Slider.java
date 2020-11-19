@@ -20,10 +20,10 @@ import java.awt.*;
 
 public class Slider implements UIComponent {
 
+    private final String text;
     private float min, max, current, xPos, yPos, step;
     private int width, height;
     private SliderListener sliderListener;
-    private final String text;
 
     public Slider(String text, float xPos, float yPos, int width, int height, float min, float max, float current) {
         this.text = text;
@@ -46,18 +46,6 @@ public class Slider implements UIComponent {
         this.height = height;
     }
 
-    @Override
-    public void initComponent() {
-        this.step = width / max;
-    }
-
-    @Override
-    public void drawComponent() {
-        RenderUtil.drawQuad(xPos, yPos - height / 4, width, height, Color.GRAY);
-        RenderUtil.drawQuad(xPos, yPos, current * step, height / 2, Util.mainColor);
-        textFont.drawString(text + ":" + Math.round(current), xPos, yPos - height, textColor);
-    }
-
     /**
      * TODO: Move to abzzezz util
      *
@@ -68,6 +56,18 @@ public class Slider implements UIComponent {
      */
     public static float clamp(float val, float min, float max) {
         return Math.max(min, Math.min(max, val));
+    }
+
+    @Override
+    public void initComponent() {
+        this.step = width / max;
+    }
+
+    @Override
+    public void drawComponent() {
+        RenderUtil.drawQuad(xPos, yPos - height / 4, width, height, Color.GRAY);
+        RenderUtil.drawQuad(xPos, yPos, current * step, height / 2, Util.mainColor);
+        textFont.drawString(text + ":" + Math.round(current), xPos, yPos - height, textColor);
     }
 
     @Override

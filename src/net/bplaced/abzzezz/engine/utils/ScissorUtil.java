@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class ScissorUtil {
 
     /*
- Enables and disables OpenGL´s Scissor function
+ Enables and disables OpenGL's Scissor function
   */
     public static void enableScissor() {
         glEnable(GL_SCISSOR_TEST);
