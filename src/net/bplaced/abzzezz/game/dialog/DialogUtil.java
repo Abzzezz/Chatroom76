@@ -53,4 +53,7 @@ public class DialogUtil {
     public static final String VARIABLE_ARGUMENT = "v";
     public static final String DEFINE_ARGUMENT = "as";
 
+
+
+    public static final String PLAIN_WHITE = "0xFFFFFF";
 }

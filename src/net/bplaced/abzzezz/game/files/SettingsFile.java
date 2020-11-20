@@ -32,7 +32,11 @@ public class SettingsFile extends CustomFile {
         jsonObject.put("volume", GameMain.getInstance().getSettingsHandler().getVolume());
         jsonObject.put("resolutionW", GameMain.getInstance().getSettingsHandler().getResolution()[0]);
         jsonObject.put("resolutionH", GameMain.getInstance().getSettingsHandler().getResolution()[1]);
-
+        try {
+            FileUtil.writeStringToFile(jsonObject.toString(), thisFile);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
         super.write();
     }
 }

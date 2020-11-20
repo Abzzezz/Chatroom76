@@ -7,7 +7,6 @@ import org.newdawn.slick.SlickException;
 import java.io.File;
 import java.io.IOException;
 
-
 public class SoundPlayer {
 
     private final int pitch = 1;

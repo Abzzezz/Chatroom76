@@ -27,14 +27,16 @@ public class DialogHandler {
     private final List<DialogLine> displayDialogLine;
     private final HashMap<String, String> defined;
     private List<String> dialog;
-    private String[] options;
-    private Dialog dialogHolder;
+
     private int lastLine;
     private boolean pending;
 
+    private String[] options;
+    private Dialog dialogHolder;
+
     public DialogHandler() {
         this.dialog = new ArrayList<>();
-        this.displayDialogLine = new CopyOnWriteArrayList<>();
+        this.displayDialogLine = new ArrayList<>();
         this.defined = new HashMap<>();
     }
 
@@ -48,8 +50,10 @@ public class DialogHandler {
             //If the dialog started goto "startpoint"
             next = next(dialog.get(next));
 
-            if (!format(next).isEmpty())
-                addToDialog(format(next));
+            final String[] format = format(next);
+
+            if (format != null && format[0] != null && !format[0].isEmpty())
+                addToDialog(format[0], Color.decode(format[1]));
 
             lastLine = next;
         }
@@ -58,9 +62,8 @@ public class DialogHandler {
     private int next(final String nextString) {
         final String[] split = nextString.split(" ");
         switch (split[0]) {
-            //"Goto" command
             case DialogUtil.GOTO_KEY:
-                return dialog.indexOf(":" + split[1]) + 1;
+                return dialog.indexOf(":".concat(split[1])) + 1;
             case DialogUtil.END_KEY:
                 GameMain.getInstance().getGlslShaderUtil().texture = -1;
                 lastLine = 0;
@@ -73,35 +76,40 @@ public class DialogHandler {
                 } catch (final MalformedURLException e) {
                     Logger.log("Background texture not applied: " + e.getMessage(), LogType.ERROR);
                 }
-                return (lastLine + 2);
+                return lastLine + 2;
             default:
-                return (lastLine + 1);
+                return lastLine + 1;
         }
     }
 
     //TODO: Add color support for text in actions eg. text in "playsound" etc.
 
-    private String format(int index) {
-        final String format = dialog.get(index);
+    private String[] format(int index) {
+        String format = dialog.get(index);
         final Map<String, String> args = getArguments(format);
+        final String[] formatted = new String[]{format, getColor(args)};
 
         switch (format.split(" ")[0]) {
             case DialogUtil.PLAY_SOUND_CALL:
-                return playSound(format);
+                formatted[0] = playSound(format);
+                return formatted;
+
             case DialogUtil.QUESTION_CALL:
-                addToDialog(args.get(DialogUtil.TEXT_ARGUMENT), Color.decode("#FA734D"));
+                addToDialog(args.get(DialogUtil.TEXT_ARGUMENT), getColor0(args));
                 question(format);
-                return "";
+                return null;
+
             case DialogUtil.COLOR_CODE_KEY:
-                addToDialog(args.get(DialogUtil.TEXT_ARGUMENT), Color.decode(args.get(DialogUtil.COLOR_ARGUMENT)));
-                return "";
+                formatted[0] = args.get(DialogUtil.TEXT_ARGUMENT);
+                return formatted;
+
             case DialogUtil.END_SOUNDS_CALL:
                 GameMain.getInstance().getSoundPlayer().stopSounds();
-                return args.get(DialogUtil.TEXT_ARGUMENT);
+                formatted[0] = args.getOrDefault(DialogUtil.TEXT_ARGUMENT, "");
+                return formatted;
             default:
-                break;
+                return formatted;
         }
-        return format;
     }
 
     private Map<String, String> getArguments(final String string) {
@@ -120,7 +128,9 @@ public class DialogHandler {
         this.options = new String[matcher.groupCount() + 1];
         for (int i = 0; matcher.find(); i++) {
             final String[] optionResultSplit = matcher.group().split(DialogUtil.DEFINE_KEY);
-            options[i] = optionResultSplit[1].substring(1);
+            final String result = optionResultSplit[1];
+
+            options[i] = result.substring(0, result.length() - 1);
             addToDialog(optionResultSplit[0].concat("(" + i + ")"));
         }
         pending = true;
@@ -134,7 +144,8 @@ public class DialogHandler {
                 if (i == Integer.parseInt(String.valueOf(keyChar))) {
                     addToDialog(String.valueOf(keyChar), Color.decode("#FB7E3F"));
                     pending = false;
-                    lastLine = next(options[i]);
+
+                    lastLine = next(options[i]) - 1;
                     getNextDialog();
                 }
             }
@@ -145,15 +156,10 @@ public class DialogHandler {
         final Map<String, String> args = getArguments(format);
         final File file = new File(args.getOrDefault(DialogUtil.PATH_ARGUMENT, "").replace("\\", "\\\\"));
         final float volume = Float.parseFloat(args.getOrDefault(DialogUtil.VOLUME_ARGUMENT, "0"));
-
-        if (args.size() >= 3) {
-            GameMain.getInstance().getSoundPlayer().playSound(file, volume);
-            return args.get(DialogUtil.TEXT_ARGUMENT);
-        } else {
-            GameMain.getInstance().getSoundPlayer().playSound(file, volume);
-            return "";
-        }
+        GameMain.getInstance().getSoundPlayer().playSound(file, volume);
+        return args.getOrDefault(DialogUtil.TEXT_ARGUMENT, "");
     }
+
 
     /*
      * Preparation etc.
@@ -247,11 +253,6 @@ public class DialogHandler {
         }).start();
     }
 
-    /**
-     * Load new dialog, save old one etc.
-     *
-     * @param file
-     */
     public void loadDialog(final File file) {
         this.savePreviousDialog();
         this.unloadPreviousDialog();
@@ -265,6 +266,14 @@ public class DialogHandler {
             e.printStackTrace();
         }
         EngineCore.getInstance().setScreen(new GameScreen());
+    }
+
+    public String getColor(final Map<String, String> args) {
+        return args.getOrDefault(DialogUtil.COLOR_ARGUMENT, DialogUtil.PLAIN_WHITE);
+    }
+
+    public Color getColor0(final Map<String, String> args) {
+        return Color.decode(args.getOrDefault(DialogUtil.COLOR_ARGUMENT, DialogUtil.PLAIN_WHITE));
     }
 
     public void savePreviousDialog() {
@@ -296,9 +305,6 @@ public class DialogHandler {
         dialog.clear();
     }
 
-    /**
-     * @param dialog
-     */
     public void setDialog(final List<String> dialog) {
         this.dialog = dialog;
         this.prepare();
