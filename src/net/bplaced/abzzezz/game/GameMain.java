@@ -34,8 +34,8 @@ public class GameMain {
     private void startEngine() {
         //Initialise and start engine
         final EngineCore engineCore = new EngineCore(600, 600, new MainMenu());
-        engineCore.setGameName("Chatroom");
-        engineCore.setMainDir(new File(System.getProperty("user.home"), "Chatroom"));
+        engineCore.setGameName("Chatroom76");
+        engineCore.setMainDir(new File(System.getProperty("user.home"), "Chatroom76"));
         engineCore.setBackgroundColor(Color.BLACK);
         engineCore.addSaveFile(new SettingsFile());
 
@@ -45,7 +45,6 @@ public class GameMain {
                 glslShaderUtil = new GLSLShaderUtil(getClass().getResource("shaders/vertexshader.txt"), getClass().getResource("shaders/blurshader.txt"));
                 shader = new GLSLShaderUtil(getClass().getResource("shaders/vertexshader.txt"), getClass().getResource("shaders/shader.txt"));
             }
-
             @Override
             public void closeRequested() {
                 dialogHandler.savePreviousDialog();

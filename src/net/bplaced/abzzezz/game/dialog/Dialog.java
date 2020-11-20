@@ -11,7 +11,7 @@ import java.util.Date;
 public class Dialog {
 
     private final String dialogName;
-    private final File cfgFile, dialogFile, dialogDir, assetDir;
+    private final File cfgFile, dialogFile, dialogDir, assets;
     private final JSONObject metaData;
 
     public Dialog(final File dialogDir) {
@@ -19,7 +19,7 @@ public class Dialog {
         this.dialogName = dialogDir.getName();
         this.cfgFile = new File(dialogDir, dialogName.concat(".cfg"));
         this.dialogFile = new File(dialogDir, dialogName.concat(".dlg"));
-        this.assetDir = new File(dialogDir, "assets");
+        this.assets = new File(dialogDir, "assets");
         this.metaData = new JSONObject();
         createDirectories();
     }
@@ -29,7 +29,7 @@ public class Dialog {
         this.dialogName = dialogDir.getName();
         this.cfgFile = new File(dialogDir, dialogName.concat(".cfg"));
         this.dialogFile = new File(dialogDir, dialogName.concat(".dlg"));
-        this.assetDir = new File(dialogDir, "assets");
+        this.assets = new File(dialogDir, "assets");
         this.metaData = metaData;
         createDirectories();
     }
@@ -38,7 +38,7 @@ public class Dialog {
         try {
             if (!dialogDir.exists()) dialogDir.mkdir();
             if (!cfgFile.exists()) cfgFile.createNewFile();
-            if (!assetDir.exists()) assetDir.mkdir();
+            if (!assets.exists()) assets.mkdir();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,7 +80,7 @@ public class Dialog {
         return dialogDir;
     }
 
-    public File getAssetDir() {
-        return assetDir;
+    public File getAssets() {
+        return assets;
     }
 }

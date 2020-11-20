@@ -31,7 +31,7 @@ public class GameScreen extends Screen {
         ScissorUtil.enableScissor();
         ScissorUtil.scissor(0, 0, getWidth(), getHeight());
 
-        for (DialogLine dialogLine : mainInst.getDialogHandler().getDisplayDialog()) {
+        for (final DialogLine dialogLine : mainInst.getDialogHandler().getDisplayDialog()) {
             textFont.drawString(dialogLine.getDialog(), 0, 20 + yBuffer + scrollY, dialogLine.getTextColor());
             yBuffer += textFont.getHeight() + 5;
         }
