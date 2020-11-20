@@ -13,6 +13,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+
 /**
  * Singleton main
  */
@@ -45,6 +46,7 @@ public class GameMain {
                 glslShaderUtil = new GLSLShaderUtil(getClass().getResource("shaders/vertexshader.txt"), getClass().getResource("shaders/blurshader.txt"));
                 shader = new GLSLShaderUtil(getClass().getResource("shaders/vertexshader.txt"), getClass().getResource("shaders/shader.txt"));
             }
+
             @Override
             public void closeRequested() {
                 dialogHandler.savePreviousDialog();

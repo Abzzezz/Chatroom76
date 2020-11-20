@@ -19,7 +19,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 
 public class DialogHandler {
@@ -160,26 +159,14 @@ public class DialogHandler {
         return args.getOrDefault(DialogUtil.TEXT_ARGUMENT, "");
     }
 
-
     /*
      * Preparation etc.
      */
 
-    /**
-     * Add line to dialog with color
-     *
-     * @param string
-     * @param color
-     */
     public void addToDialog(final String string, final Color color) {
         getDisplayDialog().add(new DialogLine(string, color));
     }
 
-    /**
-     * Color will just stay white
-     *
-     * @param string
-     */
     public void addToDialog(final String string) {
         getDisplayDialog().add(new DialogLine(string, Color.WHITE));
     }
@@ -205,8 +192,7 @@ public class DialogHandler {
                     remove[i] = stringAt;
                     break;
                 case DialogUtil.DEFINED_KEY:
-                    final Map<String, String> args = getArguments(stringAt);
-                    this.defined.put(args.get(DialogUtil.VARIABLE_ARGUMENT), args.get(DialogUtil.DEFINE_ARGUMENT));
+                    this.defined.putAll(getArguments(stringAt));
                     remove[i] = stringAt;
                     break;
                 default:

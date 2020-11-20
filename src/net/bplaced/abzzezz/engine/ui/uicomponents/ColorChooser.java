@@ -10,9 +10,9 @@
 
 package net.bplaced.abzzezz.engine.ui.uicomponents;
 
-import net.bplaced.abzzezz.engine.utils.animation.AnimationUtil;
 import net.bplaced.abzzezz.engine.utils.MouseUtil;
 import net.bplaced.abzzezz.engine.utils.RenderUtil;
+import net.bplaced.abzzezz.engine.utils.animation.AnimationUtil;
 import net.bplaced.abzzezz.engine.utils.animation.easing.Sine;
 
 import java.awt.*;
