@@ -67,7 +67,7 @@ public class Slider implements UIComponent {
     public void drawComponent() {
         RenderUtil.drawQuad(xPos, yPos - height / 4, width, height, Color.GRAY);
         RenderUtil.drawQuad(xPos, yPos, current * step, height / 2, Util.mainColor);
-        textFont.drawString(text + ":" + Math.round(current), xPos, yPos - height, textColor);
+        textFont.drawString(text + ":" + Math.round(current), xPos, yPos - height * 2, textColor);
     }
 
     @Override

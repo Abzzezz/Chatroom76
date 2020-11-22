@@ -13,7 +13,7 @@ public class SettingsScreen extends Screen {
     @Override
     public void init() {
         int xPos = 50;
-        final Slider volumeSlider = new Slider("Volume", xPos, getHeight() / 4, 100, 40, 0, 100, GameMain.getInstance().getSettingsHandler().getVolume() * 100);
+        final Slider volumeSlider = new Slider("Volume", xPos, getHeight() / 4, 100, 20, 0, 100, GameMain.getInstance().getSettingsHandler().getVolume() * 100);
         volumeSlider.setSliderListener(value -> GameMain.getInstance().getSettingsHandler().setVolume(value / 100));
         getUiComponents().add(volumeSlider);
         super.init();
@@ -27,6 +27,7 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void drawShader() {
+        GameMain.getInstance().getShader().draw();
         super.drawShader();
     }
 

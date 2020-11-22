@@ -45,9 +45,7 @@ public class FontUtil {
      * @param color
      */
     public void drawString(String text, float xPos, float yPos, Color color) {
-        GL11.glEnable(GL11.GL_BLEND);
         unicodeFont.drawString(xPos, yPos, text, new org.newdawn.slick.Color(color.getRGB()));
-        GL11.glDisable(GL11.GL_BLEND);
     }
 
     public int getStringWidth(String text) {

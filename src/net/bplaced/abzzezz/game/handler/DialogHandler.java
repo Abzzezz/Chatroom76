@@ -63,12 +63,14 @@ public class DialogHandler {
         switch (split[0]) {
             case DialogUtil.GOTO_KEY:
                 return dialog.indexOf(":".concat(split[1])) + 1;
+
             case DialogUtil.END_KEY:
                 GameMain.getInstance().getGlslShaderUtil().texture = -1;
                 lastLine = 0;
                 savePreviousDialog();
                 EngineCore.getInstance().setScreen(new MainMenu());
                 return 0;
+
             case DialogUtil.BACKGROUND_CALL:
                 try {
                     GameMain.getInstance().setShaderTexture(new File(getArguments(nextString).get(DialogUtil.PATH_ARGUMENT)).toURI().toURL());
@@ -143,7 +145,6 @@ public class DialogHandler {
                 if (i == Integer.parseInt(String.valueOf(keyChar))) {
                     addToDialog(String.valueOf(keyChar), Color.decode("#FB7E3F"));
                     pending = false;
-
                     lastLine = next(options[i]) - 1;
                     getNextDialog();
                 }
@@ -192,7 +193,8 @@ public class DialogHandler {
                     remove[i] = stringAt;
                     break;
                 case DialogUtil.DEFINED_KEY:
-                    this.defined.putAll(getArguments(stringAt));
+                    final Map<String, String> args = getArguments(stringAt);
+                    this.defined.put(args.get(DialogUtil.VARIABLE_ARGUMENT), args.get(DialogUtil.DEFINE_ARGUMENT));
                     remove[i] = stringAt;
                     break;
                 default:

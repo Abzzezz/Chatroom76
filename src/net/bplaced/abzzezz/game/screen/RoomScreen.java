@@ -6,6 +6,7 @@ import net.bplaced.abzzezz.engine.utils.FontUtil;
 import net.bplaced.abzzezz.engine.utils.MouseUtil;
 import net.bplaced.abzzezz.engine.utils.Util;
 import net.bplaced.abzzezz.game.GameMain;
+import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.io.File;
@@ -31,8 +32,8 @@ public class RoomScreen extends Screen {
         }
 
         getUiComponents().add(new CustomButton(0, "Play", 10, getHeight() - 30));
-        getUiComponents().add(new CustomButton(1, "Import", 200, getHeight() - 30));
-        getUiComponents().add(new CustomButton(2, "Delete", 400, getHeight() - 30));
+        getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, getHeight() - 30, 100, 25));
+        getUiComponents().add(new CustomButton(2, "Delete", getWidth(), getHeight() - 30));
         super.init();
     }
 
@@ -46,10 +47,18 @@ public class RoomScreen extends Screen {
     }
 
     @Override
+    public void keyTyped(int keyCode, char keyTyped) {
+        if (keyCode == Keyboard.KEY_ESCAPE) {
+            EngineCore.getInstance().setScreen(new MainMenu());
+        }
+        super.keyTyped(keyCode, keyTyped);
+    }
+
+    @Override
     public void drawScreen() {
         int yBuffer = 0;
         for (File dialog : dialogs) {
-            textFont.drawString(dialog.getName(), getWidth() / 2 - textFont.getStringWidth(dialog.getName()), getHeight() / 4 + yBuffer, dialog == selected ? Color.RED : Color.WHITE);
+            textFont.drawString(dialog.getName(), getWidth() / 2 - textFont.getStringWidth(dialog.getName()) / 2, getHeight() / 4 + yBuffer, dialog == selected ? Color.RED : Color.WHITE);
             yBuffer += textFont.getHeight() + 5;
         }
         super.drawScreen();
@@ -59,7 +68,7 @@ public class RoomScreen extends Screen {
     public void mousePressed(int mouseButton) {
         int yBuffer = 0;
         for (File dialog : dialogs) {
-            if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth(dialog.getName()), getHeight() / 4 + yBuffer, textFont.getStringWidth(dialog.getName()), textFont.getHeight())) {
+            if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth(dialog.getName()) / 2, getHeight() / 4 + yBuffer, textFont.getStringWidth(dialog.getName()), textFont.getHeight())) {
                 if (selected == dialog) selected = null;
                 else
                     selected = dialog;

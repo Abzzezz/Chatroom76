@@ -25,7 +25,7 @@ public class Util {
 
     public static String textFont = "Roboto-Light";
 
-    public static Color textColor = Color.BLACK;
+    public static Color textColor = Color.WHITE;
 
 
 }

@@ -21,6 +21,10 @@ public class CustomButton extends Button {
         super(id, text, xPos, yPos);
     }
 
+    public CustomButton(float id, String text, float xPos, float yPos, int width, int height) {
+        super(id, text, xPos, yPos, width, height);
+    }
+
     @Override
     public void drawComponent() {
         //  RenderUtil.drawQuad(getXPos() - 20, getYPos(), getDimensions()[0] + 40, getDimensions()[1], new Color(255, 255, 255, 100));

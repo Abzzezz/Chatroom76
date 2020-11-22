@@ -76,7 +76,10 @@ public class GLSLShaderUtil {
             System.err.println(getLogInfo(program));
             return;
         }
+
+
         shader = true;
+
     }
 
 
@@ -87,7 +90,7 @@ public class GLSLShaderUtil {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(shaderURL.openStream()));
             String line;
             while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line + "\n\r");
+                stringBuilder.append(line).append("\n");
             }
             reader.close();
         } catch (IOException e) {
@@ -100,23 +103,23 @@ public class GLSLShaderUtil {
         if (shader)
             ARBShaderObjects.glUseProgramObjectARB(program);
         speed += 0.01F;
-        glLoadIdentity();
+
         GL20.glUniform2f(GL20.glGetUniformLocation(program, "resolution"), Display.getWidth(), Display.getHeight());
         GL20.glUniform1f(GL20.glGetUniformLocation(program, "time"), this.speed);
 
         if (texture != -1) {
+            //TODO: Move to method to bind one time
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
             GL20.glUniform1f(GL20.glGetUniformLocation(program, "video"), 0);
         }
-        glTranslatef(.0f, .0f, -10.f);
-        glColor3f(1.0f, 1.0f, 1.0f);
+
         glBegin(GL_QUADS);
         {
-            glVertex3f(-1.0f, 1.0f, 0.0f);
-            glVertex3f(1.0f, 1.0f, 0.0f);
-            glVertex3f(1.0f, -1.0f, 0.0f);
-            glVertex3f(-1.0f, -1.0f, 0.0f);
+            glVertex2d(-1.0f, 1.0f);
+            glVertex2d(1.0f, 1.0f);
+            glVertex2d(1.0f, -1.0f);
+            glVertex2d(-1.0f, -1.0f);
         }
         glEnd();
 
