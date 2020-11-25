@@ -39,10 +39,6 @@ public class EngineCore {
     private int fpsSync;
     private OpenGLReference openGLReference;
 
-    /*
-    Handlers
-     */
-
     private FileManager fileManager;
 
     /**
@@ -117,17 +113,11 @@ public class EngineCore {
         Logger.log("Loading files", LogType.INFO);
 
         if (!mainDir.exists()) mainDir.mkdir();
-        /*
-        Loads files
-        TODO: Add more handlers
-         */
+
         fileManager.load();
         Logger.log("Game starting", LogType.INFO);
 
-        /*
-        Call run
-         */
-       // System.setProperty("org.lwjgl.util.Debug", "true");
+        //System.setProperty("org.lwjgl.util.Debug", "true");
         run(width, height);
     }
 
@@ -155,8 +145,6 @@ public class EngineCore {
     private void shutdown() {
         fileManager.save();
         Logger.log("Saving files", LogType.INFO);
-
-
     }
 
     /**
@@ -203,14 +191,15 @@ public class EngineCore {
      */
     private void update() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
 
         screen.drawShader();
         screen.drawScreen();
 
         while (Mouse.next()) {
-            if (Mouse.getEventButtonState() ) {
+            if (Mouse.getEventButtonState())
                 screen.mousePressed(Mouse.getEventButton());
-            }
         }
         while (Keyboard.next()) {
             if (Keyboard.getEventKeyState()) screen.keyTyped(Keyboard.getEventKey(), Keyboard.getEventCharacter());

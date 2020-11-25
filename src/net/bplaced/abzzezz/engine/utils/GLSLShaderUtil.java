@@ -104,8 +104,8 @@ public class GLSLShaderUtil {
             ARBShaderObjects.glUseProgramObjectARB(program);
         speed += 0.01F;
 
-        GL20.glUniform2f(GL20.glGetUniformLocation(program, "resolution"), Display.getWidth(), Display.getHeight());
         GL20.glUniform1f(GL20.glGetUniformLocation(program, "time"), this.speed);
+        GL20.glUniform2f(GL20.glGetUniformLocation(program, "resolution"), Display.getWidth(), Display.getHeight());
 
         if (texture != -1) {
             //TODO: Move to method to bind one time

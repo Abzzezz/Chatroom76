@@ -15,6 +15,12 @@ public class FileUtil {
         bufferedWriter.close();
     }
 
+    public static void appendStringToFile(final String s, final File dest) throws IOException {
+        final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(dest, true));
+        bufferedWriter.write(s);
+        bufferedWriter.close();
+    }
+
     public static String readFromFile(final File file) throws IOException {
         return getLines(file).collect(Collectors.joining("\n"));
     }

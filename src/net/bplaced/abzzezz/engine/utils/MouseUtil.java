@@ -25,7 +25,7 @@ public class MouseUtil {
      * @return
      */
     public static boolean mouseHovered(float xPos, float yPos, float width, float height) {
-        int[] mouse = getMousePositions();
+        final int[] mouse = getMousePositions();
         return mouse[0] >= xPos && mouse[0] <= xPos + width && mouse[1] >= yPos && mouse[1] <= yPos + height;
     }
 
@@ -39,8 +39,8 @@ public class MouseUtil {
      */
 
     public static boolean mouseHovered(float xPos, float yPos, double radius) {
-        double px = getMousePositions()[0] - xPos;
-        double py = getMousePositions()[1] - yPos;
+        final double px = getMousePositions()[0] - xPos;
+        final double py = getMousePositions()[1] - yPos;
         return Math.sqrt(px * px + py * py) <= radius;
     }
 
@@ -50,8 +50,8 @@ public class MouseUtil {
      * @return
      */
     public static int[] getMousePositions() {
-        int x = Mouse.getX();
-        int y = Display.getHeight() - Mouse.getY();
+        final int x = Mouse.getX();
+        final int y = Display.getHeight() - Mouse.getY();
         return new int[]{x, y};
     }
 }
