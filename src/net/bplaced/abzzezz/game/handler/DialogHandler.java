@@ -96,9 +96,9 @@ public class DialogHandler {
                 return formatted;
 
             case DialogUtil.QUESTION_CALL:
-                addToDialog(args.get(DialogUtil.TEXT_ARGUMENT), getColor0(args));
+                formatted[0] = args.get(DialogUtil.TEXT_ARGUMENT);
                 question(format);
-                return null;
+                return formatted;
 
             case DialogUtil.COLOR_CODE_KEY:
                 formatted[0] = args.get(DialogUtil.TEXT_ARGUMENT);
@@ -241,11 +241,12 @@ public class DialogHandler {
         }).start();
     }
 
-    public void loadDialog(final File file) {
+    public void loadDialog(final Dialog dialog) {
+        if (dialog == null) return;
         this.savePreviousDialog();
         this.unloadPreviousDialog();
         //Set Dialog Object
-        this.dialogHolder = new Dialog(file);
+        this.dialogHolder = dialog;
         // this.lastLine = dialogObject.getLastLine();
 
         try {
@@ -275,8 +276,7 @@ public class DialogHandler {
         dialog.set(index, dialog.get(index).replace(old, replacement));
     }
 
-    public void deleteDialog(final File file) {
-        final Dialog dialog = new Dialog(file);
+    public void deleteDialog(final Dialog dialog) {
         for (final File listFile : Objects.requireNonNull(dialog.getDialogDir().listFiles()))
             Logger.log("Deleting dialog files: " + listFile.delete(), LogType.INFO);
         Logger.log("Deleting dialog dir:" + dialog.getDialogDir().delete(), LogType.INFO);

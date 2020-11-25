@@ -16,7 +16,6 @@ uniform sampler2D noiseTexture;
 uniform sampler2D video;
 
 
-
 vec4 texture( sampler2D  s, vec2 c)  { return texture2D(s,c); }
 
 

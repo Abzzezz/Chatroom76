@@ -12,7 +12,6 @@ package net.bplaced.abzzezz.engine.utils;
 
 
 import net.bplaced.abzzezz.engine.EngineCore;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 

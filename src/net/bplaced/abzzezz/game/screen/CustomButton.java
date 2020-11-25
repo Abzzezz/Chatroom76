@@ -35,7 +35,7 @@ public class CustomButton extends Button {
     public void drawShader() {
         ScissorUtil.enableScissor();
         ScissorUtil.scissor(getXPos() - 20, getYPos(), getDimensions()[0] + 40, getDimensions()[1]);
-        GameMain.getInstance().getShader().draw();
+        GameMain.getInstance().getGlslShaderUtil().draw();
         ScissorUtil.disableScissor();
         super.drawShader();
     }

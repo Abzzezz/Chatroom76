@@ -4,8 +4,10 @@ import net.bplaced.abzzezz.engine.EngineCore;
 import net.bplaced.abzzezz.engine.ui.Screen;
 import net.bplaced.abzzezz.engine.utils.FontUtil;
 import net.bplaced.abzzezz.engine.utils.MouseUtil;
+import net.bplaced.abzzezz.engine.utils.RenderUtil;
 import net.bplaced.abzzezz.engine.utils.Util;
 import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.game.dialog.Dialog;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -17,8 +19,8 @@ import java.util.Objects;
 public class RoomScreen extends Screen {
 
     protected FontUtil textFont;
-    private List<File> dialogs;
-    private File selected;
+    private List<Dialog> dialogs;
+    private Dialog selected;
 
     @Override
     public void init() {
@@ -27,13 +29,13 @@ public class RoomScreen extends Screen {
         for (int i = 0; i < Objects.requireNonNull(EngineCore.getInstance().getMainDir().listFiles()).length; i++) {
             File file = Objects.requireNonNull(EngineCore.getInstance().getMainDir().listFiles())[i];
             if (!file.getName().contains(".")) {
-                dialogs.add(file);
+                dialogs.add(new Dialog(file).loadMetaData());
             }
         }
 
-        getUiComponents().add(new CustomButton(0, "Play", 10, getHeight() - 30));
+        getUiComponents().add(new CustomButton(0, "Play", 50, getHeight() - 30, 100, 25));
         getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, getHeight() - 30, 100, 25));
-        getUiComponents().add(new CustomButton(2, "Delete", getWidth(), getHeight() - 30));
+        getUiComponents().add(new CustomButton(2, "Delete", getWidth() - 150, getHeight() - 30, 100, 25));
         super.init();
     }
 
@@ -57,8 +59,13 @@ public class RoomScreen extends Screen {
     @Override
     public void drawScreen() {
         int yBuffer = 0;
-        for (File dialog : dialogs) {
-            textFont.drawString(dialog.getName(), getWidth() / 2 - textFont.getStringWidth(dialog.getName()) / 2, getHeight() / 4 + yBuffer, dialog == selected ? Color.RED : Color.WHITE);
+        for (final Dialog dialog : dialogs) {
+            final String name = dialog.getDialogName();
+            final int xPos = getWidth() / 2 - textFont.getStringWidth(name) / 2;
+            final int yPos = getHeight() / 4 + yBuffer;
+
+            RenderUtil.drawQuad(xPos, yPos, 100, textFont.getHeight() + 5, new Color(0,0,0, 200));
+            textFont.drawString(name, xPos, yPos, dialog == selected ? Color.RED : Color.WHITE);
             yBuffer += textFont.getHeight() + 5;
         }
         super.drawScreen();
@@ -67,8 +74,8 @@ public class RoomScreen extends Screen {
     @Override
     public void mousePressed(int mouseButton) {
         int yBuffer = 0;
-        for (File dialog : dialogs) {
-            if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth(dialog.getName()) / 2, getHeight() / 4 + yBuffer, textFont.getStringWidth(dialog.getName()), textFont.getHeight())) {
+        for (Dialog dialog : dialogs) {
+            if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth(dialog.getDialogName()) / 2, getHeight() / 4 + yBuffer, textFont.getStringWidth(dialog.getDialogName()), textFont.getHeight())) {
                 if (selected == dialog) selected = null;
                 else
                     selected = dialog;
@@ -80,7 +87,7 @@ public class RoomScreen extends Screen {
 
     @Override
     public void drawShader() {
-        GameMain.getInstance().getGlslShaderUtil().draw();
+        GameMain.getInstance().getShader().draw();
         super.drawShader();
     }
 }

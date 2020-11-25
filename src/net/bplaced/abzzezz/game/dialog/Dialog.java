@@ -12,7 +12,7 @@ public class Dialog {
 
     private final String dialogName;
     private final File cfgFile, dialogFile, dialogDir, assets;
-    private final JSONObject metaData;
+    private JSONObject metaData;
 
     public Dialog(final File dialogDir) {
         this.dialogDir = dialogDir;
@@ -54,6 +54,15 @@ public class Dialog {
         } catch (final IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Dialog loadMetaData() {
+        try {
+            metaData = new JSONObject(FileUtil.readFromFile(cfgFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return this;
     }
 
     public String getCreationDate() {

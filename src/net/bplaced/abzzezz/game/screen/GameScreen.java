@@ -63,7 +63,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void drawShader() {
-        GameMain.getInstance().getGlslShaderUtil().draw();
+        GameMain.getInstance().getShader().draw();
         super.drawShader();
     }
 
