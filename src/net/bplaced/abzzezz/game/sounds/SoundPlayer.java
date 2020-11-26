@@ -17,7 +17,7 @@ public class SoundPlayer {
     public void playSound(File soundLocation, float volume) {
         try {
             this.effect = new Music(soundLocation.toURI().toURL());
-            effect.play(pitch, volume * GameMain.getInstance().getSettingsHandler().getSettingByTag("volume").map(Setting::getCurrent).orElse(1F));
+            effect.play(pitch, volume * GameMain.getInstance().getSettingsHandler().getSettingByTag("volume").map(setting -> setting.getCurrent() / 100).orElse(1F));
         } catch (IOException | SlickException e) {
             e.printStackTrace();
         }
@@ -34,7 +34,7 @@ public class SoundPlayer {
         try {
             this.backgroundMusic = new Music(soundLocation.toURI().toURL());
             backgroundMusic.play();
-            backgroundMusic.loop(pitch, volume * GameMain.getInstance().getSettingsHandler().getSettingByTag("volume").map(Setting::getCurrent).orElse(1F));
+            backgroundMusic.loop(pitch, volume * GameMain.getInstance().getSettingsHandler().getSettingByTag("volume").map(setting -> setting.getCurrent() / 100).orElse(1F));
         } catch (IOException | SlickException e) {
             e.printStackTrace();
         }

@@ -38,7 +38,7 @@ public class Setting {
         this.min = min;
         this.max = max;
         this.current = current;
-        this.settingsType = SettingsType.LIST;
+        this.settingsType = SettingsType.SLIDER;
     }
 
     public SettingsType getSettingsType() {

@@ -31,14 +31,14 @@ public class ListView implements UIComponent {
     protected int scrollY;
     private onListViewElementClicked clickListener;
 
-    public ListView(List<Object> list, float xPos, float yPos, int height, String title) {
+    public ListView(List<String> listIn, float xPos, float yPos, int height, String title) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.height = height;
         this.width = textFont.getStringWidth(title);
         this.title = title;
         this.list = new CopyOnWriteArrayList<>();
-        list.forEach(o -> this.list.add(new ListViewElement(o)));
+        listIn.forEach(o -> this.list.add(new ListViewElement(o)));
     }
 
     @Override
@@ -57,14 +57,13 @@ public class ListView implements UIComponent {
         for (ListViewElement entry : list) {
             float entryY = yBuffer + yPos + scrollY;
 
-            if (entry.isHovered()) RenderUtil.drawQuad(xPos, entryY, width, textFont.getHeight(), Color.LIGHT_GRAY);
+            if (entry.isHovered()) RenderUtil.drawQuad(xPos, entryY, width, textFont.getHeight(), Color.BLACK);
             textFont.drawString(entry.getObjectString(), xPos, entryY, textColor);
 
-
             entry.setyPos(entryY);
-            yBuffer += ((int) textFont.getHeight());
+            yBuffer += entry.getHeight();
         }
-        /**
+        /*
          * Scroll wheel support
          */
         if (Mouse.hasWheel() && yBuffer > height) {
@@ -143,8 +142,12 @@ public class ListView implements UIComponent {
             this.yPos = yPos;
         }
 
+        public float getHeight() {
+            return textFont.getHeight();
+        }
+
         public boolean isHovered() {
-            return MouseUtil.mouseHovered(xPos, yPos, width, textFont.getHeight());
+            return MouseUtil.mouseHovered(xPos, yPos, width, getHeight());
         }
     }
 }

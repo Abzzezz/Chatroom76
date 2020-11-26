@@ -51,7 +51,7 @@ public class DialogHandler {
 
             final String[] format = format(next);
 
-            if (format != null && format[0] != null && !format[0].isEmpty())
+            if (format[0] != null && !format[0].isEmpty())
                 addToDialog(format[0], Color.decode(format[1]));
 
             lastLine = next;
@@ -82,8 +82,6 @@ public class DialogHandler {
                 return lastLine + 1;
         }
     }
-
-    //TODO: Add color support for text in actions eg. text in "playsound" etc.
 
     private String[] format(int index) {
         String format = dialog.get(index);
@@ -140,7 +138,6 @@ public class DialogHandler {
     public void selectOption(final char keyChar) {
         if (pending) {
             if (!Character.isDigit(keyChar)) return;
-
             for (int i = 0; i < options.length; i++) {
                 if (i == Integer.parseInt(String.valueOf(keyChar))) {
                     addToDialog(String.valueOf(keyChar), Color.decode("#FB7E3F"));

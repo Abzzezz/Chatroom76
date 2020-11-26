@@ -82,9 +82,8 @@ public class GLSLShaderUtil {
 
     }
 
-
     private String getShaderByUrl(URL shaderURL) {
-        StringBuilder stringBuilder = new StringBuilder();
+        final StringBuilder stringBuilder = new StringBuilder();
 
         try {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(shaderURL.openStream()));
@@ -127,15 +126,11 @@ public class GLSLShaderUtil {
     }
 
     private int createShader(String shaderSource, int shaderType) {
-        try {
-            int shader = ARBShaderObjects.glCreateShaderObjectARB(shaderType);
-            if (shader == 0) return 0;
-            ARBShaderObjects.glShaderSourceARB(shader, shaderSource);
-            ARBShaderObjects.glCompileShaderARB(shader);
-            return shader;
-        } catch (Exception exc) {
-            throw exc;
-        }
+        int shader = ARBShaderObjects.glCreateShaderObjectARB(shaderType);
+        if (shader == 0) return 0;
+        ARBShaderObjects.glShaderSourceARB(shader, shaderSource);
+        ARBShaderObjects.glCompileShaderARB(shader);
+        return shader;
     }
 
     private String getLogInfo(int obj) {

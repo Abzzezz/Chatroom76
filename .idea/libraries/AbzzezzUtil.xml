@@ -6,6 +6,7 @@
       <root url="jar://$PROJECT_DIR$/../../Libraries/lwjgl_util.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../Libraries/lwjgl.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../Libraries/json-20200518.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Libraries/json-20201115.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

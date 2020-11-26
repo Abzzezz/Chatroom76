@@ -116,7 +116,6 @@ public class EngineCore {
 
         fileManager.load();
         Logger.log("Game starting", LogType.INFO);
-
         //System.setProperty("org.lwjgl.util.Debug", "true");
         run(width, height);
     }

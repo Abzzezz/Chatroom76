@@ -6,7 +6,7 @@ precision mediump float;
 
 #define PI 3.1415926538
 
-#define scan_period 1.5
+#define scan_period 8.0
 
 uniform float time;
 uniform vec2 mouse;
@@ -20,12 +20,14 @@ void main( void ) {
 	vec2 position = gl_FragCoord.xy / resolution.xy;
 
 
-	gl_FragColor += rand(position, 0.0) / 2.5; // noise
+
+	gl_FragColor += rand(position, 0.0) / 5.0; // noise
 	gl_FragColor.r += rand(position, PI) / 20.0;
 	gl_FragColor.g += rand(position, PI * 2.0) / 20.0;
 	gl_FragColor.b += rand(position, PI * 3.0) / 20.0;
 
+
 	float scan_pos = mod(time, scan_period) / scan_period;
 	float random_height = rand(position, 10.0 * PI) / 80.0 + 0.02;
-	if(position.y > scan_pos - random_height && position.y < scan_pos + random_height) gl_FragColor.rgb += vec3(0.5);
+	if(position.y > scan_pos - random_height && position.y < scan_pos + random_height) gl_FragColor.rgb += vec3(0.05);
 }

@@ -27,5 +27,7 @@ public class Util {
 
     public static Color textColor = Color.WHITE;
 
+    public static final Color TRANSPARENT_WHITE_150 = new Color(255, 255, 255, 150);
+
 
 }
