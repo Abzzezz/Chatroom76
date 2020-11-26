@@ -19,8 +19,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TextField implements UIComponent {
 
-    private final List<String> backupText = new CopyOnWriteArrayList<>();
-    private final List<String> displayText = new CopyOnWriteArrayList<>();
+    private final List<Character> backupText = new CopyOnWriteArrayList<>();
+    private final StringBuilder displayText = new StringBuilder();
     private final float xPos;
     private final float yPos;
     private final int width;
@@ -57,10 +57,10 @@ public class TextField implements UIComponent {
     @Override
     public void drawComponent() {
         RenderUtil.drawQuad(xPos, yPos, width, height, clicked ? Util.mainColor.darker() : Util.mainColor);
-        ScissorUtil.enableScissor();
-        ScissorUtil.scissor(xPos, yPos, width, height);
-        fontUtil.drawString(getDisplayString(), xPos, yPos + height / 2 - fontUtil.getHeight() / 2, selectedAll ? Color.LIGHT_GRAY : textColor);
-        ScissorUtil.disableScissor();
+        //    ScissorUtil.enableScissor();
+        // ScissorUtil.scissor(xPos, yPos, width, height);
+        fontUtil.drawString(displayText.toString(), xPos, yPos + height / 2 - fontUtil.getHeight() / 2, selectedAll ? Color.LIGHT_GRAY : textColor);
+        // ScissorUtil.disableScissor();
         textFont.drawString(name, xPos, yPos - height, textColor);
     }
 
@@ -71,79 +71,55 @@ public class TextField implements UIComponent {
     @Override
     public void keyListener(int keyCode, char keyTyped) {
         if (isClicked()) {
-            /**
-             * Keyboard combos
-             */
-            if (isControlA()) {
+
+            if (KeyboardUtil.isControlA()) {
                 selectedAll = true;
-                return;
             }
 
-            if (isDeleteAll()) {
+            if (KeyboardUtil.isDeleteAll()) {
                 deleteAllText();
-                return;
             }
-            //TODO: Fix clipboard spamming. - Overflow
-            if (isControlV()) {
-                //ADD
 
-                return;
+            if (KeyboardUtil.isControlV()) {
+                displayText.append(KeyboardUtil.getClipboard());
             }
 
             if (keyCode == Keyboard.KEY_BACK) {
                 //Control A Delete
                 if (selectedAll) {
-                    selectedAll = false;
                     deleteAllText();
+                    selectedAll = false;
                     return;
                 }
-                if (!(displayText.size() == 0)) {
-                    /*
-                    If backups lengh is 0 then stop restoring old data.
-                     */
-                    displayText.remove(displayText.size() - 1);
-                    if (!(backupText.size() == 0)) {
-                        displayText.add(0, backupText.get(backupText.size() - 1));
-                        backupText.remove(backupText.size() - 1);
+                if (displayText.length() > 0) {
+                    displayText.deleteCharAt(displayText.length() - 1);
+
+                    if (backupText.size() > 0) {
+                        int index = backupText.size() - 1;
+                        displayText.insert(0, backupText.get(index));
+                        backupText.remove(index);
                     }
                 }
             } else {
                 //If text out of bounds append old characters to backuptext and delete from displayed string
-                boolean b = !(keyCode == Keyboard.KEY_LSHIFT) && !(keyCode == Keyboard.KEY_RSHIFT) && !(keyCode == Keyboard.KEY_RCONTROL) && !(keyCode == Keyboard.KEY_LCONTROL);
-
-                if (displayText.size() > width / fontUtil.getStringWidth("a") && b) {
-                    backupText.add(displayText.get(0));
-                    displayText.remove(0);
-                }
-
-                if (b)
-                    displayText.add(String.valueOf(keyTyped));
+                boolean disallowed = !(keyCode == Keyboard.KEY_LSHIFT) && !(keyCode == Keyboard.KEY_RSHIFT) && !(keyCode == Keyboard.KEY_RCONTROL) && !(keyCode == Keyboard.KEY_LCONTROL);
+                if (disallowed)
+                    displayText.append(keyTyped);
             }
+
+            while (fontUtil.getStringWidth(displayText.toString()) > width - 10) {
+                backupText.add(displayText.charAt(0));
+                displayText.deleteCharAt(0);
+            }
+
+
         }
     }
 
-    private String getDisplayString() {
-        return String.join("\t", displayText);
-    }
 
     private void deleteAllText() {
-        displayText.clear();
+        displayText.delete(0, displayText.length());
         backupText.clear();
-    }
-
-    /**
-     * TODO: Move to separate class
-     */
-    private boolean isControlA() {
-        return (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) && Keyboard.isKeyDown(Keyboard.KEY_A);
-    }
-
-    private boolean isDeleteAll() {
-        return (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) && Keyboard.isKeyDown(Keyboard.KEY_BACK);
-    }
-
-    private boolean isControlV() {
-        return (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) && Keyboard.isKeyDown(Keyboard.KEY_V);
     }
 
     @Override
@@ -167,9 +143,8 @@ public class TextField implements UIComponent {
      */
     public String toString() {
         StringBuilder backupOut = new StringBuilder();
-        backupText.forEach(s -> backupOut.append(s));
-        displayText.forEach(character -> backupOut.append(character));
-
+        backupText.forEach(backupOut::append);
+        backupOut.append(displayText);
         return backupOut.toString();
     }
 

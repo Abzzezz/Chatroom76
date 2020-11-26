@@ -39,6 +39,9 @@ public class DialogHandler {
         this.defined = new HashMap<>();
     }
 
+    /**
+     * Get the next available dialog text to add
+     */
     public void getNextDialog() {
         //if no input expected
         if (!pending) {
@@ -49,7 +52,7 @@ public class DialogHandler {
             //If the dialog started goto "startpoint"
             next = next(dialog.get(next));
 
-            final String[] format = format(next);
+            final String[] format = formatNext(next);
 
             if (format[0] != null && !format[0].isEmpty())
                 addToDialog(format[0], Color.decode(format[1]));
@@ -58,6 +61,11 @@ public class DialogHandler {
         }
     }
 
+    /**
+     * Get the next index for the next String
+     * @param nextString String that's is supposed to come next
+     * @return index to read string from
+     */
     private int next(final String nextString) {
         final String[] split = nextString.split(" ");
         switch (split[0]) {
@@ -83,7 +91,12 @@ public class DialogHandler {
         }
     }
 
-    private String[] format(int index) {
+    /**
+     * formats the next string from an index
+     * @param index index to format String from
+     * @return String array index 0 containing the string and 1 containing the color
+     */
+    private String[] formatNext(int index) {
         String format = dialog.get(index);
         final Map<String, String> args = getArguments(format);
         final String[] formatted = new String[]{format, getColor(args)};
@@ -111,6 +124,11 @@ public class DialogHandler {
         }
     }
 
+    /**
+     * Returns all arguments given a string. Matches the argument pattern against the given string. After that all matches are added to a map
+     * @param string String to pull arguments from
+     * @return Map containing the keyword as the key and the argument as the value
+     */
     private Map<String, String> getArguments(final String string) {
         final Map<String, String> argumentValueMap = new HashMap<>();
         final Matcher matcher = DialogUtil.ARGUMENT_PATTERN.matcher(string);
@@ -122,6 +140,10 @@ public class DialogHandler {
         return argumentValueMap;
     }
 
+    /**
+     * Formats a question given a string.
+     * @param string
+     */
     private void question(final String string) {
         final Matcher matcher = DialogUtil.QUESTION_PATTERN.matcher(string);
         this.options = new String[matcher.groupCount() + 1];

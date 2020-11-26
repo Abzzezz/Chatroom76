@@ -2,6 +2,7 @@ package net.bplaced.abzzezz.game.screen;
 
 import net.bplaced.abzzezz.engine.EngineCore;
 import net.bplaced.abzzezz.engine.ui.Screen;
+import net.bplaced.abzzezz.engine.ui.uicomponents.TextField;
 import net.bplaced.abzzezz.engine.utils.FontUtil;
 import net.bplaced.abzzezz.engine.utils.Util;
 import net.bplaced.abzzezz.game.GameMain;
@@ -19,7 +20,7 @@ public class MainMenu extends Screen {
 
         getUiComponents().add(new CustomButton(0, "Rooms", xPos, getHeight() / 4, buttonWidth, height));
         getUiComponents().add(new CustomButton(1, "Settings", xPos, getHeight() / 4 + 40, buttonWidth, height));
-
+        getUiComponents().add(new TextField(100, 100, "Text"));
         super.init();
     }
 
