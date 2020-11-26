@@ -13,14 +13,14 @@ public class MainMenu extends Screen {
 
     @Override
     public void init() {
-        textFont = new FontUtil(Util.textFont, 20);
+        textFont = new FontUtil(Util.textFont, 60);
 
         final int buttonWidth = 100, height = 15;
         final int xPos = getWidth() / 2 - buttonWidth / 2;
 
         getUiComponents().add(new CustomButton(0, "Rooms", xPos, getHeight() / 4, buttonWidth, height));
         getUiComponents().add(new CustomButton(1, "Settings", xPos, getHeight() / 4 + 40, buttonWidth, height));
-        getUiComponents().add(new TextField(100, 100, "Text"));
+        //getUiComponents().add(new TextField(100, 100, "Text"));
         super.init();
     }
 
@@ -36,6 +36,7 @@ public class MainMenu extends Screen {
 
     @Override
     public void drawScreen() {
+        textFont.drawString("Chatroom76", getWidth() / 2 - textFont.getStringWidth("Chatroom76") / 2, getHeight() / 6, Util.TRANSPARENT_WHITE_150);
         super.drawScreen();
     }
 

@@ -51,9 +51,6 @@ public class GameScreen extends Screen {
         }
         ScissorUtil.disableScissor();
 
-        /**
-         * Paused
-         */
         if (paused) {
             textFont.drawString("Resume", getWidth() / 2 - textFont.getStringWidth("Resume") / 2, getHeight() / 4, Color.decode("#836E81"));
             textFont.drawString("Back to menu", getWidth() / 2 - textFont.getStringWidth("Back to menu") / 2, getHeight() / 4 + textFont.getHeight(), Color.decode("#836E81"));

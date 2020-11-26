@@ -23,7 +23,7 @@ public class Util {
      */
     public static Color mainColor = new Color(0xAB89EE);
 
-    public static String textFont = "Roboto-Light";
+    public static String textFont = "Terminal";
 
     public static Color textColor = Color.WHITE;
 
