@@ -226,6 +226,8 @@ public class DialogHandler {
     public void downloadDialog() {
         new Thread(() -> {
             final String input = JOptionPane.showInputDialog("URL to download");
+            if(input == null) return;
+
             final String fileName = input.substring(input.lastIndexOf('/') + 1);
 
             final Dialog newDialog = new Dialog(new File(EngineCore.getInstance().getMainDir(), fileName.substring(0, fileName.lastIndexOf('.'))));
@@ -274,6 +276,7 @@ public class DialogHandler {
     }
 
     public void deleteDialog(final Dialog dialog) {
+        if(dialog == null) return;
         for (final File listFile : Objects.requireNonNull(dialog.getDialogDir().listFiles()))
             Logger.log("Deleting dialog files: " + listFile.delete(), LogType.INFO);
         Logger.log("Deleting dialog dir:" + dialog.getDialogDir().delete(), LogType.INFO);

@@ -1,13 +1,15 @@
 package net.bplaced.abzzezz.game.screen;
 
 import net.bplaced.abzzezz.engine.ui.uicomponents.Button;
-import net.bplaced.abzzezz.engine.utils.ScissorUtil;
-import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.engine.utils.MouseUtil;
+import net.bplaced.abzzezz.engine.utils.RenderUtil;
+import net.bplaced.abzzezz.engine.utils.Util;
 
 import java.awt.*;
 
 public class CustomButton extends Button {
 
+    private final int d = 10;
 
     /**
      * Simple button. Buttons can be added just use this as a parent
@@ -27,16 +29,25 @@ public class CustomButton extends Button {
 
     @Override
     public void drawComponent() {
-        //  RenderUtil.drawQuad(getXPos() - 20, getYPos(), getDimensions()[0] + 40, getDimensions()[1], new Color(255, 255, 255, 100));
-        textFont.drawString(getText(), getXPos() + getDimensions()[0] / 2 - textFont.getStringWidth(getText()) / 2, getYPos(), Color.WHITE);
+        final int quadHeight = getDimensions()[1] + d * 2;
+        RenderUtil.drawQuad(getXPos() - d, getYPos(), getDimensions()[0] + d * 2, quadHeight, Util.TRANSPARENT_WHITE_150);
+        textFont.drawString(getText(), getXPos() + getDimensions()[0] / 2 - textFont.getStringWidth(getText()) / 2, getYPos() + d / 2, Color.WHITE);
+    }
+
+    @Override
+    public boolean buttonHovered() {
+        return MouseUtil.mouseHovered(getXPos() - d, getYPos(), getDimensions()[0] + d * 2, getDimensions()[1] + d * 2);
     }
 
     @Override
     public void drawShader() {
+        /*
         ScissorUtil.enableScissor();
         ScissorUtil.scissor(getXPos() - 20, getYPos(), getDimensions()[0] + 40, getDimensions()[1]);
         GameMain.getInstance().getGlslShaderUtil().draw();
         ScissorUtil.disableScissor();
+
+         */
         super.drawShader();
     }
 }

@@ -25,6 +25,8 @@ public class CheckBox implements UIComponent {
     private int size;
     private String text;
     private AnimationUtil animationUtil;
+    private StateChangedListener stateChangedListener;
+
 
     public CheckBox(float xPos, float yPos, int size, String text) {
         this.xPos = xPos;
@@ -83,6 +85,7 @@ public class CheckBox implements UIComponent {
     public void mouseListener(int mouseButton) {
         if (checkBoxHovered() && mouseButton == 0) {
             checked = !checked;
+            if (stateChangedListener != null) stateChangedListener.onStateChanged(checked);
             if (!checked) animationUtil.reset();
         }
     }
@@ -90,6 +93,10 @@ public class CheckBox implements UIComponent {
     @Override
     public void drawShader() {
 
+    }
+
+    public void setStateChangedListener(StateChangedListener stateChangedListener) {
+        this.stateChangedListener = stateChangedListener;
     }
 
     private boolean checkBoxHovered() {
@@ -132,4 +139,7 @@ public class CheckBox implements UIComponent {
         this.size = size;
     }
 
+    public interface StateChangedListener {
+        void onStateChanged(boolean state);
+    }
 }

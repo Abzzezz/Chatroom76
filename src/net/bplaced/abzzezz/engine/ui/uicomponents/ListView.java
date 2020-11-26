@@ -101,8 +101,6 @@ public class ListView implements UIComponent {
             if (listViewElement.isHovered() && mouseButton == 0) {
                 if (clickListener != null) {
                     clickListener.onItemClicked(list.indexOf(listViewElement), listViewElement);
-                } else {
-                    Logger.log("On item click listener for class " + getClass() + "not initialised", LogType.WARNING);
                 }
             }
         });

@@ -92,8 +92,6 @@ public class Button implements UIComponent {
         if (buttonHovered()) {
             if (buttonPressed != null)
                 buttonPressed.onButtonPressed(mouseButton, this);
-            else
-                Logger.log("Button pressed handler not initialised", LogType.WARNING);
         }
     }
 

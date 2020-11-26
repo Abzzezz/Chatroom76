@@ -32,10 +32,11 @@ public class RoomScreen extends Screen {
                 dialogs.add(new Dialog(file).loadMetaData());
             }
         }
-
-        getUiComponents().add(new CustomButton(0, "Play", 50, getHeight() - 30, 100, 25));
-        getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, getHeight() - 30, 100, 25));
-        getUiComponents().add(new CustomButton(2, "Delete", getWidth() - 150, getHeight() - 30, 100, 25));
+        final int buttonWidth = 100, height = 15;
+        final int yPos = getHeight() - height*3;
+        getUiComponents().add(new CustomButton(0, "Play", 50, yPos, buttonWidth, height));
+        getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, yPos, buttonWidth, height));
+        getUiComponents().add(new CustomButton(2, "Delete", getWidth() - 150, yPos, buttonWidth, height));
         super.init();
     }
 
