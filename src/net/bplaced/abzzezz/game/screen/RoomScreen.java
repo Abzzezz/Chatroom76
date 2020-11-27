@@ -43,7 +43,7 @@ public class RoomScreen extends Screen {
     @Override
     public void buttonPressed(float buttonID) {
 
-        if (buttonID == 1) GameMain.getInstance().getDialogHandler().downloadDialog();
+        if (buttonID == 1) EngineCore.getInstance().setScreen(new ImportDialogScreen(this));
         else if (buttonID == 2) GameMain.getInstance().getDialogHandler().deleteDialog(selected);
         else if (buttonID == 0) GameMain.getInstance().getDialogHandler().loadDialog(selected);
         super.buttonPressed(buttonID);

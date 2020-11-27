@@ -16,7 +16,7 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void init() {
-        int yBuffer = 0;
+        int yBuffer = 100;
         int xBuffer = 50;
 
         for (final Setting setting : GameMain.getInstance().getSettingsHandler().getSettings()) {

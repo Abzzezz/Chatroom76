@@ -290,10 +290,6 @@ public class EngineCore {
         Util.textFont = fontName;
     }
 
-    public void setBackgroundColor(Color color) {
-        Util.backgroundColor = color;
-    }
-
     public interface OpenGLReference {
         void onGLInitialised();
 

@@ -5,8 +5,6 @@ import net.bplaced.abzzezz.engine.utils.MouseUtil;
 import net.bplaced.abzzezz.engine.utils.RenderUtil;
 import net.bplaced.abzzezz.engine.utils.Util;
 
-import java.awt.*;
-
 public class CustomButton extends Button {
 
     private final int d = 10;
@@ -30,8 +28,8 @@ public class CustomButton extends Button {
     @Override
     public void drawComponent() {
         final int quadHeight = getDimensions()[1] + d * 2;
-        RenderUtil.drawQuad(getXPos() - d, getYPos(), getDimensions()[0] + d * 2, quadHeight, Util.TRANSPARENT_WHITE_150);
-        textFont.drawString(getText(), getXPos() + getDimensions()[0] / 2 - textFont.getStringWidth(getText()) / 2, getYPos() + d / 2, Color.WHITE);
+        RenderUtil.drawQuad(getXPos() - d, getYPos(), getDimensions()[0] + d * 2, quadHeight, Util.TRANSPARENT_WHITE_75);
+        textFont.drawString(getText(), getXPos() + getDimensions()[0] / 2 - textFont.getStringWidth(getText()) / 2, getYPos() + d / 2, Util.TRANSPARENT_WHITE_75);
     }
 
     @Override

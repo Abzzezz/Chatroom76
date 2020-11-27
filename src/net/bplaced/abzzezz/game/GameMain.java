@@ -37,7 +37,6 @@ public class GameMain {
         final EngineCore engineCore = new EngineCore(600, 600, new MainMenu());
         engineCore.setGameName("Chatroom76");
         engineCore.setMainDir(new File(System.getProperty("user.home"), "Chatroom76"));
-        engineCore.setBackgroundColor(Color.BLACK);
         engineCore.addSaveFile(new SettingsFile());
 
         engineCore.setOpenGLReference(new EngineCore.OpenGLReference() {

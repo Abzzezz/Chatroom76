@@ -16,8 +16,6 @@ import net.bplaced.abzzezz.engine.utils.Util;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
-
 public class Slider implements UIComponent {
 
     private final String text;
@@ -65,7 +63,7 @@ public class Slider implements UIComponent {
 
     @Override
     public void drawComponent() {
-        RenderUtil.drawQuad(xPos, yPos - height / 4, width, height, Util.TRANSPARENT_WHITE_150);
+        RenderUtil.drawQuad(xPos, yPos - height / 4, width, height, Util.TRANSPARENT_WHITE_75);
         RenderUtil.drawQuad(xPos, yPos, current * step, height / 2, Util.mainColor);
         textFont.drawString(text + ":" + Math.round(current), xPos, yPos - height, textColor);
     }

@@ -17,17 +17,17 @@ public class Util {
     /**
      * Default set to white
      */
-    public static Color backgroundColor = Color.WHITE;
+    public static final Color BACKGROUND_COLOR = Color.WHITE;
     /**
      * Change color
      */
-    public static Color mainColor = new Color(0xAB89EE);
+    public static Color mainColor = new Color(255, 255, 255, 75);
 
     public static String textFont = "Terminal";
 
     public static Color textColor = Color.WHITE;
 
-    public static final Color TRANSPARENT_WHITE_150 = new Color(255, 255, 255, 150);
+    public static final Color TRANSPARENT_WHITE_75 = new Color(255, 255, 255, 75);
 
 
 }

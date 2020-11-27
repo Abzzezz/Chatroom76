@@ -23,20 +23,19 @@ import java.util.regex.Matcher;
 
 public class DialogHandler {
 
-    private final List<DialogLine> displayDialogLine;
+    private final List<DialogLine> displayDialog;
     private final HashMap<String, String> defined;
-    private List<String> dialog;
+    private final List<String> options, dialog;
 
     private int lastLine;
     private boolean pending;
-
-    private String[] options;
     private Dialog dialogHolder;
 
     public DialogHandler() {
         this.dialog = new ArrayList<>();
-        this.displayDialogLine = new ArrayList<>();
+        this.displayDialog = new ArrayList<>();
         this.defined = new HashMap<>();
+        this.options = new ArrayList<>();
     }
 
     /**
@@ -63,6 +62,7 @@ public class DialogHandler {
 
     /**
      * Get the next index for the next String
+     *
      * @param nextString String that's is supposed to come next
      * @return index to read string from
      */
@@ -93,6 +93,7 @@ public class DialogHandler {
 
     /**
      * formats the next string from an index
+     *
      * @param index index to format String from
      * @return String array index 0 containing the string and 1 containing the color
      */
@@ -126,6 +127,7 @@ public class DialogHandler {
 
     /**
      * Returns all arguments given a string. Matches the argument pattern against the given string. After that all matches are added to a map
+     *
      * @param string String to pull arguments from
      * @return Map containing the keyword as the key and the argument as the value
      */
@@ -142,16 +144,18 @@ public class DialogHandler {
 
     /**
      * Formats a question given a string.
+     *
      * @param string
      */
     private void question(final String string) {
         final Matcher matcher = DialogUtil.QUESTION_PATTERN.matcher(string);
-        this.options = new String[matcher.groupCount() + 1];
+        this.options.clear();
+
         for (int i = 0; matcher.find(); i++) {
             final String[] optionResultSplit = matcher.group().split(DialogUtil.DEFINE_KEY);
             final String result = optionResultSplit[1];
 
-            options[i] = result.substring(0, result.length() - 1);
+            options.add(result.substring(0, result.length() - 1));
             addToDialog(optionResultSplit[0].concat("(" + i + ")"));
         }
         pending = true;
@@ -160,14 +164,15 @@ public class DialogHandler {
     public void selectOption(final char keyChar) {
         if (pending) {
             if (!Character.isDigit(keyChar)) return;
-            for (int i = 0; i < options.length; i++) {
-                if (i == Integer.parseInt(String.valueOf(keyChar))) {
-                    addToDialog(String.valueOf(keyChar), Color.decode("#FB7E3F"));
-                    pending = false;
-                    lastLine = next(options[i]) - 1;
-                    getNextDialog();
-                }
+            final String valueOf = String.valueOf(keyChar);
+            final int num = Integer.parseInt(valueOf);
+            if (num < options.size() && num > 0) {
+                addToDialog(valueOf, Color.decode("#FB7E3F"));
+                lastLine = next(options.get(num - 1));
+                pending = false;
+                getNextDialog();
             }
+
         }
     }
 
@@ -245,15 +250,15 @@ public class DialogHandler {
     /**
      * TODO: Add screen
      */
-    public void downloadDialog() {
+    public void downloadDialog(final String input) {
         new Thread(() -> {
-            final String input = JOptionPane.showInputDialog("URL to download");
-            if(input == null) return;
-
+            if (input == null) return;
+            Logger.log("Starting dialog download", LogType.INFO);
             final String fileName = input.substring(input.lastIndexOf('/') + 1);
 
             final Dialog newDialog = new Dialog(new File(EngineCore.getInstance().getMainDir(), fileName.substring(0, fileName.lastIndexOf('.'))));
             newDialog.createMetaData();
+            newDialog.save();
             try {
                 FileUtil.copyFileFromUrl(newDialog.getDialogFile(), new URL(input));
             } catch (final IOException e) {
@@ -298,7 +303,7 @@ public class DialogHandler {
     }
 
     public void deleteDialog(final Dialog dialog) {
-        if(dialog == null) return;
+        if (dialog == null) return;
         for (final File listFile : Objects.requireNonNull(dialog.getDialogDir().listFiles()))
             Logger.log("Deleting dialog files: " + listFile.delete(), LogType.INFO);
         Logger.log("Deleting dialog dir:" + dialog.getDialogDir().delete(), LogType.INFO);
@@ -311,16 +316,17 @@ public class DialogHandler {
 
     private void unloadPreviousDialog() {
         lastLine = 0;
-        displayDialogLine.clear();
+        displayDialog.clear();
         dialog.clear();
     }
 
     public void setDialog(final List<String> dialog) {
-        this.dialog = dialog;
+        this.dialog.clear();
+        this.dialog.addAll(dialog);
         this.prepare();
     }
 
     public List<DialogLine> getDisplayDialog() {
-        return displayDialogLine;
+        return displayDialog;
     }
 }
