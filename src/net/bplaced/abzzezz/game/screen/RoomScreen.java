@@ -5,12 +5,11 @@ import net.bplaced.abzzezz.engine.ui.Screen;
 import net.bplaced.abzzezz.engine.utils.FontUtil;
 import net.bplaced.abzzezz.engine.utils.MouseUtil;
 import net.bplaced.abzzezz.engine.utils.RenderUtil;
-import net.bplaced.abzzezz.engine.utils.Util;
+import net.bplaced.abzzezz.engine.utils.ColorUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import org.lwjgl.input.Keyboard;
 
-import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ public class RoomScreen extends Screen {
     @Override
     public void init() {
         this.dialogs = new ArrayList<>();
-        this.textFont = new FontUtil(Util.textFont, 20);
+        this.textFont = new FontUtil(ColorUtil.TEXT_FONT, 20);
         for (int i = 0; i < Objects.requireNonNull(EngineCore.getInstance().getMainDir().listFiles()).length; i++) {
             File file = Objects.requireNonNull(EngineCore.getInstance().getMainDir().listFiles())[i];
             if (!file.getName().contains(".")) {
@@ -62,11 +61,14 @@ public class RoomScreen extends Screen {
         int yBuffer = 0;
         for (final Dialog dialog : dialogs) {
             final String name = dialog.getDialogName();
-            final int xPos = getWidth() / 2 - textFont.getStringWidth(name) / 2;
+            final int xPos = getWidth() / 2 - 100;
             final int yPos = getHeight() / 4 + yBuffer;
 
-            RenderUtil.drawQuad(xPos, yPos, 100, textFont.getHeight() + 5, new Color(0,0,0, 200));
-            textFont.drawString(name, xPos, yPos, dialog == selected ? Color.RED : Color.WHITE);
+            RenderUtil.drawQuad(xPos, yPos, 200, textFont.getHeight() * 2 + 5, dialog == selected ? ColorUtil.MAIN_COLOR : ColorUtil.MAIN_COLOR.darker());
+
+            textFont.drawString(name, xPos, yPos, ColorUtil.TEXT_COLOR);
+            textFont.drawString(dialog.getCreationDate(), xPos, yPos + textFont.getHeight() + 5, ColorUtil.TEXT_COLOR);
+
             yBuffer += textFont.getHeight() + 5;
         }
         super.drawScreen();
@@ -76,7 +78,7 @@ public class RoomScreen extends Screen {
     public void mousePressed(int mouseButton) {
         int yBuffer = 0;
         for (Dialog dialog : dialogs) {
-            if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth(dialog.getDialogName()) / 2, getHeight() / 4 + yBuffer, textFont.getStringWidth(dialog.getDialogName()), textFont.getHeight())) {
+            if (MouseUtil.mouseHovered(getWidth() / 2 - 100, getHeight() / 4 + yBuffer, 200, textFont.getHeight() * 2 + 5)) {
                 if (selected == dialog) selected = null;
                 else
                     selected = dialog;

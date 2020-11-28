@@ -12,7 +12,7 @@ package net.bplaced.abzzezz.engine.ui.uicomponents;
 
 import net.bplaced.abzzezz.engine.utils.MouseUtil;
 import net.bplaced.abzzezz.engine.utils.RenderUtil;
-import net.bplaced.abzzezz.engine.utils.Util;
+import net.bplaced.abzzezz.engine.utils.ColorUtil;
 import net.bplaced.abzzezz.engine.utils.animation.AnimationUtil;
 import net.bplaced.abzzezz.engine.utils.animation.easing.Quint;
 
@@ -71,8 +71,8 @@ public class CheckBox implements UIComponent {
     @Override
     public void drawComponent() {
         if (checked) animationUtil.animate();
-        RenderUtil.drawCircle(xPos + size / 2, yPos, size, 3, Util.mainColor);
-        RenderUtil.drawCircle(xPos + size / 2, yPos, animationUtil.getInt(), 3, Util.mainColor.darker());
+        RenderUtil.drawCircle(xPos + size / 2, yPos, size, 3, ColorUtil.MAIN_COLOR);
+        RenderUtil.drawCircle(xPos + size / 2, yPos, animationUtil.getInt(), 3, ColorUtil.MAIN_COLOR.darker());
 
         textFont.drawString(text, xPos + size * 2, yPos - textFont.getHeight() / 1.5F, Color.BLACK);
     }

@@ -16,12 +16,12 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void init() {
-        int yBuffer = 100;
+        int yBuffer = getHeight() / 4 + 15;
         int xBuffer = 50;
 
         for (final Setting setting : GameMain.getInstance().getSettingsHandler().getSettings()) {
-            if (yBuffer >= 400) {
-                xBuffer += 50;
+            if (yBuffer >= getHeight() - 100) {
+                xBuffer += 150;
             }
             UIComponent component = null;
             final String tag = setting.getTag();
@@ -45,7 +45,7 @@ public class SettingsScreen extends Screen {
             }
             if (component != null) {
                 getUiComponents().add(component);
-                yBuffer += 100;
+                yBuffer += 120;
             }
         }
 
@@ -54,7 +54,7 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void drawScreen() {
-
+        drawCenteredMenuString("Settings", getWidth() / 2, getHeight() / 6);
         super.drawScreen();
     }
 
@@ -66,9 +66,7 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
-        if (keyCode == Keyboard.KEY_ESCAPE) {
-            EngineCore.getInstance().setScreen(new MainMenu());
-        }
+        if (keyCode == Keyboard.KEY_ESCAPE) EngineCore.getInstance().setScreen(new MainMenu());
         super.keyTyped(keyCode, keyTyped);
     }
 }

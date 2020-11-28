@@ -73,7 +73,7 @@ public class Button implements UIComponent {
      */
     @Override
     public void drawComponent() {
-        RenderUtil.drawQuad(xPos, yPos, getDimensions()[0], getDimensions()[1], buttonHovered() ? Util.mainColor.darker() : Util.mainColor);
+        RenderUtil.drawQuad(xPos, yPos, getDimensions()[0], getDimensions()[1], buttonHovered() ? ColorUtil.MAIN_COLOR.darker() : ColorUtil.MAIN_COLOR);
         textFont.drawString(text, xPos + width / 2 - textFont.getStringWidth(getText()) / 2, yPos, buttonHovered() ? textColor.brighter() : textColor);
     }
 

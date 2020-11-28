@@ -51,12 +51,12 @@ public class TextField implements UIComponent {
 
     @Override
     public void initComponent() {
-        fontUtil = new FontUtil(Util.textFont, width / 16);
+        fontUtil = new FontUtil(ColorUtil.TEXT_FONT, width / 16);
     }
 
     @Override
     public void drawComponent() {
-        RenderUtil.drawQuad(xPos, yPos, width, height, clicked ? Util.mainColor : Util.mainColor.darker());
+        RenderUtil.drawQuad(xPos, yPos, width, height, clicked ? ColorUtil.MAIN_COLOR : ColorUtil.MAIN_COLOR.darker());
         //    ScissorUtil.enableScissor();
         // ScissorUtil.scissor(xPos, yPos, width, height);
         fontUtil.drawString(displayText.toString(), xPos, yPos + height / 2 - fontUtil.getHeight() / 2, selectedAll ? Color.LIGHT_GRAY : textColor);

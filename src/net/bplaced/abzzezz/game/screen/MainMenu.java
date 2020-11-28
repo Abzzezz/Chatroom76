@@ -2,18 +2,14 @@ package net.bplaced.abzzezz.game.screen;
 
 import net.bplaced.abzzezz.engine.EngineCore;
 import net.bplaced.abzzezz.engine.ui.Screen;
-import net.bplaced.abzzezz.engine.ui.uicomponents.TextField;
 import net.bplaced.abzzezz.engine.utils.FontUtil;
-import net.bplaced.abzzezz.engine.utils.Util;
+import net.bplaced.abzzezz.engine.utils.ColorUtil;
 import net.bplaced.abzzezz.game.GameMain;
 
 public class MainMenu extends Screen {
 
-    protected FontUtil textFont;
-
     @Override
     public void init() {
-        textFont = new FontUtil(Util.textFont, 60);
 
         final int buttonWidth = 100, height = 15;
         final int xPos = getWidth() / 2 - buttonWidth / 2;
@@ -35,7 +31,7 @@ public class MainMenu extends Screen {
 
     @Override
     public void drawScreen() {
-        textFont.drawString("Chatroom76", getWidth() / 2 - textFont.getStringWidth("Chatroom76") / 2, getHeight() / 6, Util.TRANSPARENT_WHITE_75);
+        drawCenteredMenuString("Chatroom76", getWidth() / 2, getHeight() / 6);
         super.drawScreen();
     }
 

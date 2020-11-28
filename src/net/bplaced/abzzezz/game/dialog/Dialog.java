@@ -48,6 +48,10 @@ public class Dialog {
         metaData.put("created", DateFormat.getInstance().format(new Date())).put("last", 0);
     }
 
+    public void updateLine(final int last) {
+        metaData.put("last", last);
+    }
+
     public void save() {
         try {
             FileUtil.writeStringToFile(metaData.toString(), cfgFile);
@@ -92,4 +96,5 @@ public class Dialog {
     public File getAssets() {
         return assets;
     }
+
 }

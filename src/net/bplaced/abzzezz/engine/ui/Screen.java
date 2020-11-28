@@ -12,12 +12,13 @@ package net.bplaced.abzzezz.engine.ui;
 
 import net.bplaced.abzzezz.engine.ui.uicomponents.Button;
 import net.bplaced.abzzezz.engine.ui.uicomponents.UIComponent;
+import net.bplaced.abzzezz.engine.utils.ColorUtil;
 import org.lwjgl.opengl.Display;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public abstract class Screen {
+public abstract class Screen implements BasicComponent {
 
     private final List<UIComponent> uiComponents = new CopyOnWriteArrayList<>();
 
@@ -85,5 +86,9 @@ public abstract class Screen {
 
     public Button getButtonByID(float id) {
         return (Button) uiComponents.stream().filter(uiComponent -> uiComponent instanceof Button && ((Button) uiComponent).getId() == id).findFirst().get();
+    }
+
+    public void drawCenteredMenuString(final String string, final float xPos, final float yPos) {
+        bigFont.drawString(string, xPos - bigFont.getStringWidth(string) / 2, yPos, ColorUtil.MAIN_COLOR);
     }
 }

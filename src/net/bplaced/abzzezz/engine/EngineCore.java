@@ -15,14 +15,13 @@ import net.bplaced.abzzezz.engine.file.FileManager;
 import net.bplaced.abzzezz.engine.ui.Screen;
 import net.bplaced.abzzezz.engine.utils.LogType;
 import net.bplaced.abzzezz.engine.utils.Logger;
-import net.bplaced.abzzezz.engine.utils.Util;
+import net.bplaced.abzzezz.engine.utils.ColorUtil;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import java.awt.*;
 import java.io.File;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -276,18 +275,6 @@ public class EngineCore {
 
     public void setFileManager(FileManager fileManager) {
         this.fileManager = fileManager;
-    }
-
-    public void setTextColor(Color color) {
-        Util.textColor = color;
-    }
-
-    public void setMainColor(Color color) {
-        Util.mainColor = color;
-    }
-
-    public void setTextFont(String fontName) {
-        Util.textFont = fontName;
     }
 
     public interface OpenGLReference {

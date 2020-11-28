@@ -19,7 +19,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void init() {
-        this.textFont = new FontUtil(Util.textFont, 20);
+        this.textFont = new FontUtil(ColorUtil.TEXT_FONT, 20);
         this.mainInst = GameMain.getInstance();
         GameMain.getInstance().getDialogHandler().getNextDialog();
         super.init();

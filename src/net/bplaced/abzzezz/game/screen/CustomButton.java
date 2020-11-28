@@ -3,7 +3,7 @@ package net.bplaced.abzzezz.game.screen;
 import net.bplaced.abzzezz.engine.ui.uicomponents.Button;
 import net.bplaced.abzzezz.engine.utils.MouseUtil;
 import net.bplaced.abzzezz.engine.utils.RenderUtil;
-import net.bplaced.abzzezz.engine.utils.Util;
+import net.bplaced.abzzezz.engine.utils.ColorUtil;
 
 public class CustomButton extends Button {
 
@@ -28,8 +28,8 @@ public class CustomButton extends Button {
     @Override
     public void drawComponent() {
         final int quadHeight = getDimensions()[1] + d * 2;
-        RenderUtil.drawQuad(getXPos() - d, getYPos(), getDimensions()[0] + d * 2, quadHeight, Util.TRANSPARENT_WHITE_75);
-        textFont.drawString(getText(), getXPos() + getDimensions()[0] / 2 - textFont.getStringWidth(getText()) / 2, getYPos() + d / 2, Util.TRANSPARENT_WHITE_75);
+        RenderUtil.drawQuad(getXPos() - d, getYPos(), getDimensions()[0] + d * 2, quadHeight, ColorUtil.MAIN_COLOR);
+        textFont.drawString(getText(), getXPos() + getDimensions()[0] / 2 - textFont.getStringWidth(getText()) / 2, getYPos() + d / 2, ColorUtil.MAIN_COLOR);
     }
 
     @Override

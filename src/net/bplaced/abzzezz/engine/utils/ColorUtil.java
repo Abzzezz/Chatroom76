@@ -12,22 +12,20 @@ package net.bplaced.abzzezz.engine.utils;
 
 import java.awt.*;
 
-public class Util {
+public class ColorUtil {
 
     /**
      * Default set to white
      */
     public static final Color BACKGROUND_COLOR = Color.WHITE;
+
     /**
-     * Change color
+     * Main
      */
-    public static Color mainColor = new Color(255, 255, 255, 75);
+    public static final Color MAIN_COLOR = new Color(255, 255, 255, 75);
 
-    public static String textFont = "Terminal";
+    public static final String TEXT_FONT = "Terminal";
 
-    public static Color textColor = Color.WHITE;
-
-    public static final Color TRANSPARENT_WHITE_75 = new Color(255, 255, 255, 75);
-
+    public static final Color TEXT_COLOR = Color.WHITE;
 
 }

@@ -48,7 +48,7 @@ public class ListView implements UIComponent {
     @Override
     public void drawComponent() {
         int yBuffer = 0;
-        RenderUtil.drawQuad(xPos, yPos, width, height, Util.mainColor);
+        RenderUtil.drawQuad(xPos, yPos, width, height, ColorUtil.MAIN_COLOR);
         textFont.drawString(title, xPos, yPos - textFont.getHeight(), textColor);
 
         ScissorUtil.enableScissor();

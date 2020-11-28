@@ -4,17 +4,14 @@ import net.bplaced.abzzezz.engine.EngineCore;
 import net.bplaced.abzzezz.engine.ui.Screen;
 import net.bplaced.abzzezz.engine.ui.uicomponents.Progressbar;
 import net.bplaced.abzzezz.engine.ui.uicomponents.TextField;
-import net.bplaced.abzzezz.engine.utils.FontUtil;
-import net.bplaced.abzzezz.engine.utils.Util;
 import net.bplaced.abzzezz.game.GameMain;
 import org.lwjgl.input.Keyboard;
 
 public class ImportDialogScreen extends Screen {
 
-    protected FontUtil textFont;
     private final Screen parent;
-    private TextField textField;
-    private Progressbar progressbar;
+    private TextField textFieldURL;
+    private Progressbar downloadProgress;
 
     private final String title = "Import";
 
@@ -24,30 +21,29 @@ public class ImportDialogScreen extends Screen {
 
     @Override
     public void init() {
-        textFont = new FontUtil(Util.textFont, 60);
+        final int componentHeight = 20;
+        int size = bigFont.getStringWidth(title);
 
-        int size = textFont.getStringWidth(title);
-        getUiComponents().add(textField = new TextField(getWidth() / 2 - size / 2, getHeight() / 2, size, 20, "URL"));
+        final int xPos = getWidth() / 2 - size / 2;
 
-        final int componentWidth = 100, componentHeight = 15;
-        final int yPos = getHeight() - componentHeight * 3;
-        getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, yPos, componentWidth, componentHeight));
-        getUiComponents().add(progressbar = new Progressbar("Download",getWidth() / 2 - 50, getHeight() / 1.5F, componentWidth, componentHeight, 0, 100, 0));
+        getUiComponents().add(textFieldURL = new TextField(xPos, getHeight() / 2, size, componentHeight, "URL"));
+        getUiComponents().add(downloadProgress = new Progressbar("Download: ", xPos, getHeight() / 1.5F, size, componentHeight, 0, 0, 0));
 
+
+        getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, getHeight() - componentHeight * 3, 100, componentHeight));
         super.init();
     }
 
     @Override
     public void buttonPressed(float buttonID) {
-        if (buttonID == 1) GameMain.getInstance().getDialogHandler().downloadDialog(textField.toString());
-
+        if (buttonID == 1)
+            GameMain.getInstance().getDialogHandler().downloadDialog(textFieldURL.toString(), integer -> downloadProgress.setMax(integer), integer -> downloadProgress.increment(integer), s -> downloadProgress.setTitle("Download: " + s));
         super.buttonPressed(buttonID);
     }
 
     @Override
     public void drawScreen() {
-        textFont.drawString(title, getWidth() / 2 - textFont.getStringWidth(title) / 2, getHeight() / 6, Util.TRANSPARENT_WHITE_75);
-        progressbar.increment(1);
+        drawCenteredMenuString(title, getWidth() / 2, getHeight() / 6);
         super.drawScreen();
     }
 

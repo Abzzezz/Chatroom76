@@ -12,7 +12,7 @@ package net.bplaced.abzzezz.engine.ui.uicomponents;
 
 import net.bplaced.abzzezz.engine.utils.MouseUtil;
 import net.bplaced.abzzezz.engine.utils.RenderUtil;
-import net.bplaced.abzzezz.engine.utils.Util;
+import net.bplaced.abzzezz.engine.utils.ColorUtil;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -63,8 +63,8 @@ public class Slider implements UIComponent {
 
     @Override
     public void drawComponent() {
-        RenderUtil.drawQuad(xPos, yPos - height / 4, width, height, Util.TRANSPARENT_WHITE_75);
-        RenderUtil.drawQuad(xPos, yPos, current * step, height / 2, Util.mainColor);
+        RenderUtil.drawQuad(xPos, yPos - height / 4, width, height, ColorUtil.MAIN_COLOR);
+        RenderUtil.drawQuad(xPos, yPos, current * step, height / 2, ColorUtil.MAIN_COLOR);
         textFont.drawString(text + ":" + Math.round(current), xPos, yPos - height, textColor);
     }
 

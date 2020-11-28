@@ -11,14 +11,16 @@ import net.bplaced.abzzezz.game.dialog.DialogUtil;
 import net.bplaced.abzzezz.game.screen.GameScreen;
 import net.bplaced.abzzezz.game.screen.MainMenu;
 
-import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 
 public class DialogHandler {
@@ -166,9 +168,9 @@ public class DialogHandler {
             if (!Character.isDigit(keyChar)) return;
             final String valueOf = String.valueOf(keyChar);
             final int num = Integer.parseInt(valueOf);
-            if (num < options.size() && num > 0) {
+            if (num < options.size() && num >= 0) {
                 addToDialog(valueOf, Color.decode("#FB7E3F"));
-                lastLine = next(options.get(num - 1));
+                lastLine = next(options.get(num)) - 1;
                 pending = false;
                 getNextDialog();
             }
@@ -239,7 +241,6 @@ public class DialogHandler {
                 replaceInDialog(i, DialogUtil.DIR_KEY, this.dialogHolder.getDialogDir().getAbsolutePath());
         }
 
-
         for (final String s : remove) dialog.remove(s);
 
         this.defined.clear();
@@ -247,13 +248,12 @@ public class DialogHandler {
         Logger.log("Start line defined: " + lastLine, LogType.INFO);
     }
 
-    /**
-     * TODO: Add screen
-     */
-    public void downloadDialog(final String input) {
+
+    public void downloadDialog(final String input, final Consumer<Integer> totalBytes, final Consumer<Integer> downloadedBytes, final Consumer<String> downloadingFile) {
         new Thread(() -> {
-            if (input == null) return;
+            if (input == null || input.isEmpty()) return;
             Logger.log("Starting dialog download", LogType.INFO);
+
             final String fileName = input.substring(input.lastIndexOf('/') + 1);
 
             final Dialog newDialog = new Dialog(new File(EngineCore.getInstance().getMainDir(), fileName.substring(0, fileName.lastIndexOf('.'))));
@@ -261,6 +261,52 @@ public class DialogHandler {
             newDialog.save();
             try {
                 FileUtil.copyFileFromUrl(newDialog.getDialogFile(), new URL(input));
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+            //Import dialog assets
+
+            final Map<URL, File> assetList = new HashMap<>();
+            int totalSize = 0;
+
+            try {
+                for (String s : FileUtil.readListFromFile(newDialog.getDialogFile())) {
+                    final String[] split = s.split(" ");
+                    if (split[0].startsWith(DialogUtil.IMPORT_KEY)) {
+                        final File asset = new File(newDialog.getAssets(), split[1]);
+                        if (!asset.exists()) {
+                            try {
+                                final URL assetURL = new URL(split[2]);
+                                assetList.put(assetURL, asset);
+
+                                totalSize += assetURL.openConnection().getContentLength();
+
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+
+                totalBytes.accept(totalSize);
+
+                assetList.forEach((url, file) -> {
+                    downloadingFile.accept(file.getName().substring(0, file.getName().lastIndexOf(".")));
+
+                    try (final BufferedInputStream in = new BufferedInputStream(url.openStream());
+                         final FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+                        byte[] dataBuffer = new byte[1024];
+                        int bytesRead;
+                        while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+                            fileOutputStream.write(dataBuffer, 0, bytesRead);
+                            downloadedBytes.accept(bytesRead);
+                        }
+                    } catch (final IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                downloadingFile.accept("Done");
             } catch (final IOException e) {
                 e.printStackTrace();
             }
@@ -291,15 +337,16 @@ public class DialogHandler {
         return Color.decode(args.getOrDefault(DialogUtil.COLOR_ARGUMENT, DialogUtil.PLAIN_WHITE));
     }
 
+    private void replaceInDialog(final int index, final String old, final String replacement) {
+        dialog.set(index, dialog.get(index).replace(old, replacement));
+    }
+
     public void savePreviousDialog() {
         if (this.dialogHolder != null) {
+            dialogHolder.updateLine(0);
             dialogHolder.save();
             Logger.log("Saved previous state", LogType.INFO);
         }
-    }
-
-    private void replaceInDialog(final int index, final String old, final String replacement) {
-        dialog.set(index, dialog.get(index).replace(old, replacement));
     }
 
     public void deleteDialog(final Dialog dialog) {

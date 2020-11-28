@@ -11,22 +11,13 @@
 package net.bplaced.abzzezz.engine.ui.uicomponents;
 
 
-import net.bplaced.abzzezz.engine.EngineCore;
-import net.bplaced.abzzezz.engine.utils.FontUtil;
-import net.bplaced.abzzezz.engine.utils.Util;
+import net.bplaced.abzzezz.engine.ui.BasicComponent;
 
-import java.awt.*;
+/**
+ * UIComponent interface. Add this to own ui components
+ */
 
-public interface UIComponent {
-
-    /**
-     * UIComponent interface. Add this to own ui components
-     */
-
-    EngineCore engineCoreInstance = EngineCore.getInstance();
-    FontUtil textFont = new FontUtil(Util.textFont, 20);
-    Color textColor = Util.textColor;
-
+public interface UIComponent extends BasicComponent {
 
     void initComponent();
 
