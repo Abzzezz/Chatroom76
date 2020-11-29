@@ -15,7 +15,6 @@ import net.bplaced.abzzezz.engine.file.FileManager;
 import net.bplaced.abzzezz.engine.ui.Screen;
 import net.bplaced.abzzezz.engine.utils.LogType;
 import net.bplaced.abzzezz.engine.utils.Logger;
-import net.bplaced.abzzezz.engine.utils.ColorUtil;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;

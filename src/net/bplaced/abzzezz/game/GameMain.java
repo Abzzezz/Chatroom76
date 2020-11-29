@@ -42,8 +42,8 @@ public class GameMain {
         engineCore.setOpenGLReference(new EngineCore.OpenGLReference() {
             @Override
             public void onGLInitialised() {
-                glslShaderUtil = new GLSLShaderUtil(getClass().getResource("shaders/vertexshader.txt"), getClass().getResource("shaders/blurshader.txt"));
-                shader = new GLSLShaderUtil(getClass().getResource("shaders/vertexshader.txt"), getClass().getResource("shaders/shader.txt"));
+                glslShaderUtil = new GLSLShaderUtil(getClass().getResource("shaders/vertexshader.vert"), getClass().getResource("shaders/blurshader.txt"));
+                shader = new GLSLShaderUtil(getClass().getResource("shaders/vertexshader.vert"), getClass().getResource("shaders/shader.frag"));
             }
 
             @Override
