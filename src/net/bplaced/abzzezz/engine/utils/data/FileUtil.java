@@ -3,6 +3,8 @@ package net.bplaced.abzzezz.engine.utils.data;
 import java.io.*;
 import java.net.URL;
 import java.nio.channels.Channels;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,16 +24,22 @@ public class FileUtil {
     }
 
     public static String readFromFile(final File file) throws IOException {
-        return getLines(file).collect(Collectors.joining("\n"));
+        return String.join("\n", getLines(file));
     }
 
     public static List<String> readListFromFile(final File file) throws IOException {
-        return getLines(file).collect(Collectors.toList());
+        return Arrays.asList(getLines(file));
     }
 
-    public static Stream<String> getLines(final File file) throws IOException {
+    public static String[] getLines(final File file) throws IOException {
         final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-        return bufferedReader.lines();
+        final StringBuilder builder = new StringBuilder();
+        String line;
+        while((line = bufferedReader.readLine()) != null) {
+            builder.append(line).append("\n");
+        }
+        bufferedReader.close();
+        return builder.toString().split("\n");
     }
 
     public static void copyFileFromUrl(final File dest, final URL src) throws IOException {

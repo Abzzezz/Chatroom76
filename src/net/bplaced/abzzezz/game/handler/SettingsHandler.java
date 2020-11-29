@@ -11,7 +11,7 @@ public class SettingsHandler {
     private final List<Setting> settings = new ArrayList<>();
 
     public SettingsHandler() {
-        settings.add(new Setting("resolution", "1920x1080", true, "1920x1080", "1280x720"));
+        settings.add(new Setting("resolution", "600x600", true, "600x600", "900x900", "300x300", "500x500", "1200x1200"));
         settings.add(new Setting("volume", 0, 100, 50));
     }
 

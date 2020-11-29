@@ -29,15 +29,15 @@ public class SettingsScreen extends Screen {
                 case SWITCHER:
                 case LIST:
                     if (setting.getComponents() == null) break;
-                    component = new ListView(setting.getComponents(), xBuffer, yBuffer, 50, tag);
+                    component = new ListView(setting.getComponents(), xBuffer, yBuffer, 60, tag);
                     ((ListView) component).setClickListener((index, item) -> setting.setSelected(item.getObjectString()));
                     break;
                 case SLIDER:
-                    component = new Slider(tag, xBuffer, yBuffer, 100, 50, setting.getMin(), setting.getMax(), setting.getCurrent());
+                    component = new Slider(tag, xBuffer, yBuffer, 100, 60, setting.getMin(), setting.getMax(), setting.getCurrent());
                     ((Slider) component).setSliderListener(setting::setCurrent);
                     break;
                 case BOOL:
-                    component = new CheckBox(setting.isState(), xBuffer, yBuffer, 50, tag);
+                    component = new CheckBox(setting.isState(), xBuffer, yBuffer, 60, tag);
                     ((CheckBox) component).setStateChangedListener(setting::setState);
                     break;
                 default:

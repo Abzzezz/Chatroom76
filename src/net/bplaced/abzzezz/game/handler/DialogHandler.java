@@ -75,7 +75,7 @@ public class DialogHandler {
                 return dialog.indexOf(":".concat(split[1])) + 1;
 
             case DialogUtil.END_KEY:
-                GameMain.getInstance().getGlslShaderUtil().texture = -1;
+                GameMain.getInstance().getShader().texture = -1;
                 lastLine = 0;
                 savePreviousDialog();
                 EngineCore.getInstance().setScreen(new MainMenu());

@@ -44,14 +44,6 @@ public class Slider implements UIComponent {
         this.height = height;
     }
 
-    /**
-     * TODO: Move to abzzezz util
-     *
-     * @param val
-     * @param min
-     * @param max
-     * @return
-     */
     public static float clamp(float val, float min, float max) {
         return Math.max(min, Math.min(max, val));
     }
@@ -63,9 +55,9 @@ public class Slider implements UIComponent {
 
     @Override
     public void drawComponent() {
-        RenderUtil.drawQuad(xPos, yPos - height / 4, width, height, ColorUtil.MAIN_COLOR);
-        RenderUtil.drawQuad(xPos, yPos, current * step, height / 2, ColorUtil.MAIN_COLOR);
-        textFont.drawString(text + ":" + Math.round(current), xPos, yPos - height, textColor);
+        RenderUtil.drawQuad(xPos, yPos, width, height, ColorUtil.MAIN_COLOR);
+        RenderUtil.drawQuad(xPos, yPos + height / 4, current * step, height / 2, ColorUtil.MAIN_COLOR);
+        textFont.drawString(text + ":" + Math.round(current), xPos, yPos - textFont.getHeight(), textColor);
     }
 
     @Override

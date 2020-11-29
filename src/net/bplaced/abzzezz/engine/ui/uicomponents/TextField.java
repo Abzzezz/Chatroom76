@@ -30,7 +30,7 @@ public class TextField implements UIComponent {
     private FontUtil fontUtil;
 
     /*
-    TODO: More work, Adding to clipboard etc. Text moving, selecting. Make box able to keep up
+    TODO: More work, Adding to clipboard etc. Text moving, selecting
      */
     public TextField(float xPos, float yPos, String name) {
         this.xPos = xPos;
@@ -74,13 +74,9 @@ public class TextField implements UIComponent {
 
             if (KeyboardUtil.isControlA()) {
                 selectedAll = true;
-            }
-
-            if (KeyboardUtil.isDeleteAll()) {
+            } else if (KeyboardUtil.isDeleteAll()) {
                 deleteAllText();
-            }
-
-            if (KeyboardUtil.isControlV()) {
+            } else if (KeyboardUtil.isControlV()) {
                 displayText.append(KeyboardUtil.getClipboard());
             }
 

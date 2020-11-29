@@ -10,10 +10,12 @@
 
 package net.bplaced.abzzezz.engine.ui.uicomponents;
 
-import net.bplaced.abzzezz.engine.utils.*;
+import net.bplaced.abzzezz.engine.utils.ColorUtil;
+import net.bplaced.abzzezz.engine.utils.MouseUtil;
+import net.bplaced.abzzezz.engine.utils.RenderUtil;
+import net.bplaced.abzzezz.engine.utils.ScissorUtil;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -54,10 +56,10 @@ public class ListView implements UIComponent {
         ScissorUtil.enableScissor();
         ScissorUtil.scissor(xPos, yPos, width, height);
 
-        for (ListViewElement entry : list) {
+        for (final ListViewElement entry : list) {
             float entryY = yBuffer + yPos + scrollY;
 
-            if (entry.isHovered()) RenderUtil.drawQuad(xPos, entryY, width, textFont.getHeight(), Color.BLACK);
+            if (entry.isHovered()) RenderUtil.drawQuad(xPos, entryY, width, textFont.getHeight(), ColorUtil.MAIN_COLOR);
             textFont.drawString(entry.getObjectString(), xPos, entryY, textColor);
 
             entry.setyPos(entryY);
@@ -69,11 +71,12 @@ public class ListView implements UIComponent {
         if (Mouse.hasWheel() && yBuffer > height) {
             int wheel = Mouse.getDWheel() / 120;
             if (wheel < 0) {
-                if (!(scrollY > yBuffer))
+                if (scrollY < 0)
                     scrollY += textFont.getHeight();
             } else if (wheel > 0) {
-                if (!(scrollY < -yBuffer))
+                if (scrollY > -height)
                     scrollY -= textFont.getHeight();
+
             }
         }
 

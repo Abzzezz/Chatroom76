@@ -17,18 +17,18 @@ public class SettingsFile extends CustomFile {
     public void read() {
         try {
             FileUtil.readListFromFile(thisFile).forEach(s -> {
-                final JSONObject settings = new JSONObject(s);
-                GameMain.getInstance().getSettingsHandler().getSettingByTag(settings.getString("tag")).ifPresent(setting -> {
+                final JSONObject readObject = new JSONObject(s);
+                GameMain.getInstance().getSettingsHandler().getSettingByTag(readObject.getString("tag")).ifPresent(setting -> {
                     switch (setting.getSettingsType()) {
                         case BOOL:
-                            setting.setState(settings.getBoolean("val"));
+                            setting.setState(readObject.getBoolean("val"));
                             break;
                         case LIST:
                         case SWITCHER:
-                            setting.setSelected(settings.getString("val"));
+                            setting.setSelected(readObject.getString("val"));
                             break;
                         case SLIDER:
-                            setting.setCurrent(settings.getFloat("val"));
+                            setting.setCurrent(readObject.getFloat("val"));
                             break;
                         default:
                             break;
@@ -61,7 +61,7 @@ public class SettingsFile extends CustomFile {
                 default:
                     break;
             }
-            builder.append(jsonObject.toString());
+            builder.append(jsonObject.toString()).append("\n");
         });
         try {
             FileUtil.writeStringToFile(builder.toString(), thisFile);

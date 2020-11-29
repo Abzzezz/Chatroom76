@@ -74,7 +74,7 @@ public class GameMain {
 
     public void setShaderTexture(URL shaderTexture) {
         try {
-            this.glslShaderUtil.texture = TextureLoader.loadPNGTexture(shaderTexture);
+            this.shader.texture = TextureLoader.loadPNGTexture(shaderTexture);
         } catch (IOException e) {
             e.printStackTrace();
         }
