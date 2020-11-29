@@ -11,7 +11,7 @@
 package net.bplaced.abzzezz.core.util.render;
 
 
-import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.Core;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
@@ -23,7 +23,7 @@ public class FontUtil {
 
     public FontUtil(String fontName, int size) {
         try {
-            String fontDir = OpenGLCore.getInstance().getFontDir() + fontName + ".ttf";
+            String fontDir = Core.getInstance().getFontDir() + fontName + ".ttf";
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fontDir);
             Font awtFont = Font.createFont(Font.PLAIN, inputStream);
             this.unicodeFont = new UnicodeFont(awtFont, size, false, false);

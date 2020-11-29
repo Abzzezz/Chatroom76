@@ -1,15 +1,15 @@
 package net.bplaced.abzzezz.game;
 
-import net.bplaced.abzzezz.core.OpenGLCore;
-import net.bplaced.abzzezz.core.util.render.GLSLShaderUtil;
+import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
+import net.bplaced.abzzezz.core.util.render.GLSLShaderUtil;
+import net.bplaced.abzzezz.core.util.render.TextureLoader;
 import net.bplaced.abzzezz.game.file.SettingsFile;
 import net.bplaced.abzzezz.game.handler.DialogHandler;
 import net.bplaced.abzzezz.game.handler.SettingsHandler;
 import net.bplaced.abzzezz.game.screen.MainMenu;
 import net.bplaced.abzzezz.game.sounds.SoundPlayer;
-import net.bplaced.abzzezz.core.util.render.TextureLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,12 +34,12 @@ public class GameMain {
 
     private void startEngine() {
         //Initialise and start engine
-        final OpenGLCore openGLCore = new OpenGLCore(600, 600, new MainMenu());
-        openGLCore.setGameName(gameName);
-        openGLCore.setMainDir(new File(System.getProperty("user.home"), gameName));
-        openGLCore.addSaveFile(new SettingsFile());
+        final Core core = new Core(600, 600, new MainMenu());
+        core.setGameName(gameName);
+        core.setMainDir(new File(System.getenv("LOCALAPPDATA"), gameName));
+        core.addSaveFile(new SettingsFile());
 
-        openGLCore.setOpenGLReference(new OpenGLCore.OpenGLReference() {
+        core.setOpenGLReference(new Core.OpenGLReference() {
             @Override
             public void onGLInitialised() {
                 shader = new GLSLShaderUtil(getClass().getResource("util/shaders/vertexshader.vert"), getClass().getResource("util/shaders/backgroundShaderFragment.frag"));
@@ -51,7 +51,7 @@ public class GameMain {
             }
 
         });
-        openGLCore.start();
+        core.start();
 
     }
 

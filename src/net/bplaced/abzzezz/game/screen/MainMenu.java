@@ -1,6 +1,6 @@
 package net.bplaced.abzzezz.game.screen;
 
-import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
@@ -26,9 +26,9 @@ public class MainMenu extends BasicScreen {
     @Override
     public void buttonPressed(float buttonID) {
         if (buttonID == 0) {
-            OpenGLCore.getInstance().setScreen(new RoomScreen());
+            Core.getInstance().setScreen(new RoomScreen());
         } else if (buttonID == 1) {
-            OpenGLCore.getInstance().setScreen(new SettingsScreen());
+            Core.getInstance().setScreen(new SettingsScreen());
         }
         super.buttonPressed(buttonID);
     }

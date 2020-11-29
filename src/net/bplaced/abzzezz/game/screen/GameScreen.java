@@ -1,6 +1,6 @@
 package net.bplaced.abzzezz.game.screen;
 
-import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
@@ -75,7 +75,7 @@ public class GameScreen extends BasicScreen {
                 paused = !paused;
             } else if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth("Back to menu") / 2, getHeight() / 4 + textFont.getHeight(), textFont.getStringWidth("Back to menu"), textFont.getHeight())) {
                 mainInst.getDialogHandler().savePreviousDialog();
-                OpenGLCore.getInstance().setScreen(new RoomScreen());
+                Core.getInstance().setScreen(new RoomScreen());
             }
         } else
             mainInst.getDialogHandler().getNextDialog();

@@ -1,6 +1,6 @@
 package net.bplaced.abzzezz.game.screen;
 
-import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.CheckBox;
 import net.bplaced.abzzezz.core.ui.components.ListView;
@@ -66,7 +66,7 @@ public class SettingsScreen extends BasicScreen {
 
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
-        if (keyCode == Keyboard.KEY_ESCAPE) OpenGLCore.getInstance().setScreen(new MainMenu());
+        if (keyCode == Keyboard.KEY_ESCAPE) Core.getInstance().setScreen(new MainMenu());
         super.keyTyped(keyCode, keyTyped);
     }
 }

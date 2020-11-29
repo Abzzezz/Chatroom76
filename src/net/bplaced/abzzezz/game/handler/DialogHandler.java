@@ -1,6 +1,6 @@
 package net.bplaced.abzzezz.game.handler;
 
-import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
@@ -78,7 +78,7 @@ public class DialogHandler {
                 GameMain.INSTANCE.getShader().texture = -1;
                 lastLine = 0;
                 savePreviousDialog();
-                OpenGLCore.getInstance().setScreen(new MainMenu());
+                Core.getInstance().setScreen(new MainMenu());
                 return 0;
 
             case DialogUtil.BACKGROUND_CALL:
@@ -256,7 +256,7 @@ public class DialogHandler {
 
             final String fileName = input.substring(input.lastIndexOf('/') + 1);
 
-            final Dialog newDialog = new Dialog(new File(OpenGLCore.getInstance().getMainDir(), fileName.substring(0, fileName.lastIndexOf('.'))));
+            final Dialog newDialog = new Dialog(new File(Core.getInstance().getMainDir(), fileName.substring(0, fileName.lastIndexOf('.'))));
             newDialog.createMetaData();
             newDialog.save();
             try {
@@ -326,7 +326,7 @@ public class DialogHandler {
         } catch (final IOException e) {
             e.printStackTrace();
         }
-        OpenGLCore.getInstance().setScreen(new GameScreen());
+        Core.getInstance().setScreen(new GameScreen());
     }
 
     public String getColor(final Map<String, String> args) {

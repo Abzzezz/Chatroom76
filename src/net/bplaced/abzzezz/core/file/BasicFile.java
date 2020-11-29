@@ -10,14 +10,14 @@
 
 package net.bplaced.abzzezz.core.file;
 
-import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
 
 import java.io.File;
 import java.io.IOException;
 
-public class CustomFile {
+public class BasicFile {
 
     protected File thisFile;
 
@@ -26,8 +26,8 @@ public class CustomFile {
      *
      * @param fileName
      */
-    public CustomFile(String fileName) {
-        this.thisFile = new File(OpenGLCore.getInstance().getMainDir(), fileName);
+    public BasicFile(final String fileName) {
+        this.thisFile = new File(Core.getInstance().getMainDir(), fileName);
         if (!thisFile.exists()) {
             Logger.log("Creating new file", LogType.INFO);
             try {

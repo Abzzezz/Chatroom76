@@ -1,6 +1,6 @@
 package net.bplaced.abzzezz.game.screen;
 
-import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.render.FontUtil;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
@@ -25,8 +25,8 @@ public class RoomScreen extends BasicScreen {
     public void init() {
         this.dialogs = new ArrayList<>();
         this.textFont = new FontUtil(ColorUtil.TEXT_FONT, 20);
-        for (int i = 0; i < Objects.requireNonNull(OpenGLCore.getInstance().getMainDir().listFiles()).length; i++) {
-            File file = Objects.requireNonNull(OpenGLCore.getInstance().getMainDir().listFiles())[i];
+        for (int i = 0; i < Objects.requireNonNull(Core.getInstance().getMainDir().listFiles()).length; i++) {
+            File file = Objects.requireNonNull(Core.getInstance().getMainDir().listFiles())[i];
             if (!file.getName().contains(".")) {
                 dialogs.add(new Dialog(file).loadMetaData());
             }
@@ -42,7 +42,7 @@ public class RoomScreen extends BasicScreen {
     @Override
     public void buttonPressed(float buttonID) {
 
-        if (buttonID == 1) OpenGLCore.getInstance().setScreen(new ImportDialogScreen(this));
+        if (buttonID == 1) Core.getInstance().setScreen(new ImportDialogScreen(this));
         else if (buttonID == 2) GameMain.INSTANCE.getDialogHandler().deleteDialog(selected);
         else if (buttonID == 0) GameMain.INSTANCE.getDialogHandler().loadDialog(selected);
         super.buttonPressed(buttonID);
@@ -51,7 +51,7 @@ public class RoomScreen extends BasicScreen {
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
         if (keyCode == Keyboard.KEY_ESCAPE) {
-            OpenGLCore.getInstance().setScreen(new MainMenu());
+            Core.getInstance().setScreen(new MainMenu());
         }
         super.keyTyped(keyCode, keyTyped);
     }

@@ -1,6 +1,6 @@
 package net.bplaced.abzzezz.game.screen;
 
-import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Progressbar;
 import net.bplaced.abzzezz.core.ui.components.TextField;
@@ -55,7 +55,7 @@ public class ImportDialogScreen extends BasicScreen {
 
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
-        if (keyCode == Keyboard.KEY_ESCAPE) OpenGLCore.getInstance().setScreen(parent);
+        if (keyCode == Keyboard.KEY_ESCAPE) Core.getInstance().setScreen(parent);
         super.keyTyped(keyCode, keyTyped);
     }
 }

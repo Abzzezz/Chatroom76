@@ -10,7 +10,7 @@
 
 package net.bplaced.abzzezz.core;
 
-import net.bplaced.abzzezz.core.file.CustomFile;
+import net.bplaced.abzzezz.core.file.BasicFile;
 import net.bplaced.abzzezz.core.handler.FileHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.logging.LogType;
@@ -25,20 +25,27 @@ import java.io.File;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class OpenGLCore {
+/**
+ * Singleton Class for all basic core functionality
+ */
+public class Core {
 
-    private static OpenGLCore instance;
-    private final int width;
-    private final int height;
+    private static Core instance;
+
     private String gameName, fontDir;
-    private float gameVersion;
-    private BasicScreen basicScreen;
-    private File mainDir;
+
+    private final int width, height;
     private int fpsSync;
-    private OpenGLReference openGLReference;
+
+    private float gameVersion;
+
+    private File mainDir;
 
     private FileHandler fileHandler;
 
+    private BasicScreen basicScreen;
+
+    private OpenGLReference openGLReference;
     /**
      * Engine Core init. If left empty it gets auto set.
      *
@@ -49,7 +56,7 @@ public class OpenGLCore {
      * @param startBasicScreen
      * @param fpsSync
      */
-    public OpenGLCore(String gameName, float gameVersion, int width, int height, BasicScreen startBasicScreen, int fpsSync, File outDir, String fontDir) {
+    public Core(String gameName, float gameVersion, int width, int height, BasicScreen startBasicScreen, int fpsSync, File outDir, String fontDir) {
         this.gameName = gameName;
         this.gameVersion = gameVersion;
         this.fontDir = fontDir;
@@ -68,7 +75,7 @@ public class OpenGLCore {
      * @param height
      * @param startBasicScreen
      */
-    public OpenGLCore(int width, int height, BasicScreen startBasicScreen) {
+    public Core(int width, int height, BasicScreen startBasicScreen) {
         this.gameName = "Test Game";
         this.gameVersion = 1.0F;
         this.fontDir = "./font/";
@@ -80,7 +87,7 @@ public class OpenGLCore {
         this.initHeaders();
     }
 
-    public static OpenGLCore getInstance() {
+    public static Core getInstance() {
         return instance;
     }
 
@@ -240,7 +247,7 @@ public class OpenGLCore {
         this.openGLReference = openGLReference;
     }
 
-    public void addSaveFile(CustomFile file) {
+    public void addSaveFile(BasicFile file) {
         getFileManager().getFiles().add(file);
     }
 

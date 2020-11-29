@@ -1,13 +1,13 @@
 package net.bplaced.abzzezz.game.file;
 
-import net.bplaced.abzzezz.core.file.CustomFile;
+import net.bplaced.abzzezz.core.file.BasicFile;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class SettingsFile extends CustomFile {
+public class SettingsFile extends BasicFile {
 
     public SettingsFile() {
         super("Settings.data");

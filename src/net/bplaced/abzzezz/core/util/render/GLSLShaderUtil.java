@@ -112,8 +112,8 @@ public class GLSLShaderUtil {
         if (texture != -1) {
             //TODO: Move to method to bind one time
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
-            GL20.glUniform1f(GL20.glGetUniformLocation(program, "video"), 0);
+            glBindTexture(GL11.GL_TEXTURE_2D, texture);
+            GL20.glUniform1i(GL20.glGetUniformLocation(program, "tex"), 0);
         }
 
         glBegin(GL_QUADS);
@@ -124,6 +124,7 @@ public class GLSLShaderUtil {
             glVertex2d(-1.0f, -1.0f);
         }
         glEnd();
+
 
         if (shader) ARBShaderObjects.glUseProgramObjectARB(0);
     }
