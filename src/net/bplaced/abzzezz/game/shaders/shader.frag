@@ -25,16 +25,16 @@ vec4 texture( sampler2D  s, vec2 c)  { return texture2D(s,c); }
 void main( void ) {
 	vec2 position = gl_FragCoord.xy / resolution.xy;
 
-	vec3 vec = vec3(texture(iChannel0, vec2(0.1, 0.1)));
+	vec3 vec = vec3(texture(iChannel0, vec2(1, 1)));
 
 
-	vec *= rand(position, 0.0) / 2.0; // noise
-	vec.r += rand(position, PI) / 20.0;
-	vec.g += rand(position, PI * 2.0) / 20.0;
-	vec.b += rand(position, PI * 3.0) / 20.0;
+	gl_FragColor += rand(position, 0.0) / 2.0; // noise
+	gl_FragColor.r += rand(position, PI) / 20.0;
+	gl_FragColor.g += rand(position, PI * 2.0) / 20.0;
+	gl_FragColor.b += rand(position, PI * 3.0) / 20.0;
 
 	float scan_pos = mod(time, scan_period) / scan_period;
 	float random_height = rand(position, 10.0 * PI) / 80.0 + 0.02;
 	if(position.y > scan_pos - random_height && position.y < scan_pos + random_height)
-	gl_FragColor.rgb += vec3(1.);
+	gl_FragColor.rgb += vec4(vec, 1.0);
 }
