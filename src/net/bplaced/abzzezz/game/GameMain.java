@@ -1,15 +1,16 @@
 package net.bplaced.abzzezz.game;
 
-import net.bplaced.abzzezz.engine.EngineCore;
-import net.bplaced.abzzezz.engine.utils.GLSLShaderUtil;
-import net.bplaced.abzzezz.game.files.SettingsFile;
+import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.util.render.GLSLShaderUtil;
+import net.bplaced.abzzezz.core.util.logging.LogType;
+import net.bplaced.abzzezz.core.util.logging.Logger;
+import net.bplaced.abzzezz.game.file.SettingsFile;
 import net.bplaced.abzzezz.game.handler.DialogHandler;
 import net.bplaced.abzzezz.game.handler.SettingsHandler;
 import net.bplaced.abzzezz.game.screen.MainMenu;
 import net.bplaced.abzzezz.game.sounds.SoundPlayer;
-import net.bplaced.abzzezz.game.util.TextureLoader;
+import net.bplaced.abzzezz.core.util.render.TextureLoader;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -20,30 +21,28 @@ import java.net.URL;
 
 public class GameMain {
 
-    private static GameMain instance;
+    public final static GameMain INSTANCE = new GameMain();
+
+    private final String gameName = "Chatroom76";
 
     private DialogHandler dialogHandler;
     private SoundPlayer soundPlayer;
     private String serverURL;
     private SettingsHandler settingsHandler;
-    private GLSLShaderUtil glslShaderUtil, shader;
+    private GLSLShaderUtil shader;
 
-    public static GameMain getInstance() {
-        return instance;
-    }
 
     private void startEngine() {
         //Initialise and start engine
-        final EngineCore engineCore = new EngineCore(600, 600, new MainMenu());
-        engineCore.setGameName("Chatroom76");
-        engineCore.setMainDir(new File(System.getProperty("user.home"), "Chatroom76"));
-        engineCore.addSaveFile(new SettingsFile());
+        final OpenGLCore openGLCore = new OpenGLCore(600, 600, new MainMenu());
+        openGLCore.setGameName(gameName);
+        openGLCore.setMainDir(new File(System.getProperty("user.home"), gameName));
+        openGLCore.addSaveFile(new SettingsFile());
 
-        engineCore.setOpenGLReference(new EngineCore.OpenGLReference() {
+        openGLCore.setOpenGLReference(new OpenGLCore.OpenGLReference() {
             @Override
             public void onGLInitialised() {
-                glslShaderUtil = new GLSLShaderUtil(getClass().getResource("shaders/vertexshader.vert"), getClass().getResource("shaders/blurshader.txt"));
-                shader = new GLSLShaderUtil(getClass().getResource("shaders/vertexshader.vert"), getClass().getResource("shaders/shader.frag"));
+                shader = new GLSLShaderUtil(getClass().getResource("util/shaders/vertexshader.vert"), getClass().getResource("util/shaders/backgroundShaderFragment.frag"));
             }
 
             @Override
@@ -52,24 +51,20 @@ public class GameMain {
             }
 
         });
-        engineCore.start();
+        openGLCore.start();
 
     }
 
+    /**
+     * Initialise all handlers, then start engine
+     */
     public void initHandlers() {
-        /*
-        Handlers before Engine
-         */
-        instance = this;
         this.serverURL = "http://abzzezz.bplaced.net/Chatroom/";
         this.dialogHandler = new DialogHandler();
         this.settingsHandler = new SettingsHandler();
         this.soundPlayer = new SoundPlayer();
+        Logger.log("Handlers initialised", LogType.INFO);
         this.startEngine();
-    }
-
-    public GLSLShaderUtil getGlslShaderUtil() {
-        return glslShaderUtil;
     }
 
     public void setShaderTexture(URL shaderTexture) {
@@ -102,5 +97,29 @@ public class GameMain {
 
     public SoundPlayer getSoundPlayer() {
         return soundPlayer;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setDialogHandler(DialogHandler dialogHandler) {
+        this.dialogHandler = dialogHandler;
+    }
+
+    public void setSoundPlayer(SoundPlayer soundPlayer) {
+        this.soundPlayer = soundPlayer;
+    }
+
+    public void setServerURL(String serverURL) {
+        this.serverURL = serverURL;
+    }
+
+    public void setSettingsHandler(SettingsHandler settingsHandler) {
+        this.settingsHandler = settingsHandler;
+    }
+
+    public void setShader(GLSLShaderUtil shader) {
+        this.shader = shader;
     }
 }

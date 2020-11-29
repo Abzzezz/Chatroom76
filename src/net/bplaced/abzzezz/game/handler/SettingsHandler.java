@@ -1,6 +1,10 @@
 package net.bplaced.abzzezz.game.handler;
 
 import net.bplaced.abzzezz.game.settings.Setting;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +15,9 @@ public class SettingsHandler {
     private final List<Setting> settings = new ArrayList<>();
 
     public SettingsHandler() {
-        settings.add(new Setting("resolution", "600x600", true, "600x600", "900x900", "300x300", "500x500", "1200x1200"));
+        settings.add(new Setting("resolution", "600x600", true, "600x600", "900x900", "300x300", "500x500", "1200x1200").setSettingStateChangedListener(setting -> {
+            final String[] split = setting.getSelected().split("x");
+        }));
         settings.add(new Setting("volume", 0, 100, 50));
     }
 

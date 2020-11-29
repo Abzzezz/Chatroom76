@@ -1,17 +1,17 @@
 package net.bplaced.abzzezz.game.screen;
 
-import net.bplaced.abzzezz.engine.EngineCore;
-import net.bplaced.abzzezz.engine.ui.Screen;
-import net.bplaced.abzzezz.engine.ui.uicomponents.CheckBox;
-import net.bplaced.abzzezz.engine.ui.uicomponents.ListView;
-import net.bplaced.abzzezz.engine.ui.uicomponents.Slider;
-import net.bplaced.abzzezz.engine.ui.uicomponents.UIComponent;
+import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.ui.components.CheckBox;
+import net.bplaced.abzzezz.core.ui.components.ListView;
+import net.bplaced.abzzezz.core.ui.components.Slider;
+import net.bplaced.abzzezz.core.ui.components.UIComponent;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.settings.Setting;
 import org.lwjgl.input.Keyboard;
 
 
-public class SettingsScreen extends Screen {
+public class SettingsScreen extends BasicScreen {
 
 
     @Override
@@ -19,7 +19,7 @@ public class SettingsScreen extends Screen {
         int yBuffer = getHeight() / 4 + 15;
         int xBuffer = 50;
 
-        for (final Setting setting : GameMain.getInstance().getSettingsHandler().getSettings()) {
+        for (final Setting setting : GameMain.INSTANCE.getSettingsHandler().getSettings()) {
             if (yBuffer >= getHeight() - 100) {
                 xBuffer += 150;
             }
@@ -60,13 +60,13 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void drawShader() {
-        GameMain.getInstance().getShader().draw();
+        GameMain.INSTANCE.getShader().draw();
         super.drawShader();
     }
 
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
-        if (keyCode == Keyboard.KEY_ESCAPE) EngineCore.getInstance().setScreen(new MainMenu());
+        if (keyCode == Keyboard.KEY_ESCAPE) OpenGLCore.getInstance().setScreen(new MainMenu());
         super.keyTyped(keyCode, keyTyped);
     }
 }

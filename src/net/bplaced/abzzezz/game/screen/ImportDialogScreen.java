@@ -1,21 +1,21 @@
 package net.bplaced.abzzezz.game.screen;
 
-import net.bplaced.abzzezz.engine.EngineCore;
-import net.bplaced.abzzezz.engine.ui.Screen;
-import net.bplaced.abzzezz.engine.ui.uicomponents.Progressbar;
-import net.bplaced.abzzezz.engine.ui.uicomponents.TextField;
+import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.ui.components.Progressbar;
+import net.bplaced.abzzezz.core.ui.components.TextField;
 import net.bplaced.abzzezz.game.GameMain;
 import org.lwjgl.input.Keyboard;
 
-public class ImportDialogScreen extends Screen {
+public class ImportDialogScreen extends BasicScreen {
 
-    private final Screen parent;
+    private final BasicScreen parent;
     private TextField textFieldURL;
     private Progressbar downloadProgress;
 
     private final String title = "Import";
 
-    public ImportDialogScreen(final Screen parent) {
+    public ImportDialogScreen(final BasicScreen parent) {
         this.parent = parent;
     }
 
@@ -37,7 +37,7 @@ public class ImportDialogScreen extends Screen {
     @Override
     public void buttonPressed(float buttonID) {
         if (buttonID == 1)
-            GameMain.getInstance().getDialogHandler().downloadDialog(textFieldURL.toString(), integer -> downloadProgress.setMax(integer), integer -> downloadProgress.increment(integer), s -> downloadProgress.setTitle("Download: " + s));
+            GameMain.INSTANCE.getDialogHandler().downloadDialog(textFieldURL.toString(), integer -> downloadProgress.setMax(integer), integer -> downloadProgress.increment(integer), s -> downloadProgress.setTitle("Download: " + s));
         super.buttonPressed(buttonID);
     }
 
@@ -49,13 +49,13 @@ public class ImportDialogScreen extends Screen {
 
     @Override
     public void drawShader() {
-        GameMain.getInstance().getShader().draw();
+        GameMain.INSTANCE.getShader().draw();
         super.drawShader();
     }
 
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
-        if (keyCode == Keyboard.KEY_ESCAPE) EngineCore.getInstance().setScreen(parent);
+        if (keyCode == Keyboard.KEY_ESCAPE) OpenGLCore.getInstance().setScreen(parent);
         super.keyTyped(keyCode, keyTyped);
     }
 }

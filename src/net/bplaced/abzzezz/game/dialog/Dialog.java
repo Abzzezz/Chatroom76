@@ -1,6 +1,6 @@
 package net.bplaced.abzzezz.game.dialog;
 
-import net.bplaced.abzzezz.engine.utils.data.FileUtil;
+import net.bplaced.abzzezz.core.util.data.FileUtil;
 import org.json.JSONObject;
 
 import java.io.File;

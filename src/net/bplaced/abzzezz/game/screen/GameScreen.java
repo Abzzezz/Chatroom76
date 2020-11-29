@@ -1,8 +1,12 @@
 package net.bplaced.abzzezz.game.screen;
 
-import net.bplaced.abzzezz.engine.EngineCore;
-import net.bplaced.abzzezz.engine.ui.Screen;
-import net.bplaced.abzzezz.engine.utils.*;
+import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.util.io.MouseUtil;
+import net.bplaced.abzzezz.core.util.render.ColorUtil;
+import net.bplaced.abzzezz.core.util.render.FontUtil;
+import net.bplaced.abzzezz.core.util.render.RenderUtil;
+import net.bplaced.abzzezz.core.util.render.ScissorUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
 import org.lwjgl.input.Keyboard;
@@ -10,7 +14,7 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
-public class GameScreen extends Screen {
+public class GameScreen extends BasicScreen {
 
     private FontUtil textFont;
     private GameMain mainInst;
@@ -20,8 +24,8 @@ public class GameScreen extends Screen {
     @Override
     public void init() {
         this.textFont = new FontUtil(ColorUtil.TEXT_FONT, 20);
-        this.mainInst = GameMain.getInstance();
-        GameMain.getInstance().getDialogHandler().getNextDialog();
+        this.mainInst = GameMain.INSTANCE;
+        GameMain.INSTANCE.getDialogHandler().getNextDialog();
         super.init();
     }
 
@@ -60,7 +64,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void drawShader() {
-        GameMain.getInstance().getShader().draw();
+        GameMain.INSTANCE.getShader().draw();
         super.drawShader();
     }
 
@@ -71,7 +75,7 @@ public class GameScreen extends Screen {
                 paused = !paused;
             } else if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth("Back to menu") / 2, getHeight() / 4 + textFont.getHeight(), textFont.getStringWidth("Back to menu"), textFont.getHeight())) {
                 mainInst.getDialogHandler().savePreviousDialog();
-                EngineCore.getInstance().setScreen(new RoomScreen());
+                OpenGLCore.getInstance().setScreen(new RoomScreen());
             }
         } else
             mainInst.getDialogHandler().getNextDialog();

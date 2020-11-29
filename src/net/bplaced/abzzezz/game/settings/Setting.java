@@ -12,6 +12,7 @@ public class Setting {
     private List<String> components;
     private String selected;
     private float min, max, current;
+    private SettingStateChanged settingStateChangedListener;
 
     public Setting(String tag, boolean state) {
         this.tag = tag;
@@ -55,6 +56,7 @@ public class Setting {
 
     public void setState(boolean state) {
         this.state = state;
+        stateChanged();
     }
 
     public List<String> getComponents() {
@@ -63,6 +65,7 @@ public class Setting {
 
     public void setComponents(List<String> components) {
         this.components = components;
+        stateChanged();
     }
 
     public String getSelected() {
@@ -71,6 +74,7 @@ public class Setting {
 
     public void setSelected(String selected) {
         this.selected = selected;
+        stateChanged();
     }
 
     public float getMin() {
@@ -95,6 +99,21 @@ public class Setting {
 
     public void setCurrent(float current) {
         this.current = current;
+        stateChanged();
+    }
+
+    private void stateChanged() {
+        if (settingStateChangedListener != null)
+            settingStateChangedListener.stateChanged(this);
+    }
+
+    public Setting setSettingStateChangedListener(final SettingStateChanged settingStateChangedListener) {
+        this.settingStateChangedListener = settingStateChangedListener;
+        return this;
+    }
+
+    public interface SettingStateChanged {
+        void stateChanged(Setting setting);
     }
 }
 

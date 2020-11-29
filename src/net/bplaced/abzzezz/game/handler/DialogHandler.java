@@ -1,13 +1,13 @@
 package net.bplaced.abzzezz.game.handler;
 
-import net.bplaced.abzzezz.engine.EngineCore;
-import net.bplaced.abzzezz.engine.utils.LogType;
-import net.bplaced.abzzezz.engine.utils.Logger;
-import net.bplaced.abzzezz.engine.utils.data.FileUtil;
+import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.util.logging.LogType;
+import net.bplaced.abzzezz.core.util.logging.Logger;
+import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
-import net.bplaced.abzzezz.game.dialog.DialogUtil;
+import net.bplaced.abzzezz.game.util.dialog.DialogUtil;
 import net.bplaced.abzzezz.game.screen.GameScreen;
 import net.bplaced.abzzezz.game.screen.MainMenu;
 
@@ -75,15 +75,15 @@ public class DialogHandler {
                 return dialog.indexOf(":".concat(split[1])) + 1;
 
             case DialogUtil.END_KEY:
-                GameMain.getInstance().getShader().texture = -1;
+                GameMain.INSTANCE.getShader().texture = -1;
                 lastLine = 0;
                 savePreviousDialog();
-                EngineCore.getInstance().setScreen(new MainMenu());
+                OpenGLCore.getInstance().setScreen(new MainMenu());
                 return 0;
 
             case DialogUtil.BACKGROUND_CALL:
                 try {
-                    GameMain.getInstance().setShaderTexture(new File(getArguments(nextString).get(DialogUtil.PATH_ARGUMENT)).toURI().toURL());
+                    GameMain.INSTANCE.setShaderTexture(new File(getArguments(nextString).get(DialogUtil.PATH_ARGUMENT)).toURI().toURL());
                 } catch (final MalformedURLException e) {
                     Logger.log("Background texture not applied: " + e.getMessage(), LogType.ERROR);
                 }
@@ -119,7 +119,7 @@ public class DialogHandler {
                 return formatted;
 
             case DialogUtil.END_SOUNDS_CALL:
-                GameMain.getInstance().getSoundPlayer().stopSounds();
+                GameMain.INSTANCE.getSoundPlayer().stopSounds();
                 formatted[0] = args.getOrDefault(DialogUtil.TEXT_ARGUMENT, "");
                 return formatted;
             default:
@@ -182,7 +182,7 @@ public class DialogHandler {
         final Map<String, String> args = getArguments(format);
         final File file = new File(args.getOrDefault(DialogUtil.PATH_ARGUMENT, "").replace("\\", "\\\\"));
         final float volume = Float.parseFloat(args.getOrDefault(DialogUtil.VOLUME_ARGUMENT, "0"));
-        GameMain.getInstance().getSoundPlayer().playSound(file, volume);
+        GameMain.INSTANCE.getSoundPlayer().playSound(file, volume);
         return args.getOrDefault(DialogUtil.TEXT_ARGUMENT, "");
     }
 
@@ -256,7 +256,7 @@ public class DialogHandler {
 
             final String fileName = input.substring(input.lastIndexOf('/') + 1);
 
-            final Dialog newDialog = new Dialog(new File(EngineCore.getInstance().getMainDir(), fileName.substring(0, fileName.lastIndexOf('.'))));
+            final Dialog newDialog = new Dialog(new File(OpenGLCore.getInstance().getMainDir(), fileName.substring(0, fileName.lastIndexOf('.'))));
             newDialog.createMetaData();
             newDialog.save();
             try {
@@ -326,7 +326,7 @@ public class DialogHandler {
         } catch (final IOException e) {
             e.printStackTrace();
         }
-        EngineCore.getInstance().setScreen(new GameScreen());
+        OpenGLCore.getInstance().setScreen(new GameScreen());
     }
 
     public String getColor(final Map<String, String> args) {

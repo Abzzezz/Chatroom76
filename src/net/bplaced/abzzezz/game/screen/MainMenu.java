@@ -1,17 +1,13 @@
 package net.bplaced.abzzezz.game.screen;
 
-import net.bplaced.abzzezz.engine.EngineCore;
-import net.bplaced.abzzezz.engine.ui.Screen;
-import net.bplaced.abzzezz.engine.utils.FontUtil;
-import net.bplaced.abzzezz.engine.utils.ColorUtil;
-import net.bplaced.abzzezz.engine.utils.RenderUtil;
-import net.bplaced.abzzezz.engine.utils.TimeUtil;
+import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.util.render.ColorUtil;
+import net.bplaced.abzzezz.core.util.render.RenderUtil;
+import net.bplaced.abzzezz.core.util.TimeUtil;
 import net.bplaced.abzzezz.game.GameMain;
 
-import javax.swing.plaf.ColorUIResource;
-import java.util.concurrent.TimeUnit;
-
-public class MainMenu extends Screen {
+public class MainMenu extends BasicScreen {
 
 
     private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
@@ -30,9 +26,9 @@ public class MainMenu extends Screen {
     @Override
     public void buttonPressed(float buttonID) {
         if (buttonID == 0) {
-            EngineCore.getInstance().setScreen(new RoomScreen());
+            OpenGLCore.getInstance().setScreen(new RoomScreen());
         } else if (buttonID == 1) {
-            EngineCore.getInstance().setScreen(new SettingsScreen());
+            OpenGLCore.getInstance().setScreen(new SettingsScreen());
         }
         super.buttonPressed(buttonID);
     }
@@ -55,7 +51,7 @@ public class MainMenu extends Screen {
 
     @Override
     public void drawShader() {
-        GameMain.getInstance().getShader().draw();
+        GameMain.INSTANCE.getShader().draw();
         super.drawShader();
     }
 }

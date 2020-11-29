@@ -1,11 +1,11 @@
 package net.bplaced.abzzezz.game.screen;
 
-import net.bplaced.abzzezz.engine.EngineCore;
-import net.bplaced.abzzezz.engine.ui.Screen;
-import net.bplaced.abzzezz.engine.utils.FontUtil;
-import net.bplaced.abzzezz.engine.utils.MouseUtil;
-import net.bplaced.abzzezz.engine.utils.RenderUtil;
-import net.bplaced.abzzezz.engine.utils.ColorUtil;
+import net.bplaced.abzzezz.core.OpenGLCore;
+import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.util.render.FontUtil;
+import net.bplaced.abzzezz.core.util.io.MouseUtil;
+import net.bplaced.abzzezz.core.util.render.RenderUtil;
+import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import org.lwjgl.input.Keyboard;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class RoomScreen extends Screen {
+public class RoomScreen extends BasicScreen {
 
     protected FontUtil textFont;
     private List<Dialog> dialogs;
@@ -25,8 +25,8 @@ public class RoomScreen extends Screen {
     public void init() {
         this.dialogs = new ArrayList<>();
         this.textFont = new FontUtil(ColorUtil.TEXT_FONT, 20);
-        for (int i = 0; i < Objects.requireNonNull(EngineCore.getInstance().getMainDir().listFiles()).length; i++) {
-            File file = Objects.requireNonNull(EngineCore.getInstance().getMainDir().listFiles())[i];
+        for (int i = 0; i < Objects.requireNonNull(OpenGLCore.getInstance().getMainDir().listFiles()).length; i++) {
+            File file = Objects.requireNonNull(OpenGLCore.getInstance().getMainDir().listFiles())[i];
             if (!file.getName().contains(".")) {
                 dialogs.add(new Dialog(file).loadMetaData());
             }
@@ -42,16 +42,16 @@ public class RoomScreen extends Screen {
     @Override
     public void buttonPressed(float buttonID) {
 
-        if (buttonID == 1) EngineCore.getInstance().setScreen(new ImportDialogScreen(this));
-        else if (buttonID == 2) GameMain.getInstance().getDialogHandler().deleteDialog(selected);
-        else if (buttonID == 0) GameMain.getInstance().getDialogHandler().loadDialog(selected);
+        if (buttonID == 1) OpenGLCore.getInstance().setScreen(new ImportDialogScreen(this));
+        else if (buttonID == 2) GameMain.INSTANCE.getDialogHandler().deleteDialog(selected);
+        else if (buttonID == 0) GameMain.INSTANCE.getDialogHandler().loadDialog(selected);
         super.buttonPressed(buttonID);
     }
 
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
         if (keyCode == Keyboard.KEY_ESCAPE) {
-            EngineCore.getInstance().setScreen(new MainMenu());
+            OpenGLCore.getInstance().setScreen(new MainMenu());
         }
         super.keyTyped(keyCode, keyTyped);
     }
@@ -90,7 +90,7 @@ public class RoomScreen extends Screen {
 
     @Override
     public void drawShader() {
-        GameMain.getInstance().getShader().draw();
+        GameMain.INSTANCE.getShader().draw();
         super.drawShader();
     }
 }
