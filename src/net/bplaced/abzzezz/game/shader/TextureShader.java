@@ -14,7 +14,7 @@ public class TextureShader extends ShaderProgram {
 
     @Override
     public void render() {
-        if(sampler != -1) {
+        if (sampler != -1) {
             bind();
             bindTexture(sampler);
             setUniform2f("resolution", Display.getWidth(), Display.getHeight());

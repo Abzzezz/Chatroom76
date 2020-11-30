@@ -11,7 +11,6 @@ import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 
 import java.awt.*;
 

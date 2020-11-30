@@ -159,9 +159,9 @@ public class ShaderProgram {
 
     private int getUniformLocation(final String uniform) {
         if (GameMain.INSTANCE.getShaderHandler().getProgramUniformLocationMap().containsKey(program) &&
-            GameMain.INSTANCE.getShaderHandler().getProgramUniformLocationMap().get(program).containsKey(uniform)) {
+                GameMain.INSTANCE.getShaderHandler().getProgramUniformLocationMap().get(program).containsKey(uniform)) {
             return GameMain.INSTANCE.getShaderHandler().getProgramUniformLocationMap().get(program).get(uniform);
-        } else{
+        } else {
             final int loc = glGetUniformLocation(program, uniform);
             if (loc == -1) return -1;
             GameMain.INSTANCE.getShaderHandler().putUniformLocation(program, uniform, loc);

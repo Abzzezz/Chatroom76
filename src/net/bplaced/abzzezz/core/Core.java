@@ -16,6 +16,7 @@ import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -79,7 +80,7 @@ public class Core {
         this.gameVersion = 1.0F;
         this.fontDir = "./font/";
         this.basicScreen = startBasicScreen;
-        this.fpsSync = 60;
+        this.fpsSync = 144;
         this.mainDir = new File(System.getProperty("user.home"), gameName);
         this.width = width;
         this.height = height;
@@ -130,7 +131,6 @@ public class Core {
      */
     private void run(int width, int height) {
         initGL(width, height);
-
         while (true) {
             update();
             Display.update();
