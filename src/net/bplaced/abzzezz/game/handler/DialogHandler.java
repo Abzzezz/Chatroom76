@@ -83,7 +83,6 @@ public class DialogHandler {
 
             case DialogUtil.BACKGROUND_CALL:
                 final Map<String, String> args = getArguments(nextString);
-
                 try {
                     GameMain.INSTANCE.getShaderHandler().getTextureShader().setSampler(TextureLoader.loadPNGTexture(new File(args.get(DialogUtil.PATH_ARGUMENT)).toURI().toURL()));
                     GameMain.INSTANCE.getShaderHandler().getTextureShader().setOpacity(Float.parseFloat(args.getOrDefault(DialogUtil.BACKGROUND_OPACITY_ARGUMENT, "100")) / 100);

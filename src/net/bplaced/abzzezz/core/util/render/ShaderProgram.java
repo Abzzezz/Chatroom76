@@ -15,7 +15,6 @@ import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
 import net.bplaced.abzzezz.game.GameMain;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
 import java.io.IOException;
@@ -30,7 +29,7 @@ import static org.lwjgl.opengl.GL20.*;
 
 public class ShaderProgram {
 
-    public int program;
+    private final int program;
     protected float speed;
 
     public ShaderProgram(final String vertexShader, final String fragmentShader) {
@@ -75,9 +74,13 @@ public class ShaderProgram {
         glLinkProgramARB(program);
         glValidateProgramARB(program);
 
-        if (glGetObjectParameteriARB(program, GL_OBJECT_LINK_STATUS_ARB) == GL_FALSE) { Logger.log("Shader-link:" + getLogInfo(program), LogType.ERROR); }
+        if (glGetObjectParameteriARB(program, GL_OBJECT_LINK_STATUS_ARB) == GL_FALSE) {
+            Logger.log("Shader-link:" + getLogInfo(program), LogType.ERROR);
+        }
 
-        if (glGetObjectParameteriARB(program, GL_OBJECT_VALIDATE_STATUS_ARB) == GL_FALSE) { Logger.log("Shader-validation:" + getLogInfo(program), LogType.ERROR); }
+        if (glGetObjectParameteriARB(program, GL_OBJECT_VALIDATE_STATUS_ARB) == GL_FALSE) {
+            Logger.log("Shader-validation:" + getLogInfo(program), LogType.ERROR);
+        }
 
     }
 
@@ -121,36 +124,48 @@ public class ShaderProgram {
     }
 
     public void setUniform1i(final String uniform, final int value) {
-        final int loc = glGetUniformLocation(program, uniform);
+        final int loc = getUniformLocation(uniform);
         if (loc == -1) return;
 
         glUniform1i(loc, value);
     }
 
     public void setUniform1f(final String uniform, final float value) {
-        final int loc = glGetUniformLocation(program, uniform);
+        final int loc = getUniformLocation(uniform);
         if (loc == -1) return;
 
         glUniform1f(loc, value);
     }
 
     public void setUniform2f(final String uniform, final float value0, final float value1) {
-        final int loc = glGetUniformLocation(program, uniform);
+        final int loc = getUniformLocation(uniform);
         if (loc == -1) return;
         glUniform2f(loc, value0, value1);
     }
 
     public void setUniform3i(final String uniform, final int... values) {
-        final int loc = glGetUniformLocation(program, uniform);
+        final int loc = getUniformLocation(uniform);
         if (loc == -1) return;
 
         glUniform3i(loc, values[0], values[1], values[2]);
     }
 
     public void setUniform4i(final String uniform, final int... values) {
-        final int loc = glGetUniformLocation(program, uniform);
+        final int loc = getUniformLocation(uniform);
         if (loc == -1) return;
 
         glUniform4i(loc, values[0], values[1], values[2], values[3]);
+    }
+
+    private int getUniformLocation(final String uniform) {
+        if (GameMain.INSTANCE.getShaderHandler().getProgramUniformLocationMap().containsKey(program) &&
+            GameMain.INSTANCE.getShaderHandler().getProgramUniformLocationMap().get(program).containsKey(uniform)) {
+            return GameMain.INSTANCE.getShaderHandler().getProgramUniformLocationMap().get(program).get(uniform);
+        } else{
+            final int loc = glGetUniformLocation(program, uniform);
+            if (loc == -1) return -1;
+            GameMain.INSTANCE.getShaderHandler().putUniformLocation(program, uniform, loc);
+            return loc;
+        }
     }
 }
