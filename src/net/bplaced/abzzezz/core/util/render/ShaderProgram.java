@@ -116,7 +116,7 @@ public class ShaderProgram {
     protected void bindTexture(final int sampler) {
         if (sampler >= 0 && sampler <= 36) {
             glActiveTexture(GL13.GL_TEXTURE0);
-            glBindTexture(GL11.GL_TEXTURE_2D, sampler);
+            glBindTexture(GL_TEXTURE_2D, sampler);
         }
     }
 
@@ -134,10 +134,10 @@ public class ShaderProgram {
         glUniform1f(loc, value);
     }
 
-    public void setUniform2i(final String uniform, final int value0, final int value1) {
+    public void setUniform2f(final String uniform, final float value0, final float value1) {
         final int loc = glGetUniformLocation(program, uniform);
         if (loc == -1) return;
-        glUniform2i(loc, value0, value1);
+        glUniform2f(loc, value0, value1);
     }
 
     public void setUniform3i(final String uniform, final int... values) {

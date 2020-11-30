@@ -7,7 +7,7 @@ import net.bplaced.abzzezz.core.ui.components.ListView;
 import net.bplaced.abzzezz.core.ui.components.Slider;
 import net.bplaced.abzzezz.core.ui.components.UIComponent;
 import net.bplaced.abzzezz.game.GameMain;
-import net.bplaced.abzzezz.game.settings.Setting;
+import net.bplaced.abzzezz.game.setting.Setting;
 import org.lwjgl.input.Keyboard;
 
 

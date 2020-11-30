@@ -25,11 +25,10 @@ float rand(vec2 co, float off)
 }
 
 
-
 void main(void) {
     vec2 position = gl_FragCoord.xy / resolution.xy;
 
-    gl_FragColor += rand(position, 1.0) / 1.0;// noise
+    gl_FragColor += rand(position, 1.0) / 2.0;// noise
     gl_FragColor.r += rand(position, PI) / 20.0;
     gl_FragColor.g += rand(position, PI * 2.0) / 20.0;
     gl_FragColor.b += rand(position, PI * 3.0) / 20.0;

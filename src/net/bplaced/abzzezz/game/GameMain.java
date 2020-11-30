@@ -7,11 +7,10 @@ import net.bplaced.abzzezz.game.file.SettingsFile;
 import net.bplaced.abzzezz.game.handler.DialogHandler;
 import net.bplaced.abzzezz.game.handler.SettingsHandler;
 import net.bplaced.abzzezz.game.handler.ShaderHandler;
-import net.bplaced.abzzezz.game.sounds.SoundPlayer;
+import net.bplaced.abzzezz.game.sound.SoundPlayer;
 import net.bplaced.abzzezz.game.ui.screen.MainMenu;
 
 import java.io.File;
-import java.net.URL;
 
 /**
  * Singleton main

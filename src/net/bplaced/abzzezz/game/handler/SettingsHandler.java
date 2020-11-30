@@ -1,6 +1,6 @@
 package net.bplaced.abzzezz.game.handler;
 
-import net.bplaced.abzzezz.game.settings.Setting;
+import net.bplaced.abzzezz.game.setting.Setting;
 
 import java.util.ArrayList;
 import java.util.List;

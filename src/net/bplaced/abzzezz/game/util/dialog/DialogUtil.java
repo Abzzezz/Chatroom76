@@ -49,6 +49,7 @@ public class DialogUtil {
     public static final String TEXTURE_ARGUMENT = "texture";
     public static final String PATH_ARGUMENT = "path";
     public static final String VOLUME_ARGUMENT = "vol";
+    public static final String BACKGROUND_OPACITY_ARGUMENT = "opacity";
 
     public static final String VARIABLE_ARGUMENT = "v";
     public static final String DEFINE_ARGUMENT = "as";

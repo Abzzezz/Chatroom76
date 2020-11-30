@@ -5,7 +5,8 @@ import org.lwjgl.opengl.Display;
 
 public class TextureShader extends ShaderProgram {
 
-    private int sampler = 0;
+    private int sampler = -1;
+    private float opacity;
 
     public TextureShader() {
         super("basicPosVertex.vert", "textureShader.frag");
@@ -13,15 +14,23 @@ public class TextureShader extends ShaderProgram {
 
     @Override
     public void render() {
-        bind();
-        bindTexture(sampler);
-        setUniform2i("resolution", Display.getWidth(), Display.getHeight());
-        setUniform1i("tex", 0);
-        super.render();
-        unbind();
+        if(sampler != -1) {
+            bind();
+            bindTexture(sampler);
+            setUniform2f("resolution", Display.getWidth(), Display.getHeight());
+            setUniform1f("opacity", opacity);
+            setUniform1i("tex", 0);
+            super.render();
+            unbind();
+        }
+    }
+
+    public void setOpacity(float opacity) {
+        this.opacity = opacity;
     }
 
     public void setSampler(final int sampler) {
         this.sampler = sampler;
     }
+
 }

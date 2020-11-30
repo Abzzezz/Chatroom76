@@ -6,14 +6,14 @@ import org.lwjgl.opengl.Display;
 public class BackgroundShader extends ShaderProgram {
 
     public BackgroundShader() {
-        super("basicPosVertex.vert", "blurshader.frag");
+        super("basicPosVertex.vert", "backgroundShader.frag");
     }
 
     @Override
     public void render() {
         bind();
         setUniform1f("time", speed);
-        setUniform2i("resolution", Display.getWidth(), Display.getHeight());
+        setUniform2f("resolution", Display.getWidth(), Display.getHeight());
         super.render();
         unbind();
     }

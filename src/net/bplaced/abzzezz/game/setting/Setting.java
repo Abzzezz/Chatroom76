@@ -1,4 +1,4 @@
-package net.bplaced.abzzezz.game.settings;
+package net.bplaced.abzzezz.game.setting;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.bplaced.abzzezz.game.settings;
+package net.bplaced.abzzezz.game.setting;
 
 public enum SettingsType {
 

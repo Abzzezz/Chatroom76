@@ -1,4 +1,4 @@
-package net.bplaced.abzzezz.game.sounds;
+package net.bplaced.abzzezz.game.sound;
 
 import net.bplaced.abzzezz.game.GameMain;
 import org.newdawn.slick.Music;
