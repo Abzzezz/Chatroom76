@@ -1,19 +1,19 @@
-package net.bplaced.abzzezz.game.screen;
+package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Progressbar;
 import net.bplaced.abzzezz.core.ui.components.TextField;
 import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.game.ui.button.CustomButton;
 import org.lwjgl.input.Keyboard;
 
 public class ImportDialogScreen extends BasicScreen {
 
     private final BasicScreen parent;
+    private final String title = "Import";
     private TextField textFieldURL;
     private Progressbar downloadProgress;
-
-    private final String title = "Import";
 
     public ImportDialogScreen(final BasicScreen parent) {
         this.parent = parent;
@@ -49,7 +49,7 @@ public class ImportDialogScreen extends BasicScreen {
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShader().draw();
+        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().render();
         super.drawShader();
     }
 

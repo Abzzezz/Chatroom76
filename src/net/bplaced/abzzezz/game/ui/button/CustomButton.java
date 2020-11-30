@@ -1,9 +1,9 @@
-package net.bplaced.abzzezz.game.screen;
+package net.bplaced.abzzezz.game.ui.button;
 
 import net.bplaced.abzzezz.core.ui.components.Button;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
-import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
+import net.bplaced.abzzezz.core.util.render.RenderUtil;
 
 public class CustomButton extends Button {
 

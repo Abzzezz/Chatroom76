@@ -31,10 +31,8 @@ import static org.lwjgl.opengl.GL11.*;
 public class Core {
 
     private static Core instance;
-
-    private String gameName, fontDir;
-
     private final int width, height;
+    private String gameName, fontDir;
     private int fpsSync;
 
     private float gameVersion;
@@ -46,6 +44,7 @@ public class Core {
     private BasicScreen basicScreen;
 
     private OpenGLReference openGLReference;
+
     /**
      * Engine Core init. If left empty it gets auto set.
      *
@@ -131,7 +130,6 @@ public class Core {
      */
     private void run(int width, int height) {
         initGL(width, height);
-        if (openGLReference != null) openGLReference.onGLInitialised();
 
         while (true) {
             update();
@@ -187,6 +185,7 @@ public class Core {
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glViewport(0, 0, width, height);
+        if (openGLReference != null) openGLReference.onGLInitialised();
         basicScreen.init();
     }
 

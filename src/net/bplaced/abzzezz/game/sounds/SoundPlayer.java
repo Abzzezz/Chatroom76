@@ -1,7 +1,6 @@
 package net.bplaced.abzzezz.game.sounds;
 
 import net.bplaced.abzzezz.game.GameMain;
-import net.bplaced.abzzezz.game.settings.Setting;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 

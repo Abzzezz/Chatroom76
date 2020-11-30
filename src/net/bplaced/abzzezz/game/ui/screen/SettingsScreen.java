@@ -1,4 +1,4 @@
-package net.bplaced.abzzezz.game.screen;
+package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
@@ -60,7 +60,7 @@ public class SettingsScreen extends BasicScreen {
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShader().draw();
+        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().render();
         super.drawShader();
     }
 

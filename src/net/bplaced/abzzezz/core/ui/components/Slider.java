@@ -11,8 +11,8 @@
 package net.bplaced.abzzezz.core.ui.components;
 
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
-import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
+import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 

@@ -1,4 +1,4 @@
-package net.bplaced.abzzezz.game.screen;
+package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
@@ -11,6 +11,7 @@ import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 import java.awt.*;
 
@@ -64,7 +65,9 @@ public class GameScreen extends BasicScreen {
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShader().draw();
+        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().render();
+        GameMain.INSTANCE.getShaderHandler().getTextureShader().render();
+
         super.drawShader();
     }
 

@@ -1,11 +1,12 @@
-package net.bplaced.abzzezz.game.screen;
+package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.util.TimeUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
-import net.bplaced.abzzezz.core.util.TimeUtil;
 import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.game.ui.button.CustomButton;
 
 public class MainMenu extends BasicScreen {
 
@@ -37,9 +38,8 @@ public class MainMenu extends BasicScreen {
     public void drawScreen() {
         drawCenteredMenuString("Chatroom76", getWidth() / 2, getHeight() / 6);
 
-
-        if(bounceTime.isTimeOver(1000)) {
-            if(bounceTime2.isTimeOver(1600)) {
+        if (bounceTime.isTimeOver(1000)) {
+            if (bounceTime2.isTimeOver(1600)) {
                 bounceTime2.reset();
                 bounceTime.reset();
             }
@@ -51,7 +51,7 @@ public class MainMenu extends BasicScreen {
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShader().draw();
+        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().render();
         super.drawShader();
     }
 }

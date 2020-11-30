@@ -1,15 +1,16 @@
 package net.bplaced.abzzezz.game.handler;
 
 import net.bplaced.abzzezz.core.Core;
+import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
-import net.bplaced.abzzezz.core.util.data.FileUtil;
+import net.bplaced.abzzezz.core.util.render.TextureLoader;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
+import net.bplaced.abzzezz.game.ui.screen.GameScreen;
+import net.bplaced.abzzezz.game.ui.screen.MainMenu;
 import net.bplaced.abzzezz.game.util.dialog.DialogUtil;
-import net.bplaced.abzzezz.game.screen.GameScreen;
-import net.bplaced.abzzezz.game.screen.MainMenu;
 
 import java.awt.*;
 import java.io.BufferedInputStream;
@@ -75,7 +76,6 @@ public class DialogHandler {
                 return dialog.indexOf(":".concat(split[1])) + 1;
 
             case DialogUtil.END_KEY:
-                GameMain.INSTANCE.getShader().texture = -1;
                 lastLine = 0;
                 savePreviousDialog();
                 Core.getInstance().setScreen(new MainMenu());
@@ -83,9 +83,11 @@ public class DialogHandler {
 
             case DialogUtil.BACKGROUND_CALL:
                 try {
-                    GameMain.INSTANCE.setShaderTexture(new File(getArguments(nextString).get(DialogUtil.PATH_ARGUMENT)).toURI().toURL());
+                    GameMain.INSTANCE.getShaderHandler().getTextureShader().setSampler(TextureLoader.loadPNGTexture(new File(getArguments(nextString).get(DialogUtil.PATH_ARGUMENT)).toURI().toURL()));
                 } catch (final MalformedURLException e) {
                     Logger.log("Background texture not applied: " + e.getMessage(), LogType.ERROR);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
                 return lastLine + 2;
             default:

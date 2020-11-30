@@ -10,10 +10,10 @@
 
 package net.bplaced.abzzezz.core.ui.components;
 
-import net.bplaced.abzzezz.core.util.io.MouseUtil;
-import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.core.util.animation.AnimationUtil;
 import net.bplaced.abzzezz.core.util.animation.easing.Sine;
+import net.bplaced.abzzezz.core.util.io.MouseUtil;
+import net.bplaced.abzzezz.core.util.render.RenderUtil;
 
 import java.awt.*;
 

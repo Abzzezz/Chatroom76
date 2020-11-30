@@ -1,10 +1,6 @@
 package net.bplaced.abzzezz.game.handler;
 
 import net.bplaced.abzzezz.game.settings.Setting;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.List;

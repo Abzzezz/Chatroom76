@@ -1,16 +1,15 @@
 package net.bplaced.abzzezz.core.ui.components;
 
-import net.bplaced.abzzezz.core.util.render.RenderUtil;
-import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.animation.AnimationUtil;
 import net.bplaced.abzzezz.core.util.animation.easing.Quint;
+import net.bplaced.abzzezz.core.util.render.ColorUtil;
+import net.bplaced.abzzezz.core.util.render.RenderUtil;
 
 public class Progressbar implements UIComponent {
 
     private final AnimationUtil animationUtil;
-
-    private float min, max, current;
     private final float xPos, yPos, width, height;
+    private float min, max, current;
     private float step;
     private String title;
 
@@ -35,7 +34,7 @@ public class Progressbar implements UIComponent {
     public void drawComponent() {
         RenderUtil.drawQuad(xPos, yPos, width, height, ColorUtil.MAIN_COLOR);
         RenderUtil.drawQuad(xPos, yPos + height / 4, current * step, height / 2, ColorUtil.MAIN_COLOR);
-        textFont.drawString(title, xPos, yPos - height , textColor);
+        textFont.drawString(title, xPos, yPos - height, textColor);
     }
 
     @Override

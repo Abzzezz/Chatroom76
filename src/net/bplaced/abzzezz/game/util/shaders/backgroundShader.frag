@@ -21,7 +21,7 @@ float rand(vec2 co, float off)
     float c = 43758.5453;
     float dt = dot(co.xy, vec2(a, b));
     float sn = mod(dt, 3.14);
-    return fract(sin(sn) * c * (time * 10) + sin(off));
+    return fract(sin(sn) * c * (time) + sin(off));
 }
 
 
@@ -36,9 +36,5 @@ void main(void) {
 
     float scan_pos = mod(time, scan_period) / scan_period;
     float random_height = rand(position, 10.0 * PI) / 80.0 + 0.02;
-    if(position.y > scan_pos - random_height && position.y < scan_pos + random_height) gl_FragColor.rgb += vec3(0.05);
-
-    gl_FragColor += texture2D(tex, gl_FragCoord.xy / resolution);
-    gl_FragColor *= 0.45;
-
+    if (position.y > scan_pos - random_height && position.y < scan_pos + random_height) gl_FragColor.rgb += vec3(0.05);
 }
