@@ -13,6 +13,7 @@ package net.bplaced.abzzezz.core;
 import net.bplaced.abzzezz.core.file.BasicFile;
 import net.bplaced.abzzezz.core.handler.FileHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
 import org.lwjgl.LWJGLException;
@@ -35,6 +36,7 @@ public class Core {
     private final int width, height;
     private String gameName, fontDir;
     private int fpsSync;
+    private long lastFrame;
 
     private float gameVersion;
 
@@ -131,6 +133,7 @@ public class Core {
      */
     private void run(int width, int height) {
         initGL(width, height);
+
         while (true) {
             update();
             Display.update();
@@ -185,6 +188,7 @@ public class Core {
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glViewport(0, 0, width, height);
+        lastFrame = getTime();
         if (openGLReference != null) openGLReference.onGLInitialised();
         basicScreen.init();
     }
@@ -196,6 +200,11 @@ public class Core {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+
+        final long time = getTime();
+        final int deltaTime = (int) (time - lastFrame);
+        lastFrame = time;
+        DeltaTime.deltaTime = deltaTime;
 
         basicScreen.drawShader();
         basicScreen.drawScreen();
@@ -209,10 +218,13 @@ public class Core {
         }
     }
 
+    private long getTime() {
+        return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+    }
+
     /**
      * Getters and setters to configure
      */
-
     public String getGameName() {
         return gameName;
     }

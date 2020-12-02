@@ -11,6 +11,7 @@
 package net.bplaced.abzzezz.core.util.render;
 
 
+import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
@@ -85,7 +86,6 @@ public class ShaderProgram {
     }
 
     protected void render() {
-        speed += 0.01F;
         glBegin(GL_QUADS);
         {
             glVertex2d(-1.0f, 1.0f);
@@ -94,6 +94,7 @@ public class ShaderProgram {
             glVertex2d(-1.0f, -1.0f);
         }
         glEnd();
+        speed += DeltaTime.deltaTime;
     }
 
     public void unbind() {

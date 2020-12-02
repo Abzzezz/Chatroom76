@@ -12,7 +12,7 @@ public class BackgroundShader extends ShaderProgram {
     @Override
     public void render() {
         bind();
-        setUniform1f("time", speed);
+        setUniform1f("time", speed / 1000);
         setUniform2f("resolution", Display.getWidth(), Display.getHeight());
         super.render();
         unbind();

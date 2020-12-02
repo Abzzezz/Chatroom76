@@ -10,6 +10,7 @@
 
 package net.bplaced.abzzezz.core.ui.components;
 
+import net.bplaced.abzzezz.core.util.AllowedCharacter;
 import net.bplaced.abzzezz.core.util.io.KeyboardUtil;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
@@ -76,11 +77,11 @@ public class TextField implements UIComponent {
     public void keyListener(int keyCode, char keyTyped) {
         if (isClicked()) {
 
-            if (KeyboardUtil.isControlA()) {
+            if (KeyboardUtil.ctrlADown()) {
                 selectedAll = true;
-            } else if (KeyboardUtil.isDeleteAll()) {
+            } else if (KeyboardUtil.shiftReturn()) {
                 deleteAllText();
-            } else if (KeyboardUtil.isControlV()) {
+            } else if (KeyboardUtil.ctrlVDown()) {
                 displayText.append(KeyboardUtil.getClipboard());
             }
 
@@ -101,6 +102,7 @@ public class TextField implements UIComponent {
                     }
                 }
             } else {
+                if(!AllowedCharacter.isAllowedCharacter(keyTyped)) return;
                 //If text out of bounds append old characters to backuptext and delete from displayed string
                 boolean disallowed = !(keyCode == Keyboard.KEY_LSHIFT) && !(keyCode == Keyboard.KEY_RSHIFT) && !(keyCode == Keyboard.KEY_RCONTROL) && !(keyCode == Keyboard.KEY_LCONTROL);
                 if (disallowed)
