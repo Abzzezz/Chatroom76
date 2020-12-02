@@ -78,6 +78,8 @@ public class DialogHandler {
             case DialogUtil.END_KEY:
                 lastLine = 0;
                 savePreviousDialog();
+                GameMain.INSTANCE.getSoundPlayer().stopMusic();
+                dialogHolder.save();
                 Core.getInstance().setScreen(new MainMenu());
                 return 0;
 
@@ -247,6 +249,14 @@ public class DialogHandler {
         }
 
         for (final String s : remove) dialog.remove(s);
+
+        dialog.stream().filter(s -> s.startsWith(DialogUtil.BACKGROUND_MUSIC_CALL)).findAny().ifPresent(s -> {
+            final Map<String, String> args1 = getArguments(s);
+            final File backgroundMusic = new File(args1.getOrDefault(DialogUtil.PATH_ARGUMENT, "").replace("\\", "\\\\"));
+            final float volume = Float.parseFloat(args1.getOrDefault(DialogUtil.VOLUME_ARGUMENT, "0"));
+            GameMain.INSTANCE.getSoundPlayer().playBackgroundMusic(backgroundMusic, volume);
+            dialog.remove(s);
+        });
 
         this.defined.clear();
         this.lastLine = this.dialog.indexOf(":start");

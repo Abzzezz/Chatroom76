@@ -11,6 +11,10 @@
 package net.bplaced.abzzezz.core.ui.components;
 
 import net.bplaced.abzzezz.core.util.AllowedCharacter;
+import net.bplaced.abzzezz.core.util.DeltaTime;
+import net.bplaced.abzzezz.core.util.TimeUtil;
+import net.bplaced.abzzezz.core.util.animation.AnimationUtil;
+import net.bplaced.abzzezz.core.util.animation.easing.Quint;
 import net.bplaced.abzzezz.core.util.io.KeyboardUtil;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
@@ -24,7 +28,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TextField implements UIComponent {
 
-    private final List<Character> backupText = new CopyOnWriteArrayList<>();
+    private final StringBuilder backupText = new StringBuilder();
     private final StringBuilder displayText = new StringBuilder();
     private final float xPos;
     private final float yPos;
@@ -34,6 +38,7 @@ public class TextField implements UIComponent {
     private boolean clicked, selectedAll;
     private FontUtil fontUtil;
 
+    private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
     /*
     TODO: More work, Adding to clipboard etc. Text moving, selecting
      */
@@ -61,11 +66,21 @@ public class TextField implements UIComponent {
 
     @Override
     public void drawComponent() {
+        final String text = displayText.toString();
         RenderUtil.drawQuad(xPos, yPos, width, height, clicked ? ColorUtil.MAIN_COLOR : ColorUtil.MAIN_COLOR.darker());
-        //    ScissorUtil.enableScissor();
-        // ScissorUtil.scissor(xPos, yPos, width, height);
-        fontUtil.drawString(displayText.toString(), xPos, yPos + height / 2 - fontUtil.getHeight() / 2, selectedAll ? Color.LIGHT_GRAY : textColor);
-        // ScissorUtil.disableScissor();
+
+        if(clicked) {
+            if (bounceTime.isTimeOver(1000)) {
+                if (bounceTime2.isTimeOver(1600)) {
+                    bounceTime2.reset();
+                    bounceTime.reset();
+                }
+            } else {
+                final int tabHeight = 4;
+                RenderUtil.drawQuad(xPos + fontUtil.getStringWidth(text), yPos + height - tabHeight, tabHeight * 2, tabHeight, ColorUtil.MAIN_COLOR);
+            }
+        }
+        fontUtil.drawString(text, xPos, yPos + height / 2 - fontUtil.getHeight() / 2, selectedAll ? Color.LIGHT_GRAY : textColor);
         textFont.drawString(name, xPos, yPos - height, textColor);
     }
 
@@ -95,10 +110,10 @@ public class TextField implements UIComponent {
                 if (displayText.length() > 0) {
                     displayText.deleteCharAt(displayText.length() - 1);
 
-                    if (backupText.size() > 0) {
-                        int index = backupText.size() - 1;
-                        displayText.insert(0, backupText.get(index));
-                        backupText.remove(index);
+                    if (backupText.length() > 0) {
+                        int index = backupText.length() - 1;
+                        displayText.insert(0, backupText.charAt(index));
+                        backupText.deleteCharAt(index);
                     }
                 }
             } else {
@@ -110,7 +125,7 @@ public class TextField implements UIComponent {
             }
 
             while (fontUtil.getStringWidth(displayText.toString()) > width - 10) {
-                backupText.add(displayText.charAt(0));
+                backupText.append(displayText.charAt(0));
                 displayText.deleteCharAt(0);
             }
         }
@@ -119,7 +134,7 @@ public class TextField implements UIComponent {
 
     private void deleteAllText() {
         displayText.delete(0, displayText.length());
-        backupText.clear();
+        backupText.delete(0, backupText.length());
     }
 
     @Override
@@ -142,8 +157,8 @@ public class TextField implements UIComponent {
      * @return
      */
     public String toString() {
-        StringBuilder backupOut = new StringBuilder();
-        backupText.forEach(backupOut::append);
+        final StringBuilder backupOut = new StringBuilder();
+        backupOut.append(backupText);
         backupOut.append(displayText);
         return backupOut.toString();
     }
