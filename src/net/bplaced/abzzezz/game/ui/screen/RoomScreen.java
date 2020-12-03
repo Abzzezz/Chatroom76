@@ -2,6 +2,7 @@ package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.ui.components.Button;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.FontUtil;
@@ -22,6 +23,8 @@ public class RoomScreen extends BasicScreen {
     private List<Dialog> dialogs;
     private Dialog selected;
 
+    private Button playButton, deleteButton;
+
     @Override
     public void init() {
         this.dialogs = new ArrayList<>();
@@ -34,9 +37,9 @@ public class RoomScreen extends BasicScreen {
         }
         final int buttonWidth = 100, height = 15;
         final int yPos = getHeight() - height * 3;
-        getUiComponents().add(new CustomButton(0, "Play", 50, yPos, buttonWidth, height));
+        getUiComponents().add(playButton = new CustomButton(0, "Play", 50, yPos, buttonWidth, height, false));
         getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, yPos, buttonWidth, height));
-        getUiComponents().add(new CustomButton(2, "Delete", getWidth() - 150, yPos, buttonWidth, height));
+        getUiComponents().add(deleteButton =new CustomButton(2, "Delete", getWidth() - 150, yPos, buttonWidth, height, fals));
         super.init();
     }
 
@@ -70,7 +73,7 @@ public class RoomScreen extends BasicScreen {
             textFont.drawString(name, xPos, yPos, ColorUtil.TEXT_COLOR);
             textFont.drawString(dialog.getCreationDate(), xPos, yPos + textFont.getHeight() + 5, ColorUtil.TEXT_COLOR);
 
-            yBuffer += textFont.getHeight() + 5;
+            yBuffer += 50;
         }
         super.drawScreen();
     }
@@ -80,9 +83,17 @@ public class RoomScreen extends BasicScreen {
         int yBuffer = 0;
         for (Dialog dialog : dialogs) {
             if (MouseUtil.mouseHovered(getWidth() / 2 - 100, getHeight() / 4 + yBuffer, 200, textFont.getHeight() * 2 + 5)) {
-                if (selected == dialog) selected = null;
-                else
+                if (selected == dialog) {
+                    deleteButton.setEnabled(false);
+                    playButton.setEnabled(false);
+                    selected = null;
+                }
+                else {
                     selected = dialog;
+
+                    deleteButton.setEnabled(true);
+                    playButton.setEnabled(true);
+                }
             }
             yBuffer += textFont.getHeight() + 5;
         }

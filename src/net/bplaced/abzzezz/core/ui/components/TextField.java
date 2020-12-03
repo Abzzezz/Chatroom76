@@ -117,10 +117,9 @@ public class TextField implements UIComponent {
                     }
                 }
             } else {
-                if(!AllowedCharacter.isAllowedCharacter(keyTyped)) return;
                 //If text out of bounds append old characters to backuptext and delete from displayed string
                 boolean disallowed = !(keyCode == Keyboard.KEY_LSHIFT) && !(keyCode == Keyboard.KEY_RSHIFT) && !(keyCode == Keyboard.KEY_RCONTROL) && !(keyCode == Keyboard.KEY_LCONTROL);
-                if (disallowed)
+                if (disallowed && AllowedCharacter.isAllowedCharacter(keyTyped))
                     displayText.append(keyTyped);
             }
 

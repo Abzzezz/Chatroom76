@@ -21,6 +21,7 @@ public class Button implements UIComponent {
     private final float yPos;
     private final float id;
     private final int width, height;
+    private boolean enabled;
     /**
      * Button pressed
      *
@@ -43,6 +44,7 @@ public class Button implements UIComponent {
         this.yPos = yPos;
         this.width = textFont.getStringWidth(text);
         this.height = (int) textFont.getHeight();
+        this.enabled = true;
     }
 
     public Button(float id, String text, float xPos, float yPos, int width, int height) {
@@ -52,6 +54,27 @@ public class Button implements UIComponent {
         this.yPos = yPos;
         this.width = width;
         this.height = height;
+        this.enabled = true;
+    }
+
+    public Button(float id, String text, float xPos, float yPos, int width, int height, boolean enabled) {
+        this.text = text;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.id = id;
+        this.width = width;
+        this.height = height;
+        this.enabled = enabled;
+    }
+
+    public Button(float id, String text, float xPos, float yPos, boolean enabled) {
+        this.text = text;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.width = textFont.getStringWidth(text);
+        this.height = (int) textFont.getHeight();
+        this.id = id;
+        this.enabled = enabled;
     }
 
     public boolean buttonHovered() {
@@ -89,6 +112,7 @@ public class Button implements UIComponent {
 
     @Override
     public void mouseListener(int mouseButton) {
+        if (!isEnabled()) return;
         if (buttonHovered() && mouseButton == 0) OPEN_GL_CORE_INSTANCE.getScreen().buttonPressed(getId());
 
         if (buttonHovered()) {
@@ -114,6 +138,13 @@ public class Button implements UIComponent {
         return text;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public interface ButtonPressed {
         void onButtonPressed(int mouseButton, Button button);

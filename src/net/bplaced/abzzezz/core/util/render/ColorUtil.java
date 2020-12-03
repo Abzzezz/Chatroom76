@@ -20,12 +20,16 @@ public class ColorUtil {
     public static final Color BACKGROUND_COLOR = Color.WHITE;
 
     /**
-     * Main
+     * Main color
      */
     public static final Color MAIN_COLOR = new Color(255, 255, 255, 75);
-
+    /**
+     * String for font
+     */
     public static final String TEXT_FONT = "Terminal";
-
+    /**
+     * Text color
+     */
     public static final Color TEXT_COLOR = Color.WHITE;
 
 }
