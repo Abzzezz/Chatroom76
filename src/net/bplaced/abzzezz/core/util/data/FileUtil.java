@@ -31,8 +31,27 @@ public class FileUtil {
         return builder.toString();
     }
 
+    public static void writeListToFile(final File dest, List<String> list) throws IOException {
+        final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(dest, true));
+        for (String s : list) {
+            bufferedWriter.write(s + "\n");
+        }
+        bufferedWriter.close();
+    }
+
     public static List<String> readListFromFile(final File file) throws IOException {
         final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        final List<String> lines = new ArrayList<>();
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            lines.add(line);
+        }
+        bufferedReader.close();
+        return lines;
+    }
+
+    public static List<String> readListFromURL(final URL url) throws IOException {
+        final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
         final List<String> lines = new ArrayList<>();
         String line;
         while ((line = bufferedReader.readLine()) != null) {

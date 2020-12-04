@@ -15,9 +15,9 @@ public class TextureLoader {
 
     public static int loadPNGTexture(final URL file) throws IOException {
         final BufferedImage image = ImageIO.read(file);
-        int[] pixels = new int[image.getWidth() * image.getHeight()];
+        final int[] pixels = new int[image.getWidth() * image.getHeight()];
         image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
-        ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * 4); //3 for RGB , 4 for RGBA
+        final ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * 4); //3 for RGB , 4 for RGBA
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
                 int pixel = pixels[y * image.getWidth() + x];

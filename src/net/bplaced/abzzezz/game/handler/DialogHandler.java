@@ -10,7 +10,6 @@ import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
 import net.bplaced.abzzezz.game.ui.screen.GameScreen;
 import net.bplaced.abzzezz.game.ui.screen.MainMenu;
-import net.bplaced.abzzezz.game.util.dialog.DialogUtil;
 
 import java.awt.*;
 import java.io.BufferedInputStream;
@@ -24,10 +23,12 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 
+import static net.bplaced.abzzezz.game.util.dialog.DialogUtil.*;
+
 public class DialogHandler {
 
     private final List<DialogLine> displayDialog;
-    private final HashMap<String, String> defined;
+    private final Map<String, String> defined;
     private final List<String> options, dialog;
 
     private int lastLine;
@@ -71,30 +72,18 @@ public class DialogHandler {
      */
     private int next(final String nextString) {
         final String[] split = nextString.split(" ");
+
         switch (split[0]) {
-            case DialogUtil.GOTO_KEY:
+            case GOTO_KEY:
                 return dialog.indexOf(":".concat(split[1])) + 1;
 
-            case DialogUtil.END_KEY:
+            case END_KEY:
                 lastLine = 0;
                 savePreviousDialog();
                 GameMain.INSTANCE.getSoundPlayer().stopMusic();
                 dialogHolder.save();
                 Core.getInstance().setScreen(new MainMenu());
                 return 0;
-
-            case DialogUtil.BACKGROUND_CALL:
-                final Map<String, String> args = getArguments(nextString);
-                try {
-                    GameMain.INSTANCE.getShaderHandler().getTextureShader().setSampler(TextureLoader.loadPNGTexture(new File(args.get(DialogUtil.PATH_ARGUMENT)).toURI().toURL()));
-                    GameMain.INSTANCE.getShaderHandler().getTextureShader().setOpacity(Float.parseFloat(args.getOrDefault(DialogUtil.BACKGROUND_OPACITY_ARGUMENT, "100")) / 100);
-
-                } catch (final MalformedURLException e) {
-                    Logger.log("Background texture not applied: " + e.getMessage(), LogType.ERROR);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return lastLine + 2;
             default:
                 return lastLine + 1;
         }
@@ -112,22 +101,34 @@ public class DialogHandler {
         final String[] formatted = new String[]{format, getColor(args)};
 
         switch (format.split(" ")[0]) {
-            case DialogUtil.PLAY_SOUND_CALL:
+            case PLAY_SOUND_CALL:
                 formatted[0] = playSound(format);
                 return formatted;
 
-            case DialogUtil.QUESTION_CALL:
-                formatted[0] = args.get(DialogUtil.TEXT_ARGUMENT);
+            case QUESTION_CALL:
+                formatted[0] = args.get(TEXT_ARGUMENT);
                 question(format);
                 return formatted;
 
-            case DialogUtil.COLOR_CODE_KEY:
-                formatted[0] = args.get(DialogUtil.TEXT_ARGUMENT);
+            case COLOR_CODE_KEY:
+                formatted[0] = args.get(TEXT_ARGUMENT);
                 return formatted;
 
-            case DialogUtil.END_SOUNDS_CALL:
+            case END_SOUNDS_CALL:
                 GameMain.INSTANCE.getSoundPlayer().stopSounds();
-                formatted[0] = args.getOrDefault(DialogUtil.TEXT_ARGUMENT, "");
+                formatted[0] = args.getOrDefault(TEXT_ARGUMENT, "");
+                return formatted;
+
+            case BACKGROUND_CALL:
+                formatted[0] = args.getOrDefault(TEXT_ARGUMENT, "");
+                try {
+                    GameMain.INSTANCE.getShaderHandler().getTextureShader().setSampler(TextureLoader.loadPNGTexture(new File(args.get(PATH_ARGUMENT)).toURI().toURL()));
+                    GameMain.INSTANCE.getShaderHandler().getTextureShader().setOpacity(Float.parseFloat(args.getOrDefault(BACKGROUND_OPACITY_ARGUMENT, "100")) / 100);
+                } catch (final MalformedURLException e) {
+                    Logger.log("Background texture not applied: " + e.getMessage(), LogType.ERROR);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return formatted;
             default:
                 return formatted;
@@ -142,9 +143,9 @@ public class DialogHandler {
      */
     private Map<String, String> getArguments(final String string) {
         final Map<String, String> argumentValueMap = new HashMap<>();
-        final Matcher matcher = DialogUtil.ARGUMENT_PATTERN.matcher(string);
+        final Matcher matcher = ARGUMENT_PATTERN.matcher(string);
         while (matcher.find()) {
-            final String[] argumentValueSplit = matcher.group().split(DialogUtil.DEFINE_KEY);
+            final String[] argumentValueSplit = matcher.group().split(DEFINE_KEY);
             final String value = argumentValueSplit[1];
             argumentValueMap.put(argumentValueSplit[0].substring(1), value.substring(0, value.length() - 1));
         }
@@ -154,14 +155,14 @@ public class DialogHandler {
     /**
      * Formats a question given a string.
      *
-     * @param string
+     * @param string string to get questions from
      */
     private void question(final String string) {
-        final Matcher matcher = DialogUtil.QUESTION_PATTERN.matcher(string);
+        final Matcher matcher = QUESTION_PATTERN.matcher(string);
         this.options.clear();
 
         for (int i = 0; matcher.find(); i++) {
-            final String[] optionResultSplit = matcher.group().split(DialogUtil.DEFINE_KEY);
+            final String[] optionResultSplit = matcher.group().split(DEFINE_KEY);
             final String result = optionResultSplit[1];
 
             options.add(result.substring(0, result.length() - 1));
@@ -187,10 +188,10 @@ public class DialogHandler {
 
     private String playSound(final String format) {
         final Map<String, String> args = getArguments(format);
-        final File file = new File(args.getOrDefault(DialogUtil.PATH_ARGUMENT, "").replace("\\", "\\\\"));
-        final float volume = Float.parseFloat(args.getOrDefault(DialogUtil.VOLUME_ARGUMENT, "0"));
+        final File file = new File(args.getOrDefault(PATH_ARGUMENT, "").replace("\\", "\\\\"));
+        final float volume = Float.parseFloat(args.getOrDefault(VOLUME_ARGUMENT, "0"));
         GameMain.INSTANCE.getSoundPlayer().playSound(file, volume);
-        return args.getOrDefault(DialogUtil.TEXT_ARGUMENT, "");
+        return args.getOrDefault(TEXT_ARGUMENT, "");
     }
 
     /*
@@ -214,7 +215,7 @@ public class DialogHandler {
             final String[] split = stringAt.split(" ");
 
             switch (split[0]) {
-                case DialogUtil.IMPORT_KEY:
+                case IMPORT_KEY:
                     final File file = new File(this.dialogHolder.getAssets(), split[1]);
                     if (!file.exists()) {
                         try {
@@ -225,9 +226,9 @@ public class DialogHandler {
                     }
                     remove[i] = stringAt;
                     break;
-                case DialogUtil.DEFINED_KEY:
+                case DEFINED_KEY:
                     final Map<String, String> args = getArguments(stringAt);
-                    this.defined.put(args.get(DialogUtil.VARIABLE_ARGUMENT), args.get(DialogUtil.DEFINE_ARGUMENT));
+                    defined.put(args.get(VARIABLE_ARGUMENT), args.get(DEFINE_ARGUMENT));
                     remove[i] = stringAt;
                     break;
                 default:
@@ -238,22 +239,22 @@ public class DialogHandler {
         for (int i = 0; i < dialog.size(); i++) {
             final String stringAt = dialog.get(i);
             for (final Map.Entry<String, String> entry : defined.entrySet()) {
-                if (stringAt.contains(entry.getKey()) && !stringAt.startsWith(DialogUtil.KEY))
+                if (stringAt.contains(entry.getKey()) && !stringAt.startsWith(KEY))
                     replaceInDialog(i, entry.getKey(), entry.getValue());
             }
 
-            if (stringAt.contains(DialogUtil.ASSET_KEY))
-                replaceInDialog(i, DialogUtil.ASSET_KEY, this.dialogHolder.getAssets().getAbsolutePath());
-            if (stringAt.contains(DialogUtil.DIR_KEY))
-                replaceInDialog(i, DialogUtil.DIR_KEY, this.dialogHolder.getDialogDir().getAbsolutePath());
+            if (stringAt.contains(ASSET_KEY))
+                replaceInDialog(i, ASSET_KEY, this.dialogHolder.getAssets().getAbsolutePath());
+            if (stringAt.contains(DIR_KEY))
+                replaceInDialog(i, DIR_KEY, this.dialogHolder.getDialogDir().getAbsolutePath());
         }
 
         for (final String s : remove) dialog.remove(s);
 
-        dialog.stream().filter(s -> s.startsWith(DialogUtil.BACKGROUND_MUSIC_CALL)).findAny().ifPresent(s -> {
+        dialog.stream().filter(s -> s.startsWith(BACKGROUND_MUSIC_CALL)).findAny().ifPresent(s -> {
             final Map<String, String> args1 = getArguments(s);
-            final File backgroundMusic = new File(args1.getOrDefault(DialogUtil.PATH_ARGUMENT, "").replace("\\", "\\\\"));
-            final float volume = Float.parseFloat(args1.getOrDefault(DialogUtil.VOLUME_ARGUMENT, "0"));
+            final File backgroundMusic = new File(args1.getOrDefault(PATH_ARGUMENT, "").replace("\\", "\\\\"));
+            final float volume = Float.parseFloat(args1.getOrDefault(VOLUME_ARGUMENT, "0"));
             GameMain.INSTANCE.getSoundPlayer().playBackgroundMusic(backgroundMusic, volume);
             dialog.remove(s);
         });
@@ -263,49 +264,69 @@ public class DialogHandler {
         Logger.log("Start line defined: " + lastLine, LogType.INFO);
     }
 
+    private List<String> replaceInDialog(final List<String> lines, final Dialog dialog) {
+        final Map<String, String> definedVars = new HashMap<>();
+
+        for (final String line : lines) {
+            final String[] split = line.split(" ");
+            final Map<String, String> args = getArguments(line);
+
+            if (DEFINED_KEY.equals(split[0])) {
+                definedVars.put(args.get(VARIABLE_ARGUMENT), args.get(DEFINE_ARGUMENT));
+            }
+        }
+
+        for (int i = 0; i < lines.size(); i++) {
+            final String stringAt = lines.get(i);
+            for (final Map.Entry<String, String> entry : definedVars.entrySet()) {
+                if (stringAt.contains(entry.getKey()) && !stringAt.startsWith(KEY))
+                    lines.set(i, stringAt.replace(entry.getKey(), entry.getValue()));
+            }
+
+            if (stringAt.contains(ASSET_KEY))
+                lines.set(i, stringAt.replace(ASSET_KEY, dialog.getAssets().getAbsolutePath()));
+
+            if (stringAt.contains(DIR_KEY))
+                lines.set(i, stringAt.replace(DIR_KEY, dialog.getDialogDir().getAbsolutePath()));
+        }
+        return lines;
+    }
+
 
     public void downloadDialog(final String input, final Consumer<Integer> totalBytes, final Consumer<Integer> downloadedBytes, final Consumer<String> downloadingFile) {
         new Thread(() -> {
             if (input == null || input.isEmpty()) return;
             Logger.log("Starting dialog download", LogType.INFO);
 
-            final String fileName = input.substring(input.lastIndexOf('/') + 1);
-
-            final Dialog newDialog = new Dialog(new File(Core.getInstance().getMainDir(), fileName.substring(0, fileName.lastIndexOf('.'))));
-            newDialog.createMetaData();
-            newDialog.save();
             try {
-                FileUtil.copyFileFromUrl(newDialog.getDialogFile(), new URL(input));
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
-            //Import dialog assets
+                final List<String> urlLines = FileUtil.readListFromURL(new URL(input));
+                //TODO: Whip up better solution
+                final String dialogName = getArguments(urlLines.stream().filter(s -> s.startsWith(DIALOG_KEY)).findAny().orElse("")).getOrDefault("name", "unnamedDialog");
 
-            final Map<URL, File> assetList = new HashMap<>();
-            int totalSize = 0;
+                final Dialog newDialog = new Dialog(new File(Core.getInstance().getMainDir(), dialogName));
+                newDialog.createMetaData();
+                newDialog.save();
 
-            try {
-                for (String s : FileUtil.readListFromFile(newDialog.getDialogFile())) {
-                    final String[] split = s.split(" ");
-                    if (split[0].startsWith(DialogUtil.IMPORT_KEY)) {
+                final List<String> lines = replaceInDialog(urlLines, newDialog);
+
+                FileUtil.writeListToFile(newDialog.getDialogFile(), lines);
+
+                final Map<URL, File> assets = new HashMap<>();
+                int totalAssetSize = 0;
+
+                for (final String line : lines) {
+                    final String[] split = line.split(" ");
+                    if (IMPORT_KEY.equals(split[0])) {
                         final File asset = new File(newDialog.getAssets(), split[1]);
-                        if (!asset.exists()) {
-                            try {
-                                final URL assetURL = new URL(split[2]);
-                                assetList.put(assetURL, asset);
-
-                                totalSize += assetURL.openConnection().getContentLength();
-
-                            } catch (MalformedURLException e) {
-                                e.printStackTrace();
-                            }
-                        }
+                        final URL assetURL = new URL(split[2]);
+                        assets.put(assetURL, asset);
+                        totalAssetSize += assetURL.openConnection().getContentLength();
                     }
                 }
 
-                totalBytes.accept(totalSize);
+                totalBytes.accept(totalAssetSize);
 
-                assetList.forEach((url, file) -> {
+                assets.forEach((url, file) -> {
                     downloadingFile.accept(file.getName().substring(0, file.getName().lastIndexOf(".")));
 
                     try (final BufferedInputStream in = new BufferedInputStream(url.openStream());
@@ -321,10 +342,12 @@ public class DialogHandler {
                     }
                 });
 
+
                 downloadingFile.accept("Done");
-            } catch (final IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }).start();
     }
 
@@ -345,11 +368,11 @@ public class DialogHandler {
     }
 
     public String getColor(final Map<String, String> args) {
-        return args.getOrDefault(DialogUtil.COLOR_ARGUMENT, DialogUtil.PLAIN_WHITE);
+        return args.getOrDefault(COLOR_ARGUMENT, PLAIN_WHITE);
     }
 
     public Color getColor0(final Map<String, String> args) {
-        return Color.decode(args.getOrDefault(DialogUtil.COLOR_ARGUMENT, DialogUtil.PLAIN_WHITE));
+        return Color.decode(args.getOrDefault(COLOR_ARGUMENT, PLAIN_WHITE));
     }
 
     private void replaceInDialog(final int index, final String old, final String replacement) {
@@ -368,6 +391,13 @@ public class DialogHandler {
         if (dialog == null) return;
         for (final File listFile : Objects.requireNonNull(dialog.getDialogDir().listFiles()))
             Logger.log("Deleting dialog files: " + listFile.delete(), LogType.INFO);
+
+
+        for (final File listFile : Objects.requireNonNull(dialog.getAssets().listFiles()))
+            Logger.log("Deleting assets: " + listFile.delete(), LogType.INFO);
+
+
+        Logger.log("Deleting asset dir:" + dialog.getAssets().delete(), LogType.INFO);
         Logger.log("Deleting dialog dir:" + dialog.getDialogDir().delete(), LogType.INFO);
         Logger.log("Deleting dialog config:" + dialog.getCfgFile().delete(), LogType.INFO);
     }

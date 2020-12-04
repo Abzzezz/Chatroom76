@@ -17,14 +17,12 @@ import java.awt.*;
 public class GameScreen extends BasicScreen {
 
     private FontUtil textFont;
-    private GameMain mainInst;
     private boolean paused;
     private int scrollY;
 
     @Override
     public void init() {
         this.textFont = new FontUtil(ColorUtil.TEXT_FONT, 20);
-        this.mainInst = GameMain.INSTANCE;
         GameMain.INSTANCE.getDialogHandler().getNextDialog();
         super.init();
     }
@@ -35,12 +33,12 @@ public class GameScreen extends BasicScreen {
         ScissorUtil.enableScissor();
         ScissorUtil.scissor(0, 0, getWidth(), getHeight());
 
-        for (final DialogLine dialogLine : mainInst.getDialogHandler().getDisplayDialog()) {
+        for (final DialogLine dialogLine : GameMain.INSTANCE.getDialogHandler().getDisplayDialog()) {
             textFont.drawString(dialogLine.getDialog(), 0, 20 + yBuffer + scrollY, dialogLine.getTextColor());
             yBuffer += textFont.getHeight() + 5;
         }
 
-        if (mainInst.getDialogHandler().isPending())
+        if (GameMain.INSTANCE.getDialogHandler().isPending())
             RenderUtil.drawQuad(10, 50 + yBuffer + scrollY, 20, 5, Color.WHITE);
 
         if ((yBuffer >= getHeight() - textFont.getHeight()) && Mouse.hasWheel()) {
@@ -76,11 +74,11 @@ public class GameScreen extends BasicScreen {
             if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth("Resume") / 2, getHeight() / 4, textFont.getStringWidth("Resume"), textFont.getHeight())) {
                 paused = !paused;
             } else if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth("Back to menu") / 2, getHeight() / 4 + textFont.getHeight(), textFont.getStringWidth("Back to menu"), textFont.getHeight())) {
-                mainInst.getDialogHandler().savePreviousDialog();
+                GameMain.INSTANCE.getDialogHandler().savePreviousDialog();
                 Core.getInstance().setScreen(new RoomScreen());
             }
         } else
-            mainInst.getDialogHandler().getNextDialog();
+            GameMain.INSTANCE.getDialogHandler().getNextDialog();
 
         super.mousePressed(mouseButton);
     }
@@ -88,7 +86,7 @@ public class GameScreen extends BasicScreen {
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
         if (keyCode == Keyboard.KEY_ESCAPE) paused = !paused;
-        mainInst.getDialogHandler().selectOption(keyTyped);
+        GameMain.INSTANCE.getDialogHandler().selectOption(keyTyped);
         super.keyTyped(keyCode, keyTyped);
     }
 }
