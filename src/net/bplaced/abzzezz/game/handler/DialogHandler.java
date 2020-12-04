@@ -4,10 +4,11 @@ import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
-import net.bplaced.abzzezz.core.util.render.TextureLoader;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
+import net.bplaced.abzzezz.game.dialog.call.BasicCall;
+import net.bplaced.abzzezz.game.dialog.call.calls.*;
 import net.bplaced.abzzezz.game.ui.screen.GameScreen;
 import net.bplaced.abzzezz.game.ui.screen.MainMenu;
 
@@ -16,12 +17,9 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 
@@ -30,17 +28,29 @@ import static net.bplaced.abzzezz.game.util.dialog.DialogUtil.*;
 public class DialogHandler {
 
     private final List<DialogLine> displayDialog;
-    private final List<String> options, dialog;
+    private final List<String> options;
+    private final List<String> dialog;
 
     private int lastLine;
-    private boolean pending;
+    public boolean pending;
     private Dialog dialogHolder;
+
+    public final List<BasicCall> basicCalls;
 
     public DialogHandler() {
         this.dialog = new ArrayList<>();
         this.displayDialog = new ArrayList<>();
         this.options = new ArrayList<>();
+        this.basicCalls = new ArrayList<>();
+
+        addBasicCalls(new PlaySoundCall(), new EndSoundCall(), new ColorCodeCall(), new BackgroundCall(), new QuestionCall());
+
     }
+
+    private void addBasicCalls(final BasicCall... calls) {
+        basicCalls.addAll(Arrays.asList(calls));
+    }
+
 
     /**
      * Get the next available dialog text to add
@@ -57,7 +67,7 @@ public class DialogHandler {
 
             final String[] format = formatNext(next);
 
-            if (format[0] != null && !format[0].isEmpty())
+            if (format.length == 2 && format[0] != null && !format[0].isEmpty())
                 addToDialog(format[0], Color.decode(format[1]));
             lastLine = next;
         }
@@ -94,46 +104,16 @@ public class DialogHandler {
      * @param index index to format String from
      * @return String array index 0 containing the string and 1 containing the color
      */
-    private String[] formatNext(int index) {
-        String format = dialog.get(index);
+    private String[] formatNext(final int index) {
+        final String format = dialog.get(index);
         final Map<String, String> args = getArguments(format);
-        final String[] formatted = new String[]{format, getColor(args)};
 
-        switch (format.split(" ")[0]) {
-            case PLAY_SOUND_CALL:
-                formatted[0] = playSound(format);
-                return formatted;
-
-            case QUESTION_CALL:
-                formatted[0] = args.get(TEXT_ARGUMENT);
-                question(format);
-                return formatted;
-
-            case COLOR_CODE_KEY:
-                formatted[0] = args.get(TEXT_ARGUMENT);
-                return formatted;
-
-            case END_SOUNDS_CALL:
-                GameMain.INSTANCE.getSoundPlayer().stopSounds();
-                formatted[0] = args.getOrDefault(TEXT_ARGUMENT, "");
-                return formatted;
-
-            case BACKGROUND_CALL:
-                formatted[0] = args.getOrDefault(TEXT_ARGUMENT, "");
-                try {
-                    final float opacity = Float.parseFloat(args.getOrDefault(BACKGROUND_OPACITY_ARGUMENT, "100")) / 100;
-                    final File file = new File(args.get(PATH_ARGUMENT));
-                    GameMain.INSTANCE.getShaderHandler().getTextureShader().setSampler(TextureLoader.loadPNGTexture(file.toURI().toURL()));
-                    GameMain.INSTANCE.getShaderHandler().getTextureShader().setOpacity(opacity);
-                } catch (final MalformedURLException e) {
-                    Logger.log("Background texture not applied: " + e.getMessage(), LogType.ERROR);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return formatted;
-            default:
-                return formatted;
+        for (final BasicCall basicCall : basicCalls) {
+            if (format.startsWith(basicCall.tag())) {
+                return basicCall.formatted(format, getColor(args), args);
+            }
         }
+        return new String[] {format, getColor(args)};
     }
 
     /**
@@ -151,24 +131,6 @@ public class DialogHandler {
             argumentValueMap.put(argumentValueSplit[0].substring(1), value.substring(0, value.length() - 1));
         }
         return argumentValueMap;
-    }
-
-    /**
-     * Formats a question given a string.
-     *
-     * @param string string to get questions from
-     */
-    private void question(final String string) {
-        final Matcher matcher = QUESTION_PATTERN.matcher(string);
-        this.options.clear();
-        for (int i = 0; matcher.find(); i++) {
-            final String[] optionResultSplit = matcher.group().split(DEFINE_KEY);
-            final String result = optionResultSplit[1];
-
-            options.add(result.substring(0, result.length() - 1));
-            addToDialog(optionResultSplit[0].concat("(" + i + ")"));
-        }
-        pending = true;
     }
 
     public void selectOption(final char keyChar) {
@@ -216,7 +178,6 @@ public class DialogHandler {
                 lines.set(i, builder.toString());
             }
         }
-
         this.lastLine = dialog.indexOf(":start");
         Logger.log("Start line defined: " + lastLine, LogType.INFO);
     }
@@ -267,7 +228,7 @@ public class DialogHandler {
             try {
                 final List<String> urlLines = FileUtil.readListFromURL(new URL(input));
                 //TODO: Whip up better solution
-                final String dialogName = getArguments(urlLines.stream().filter(s -> s.startsWith(DIALOG_KEY)).findAny().orElse("")).getOrDefault("name", "unnamedDialog");
+                final String dialogName = getArguments(urlLines.stream().filter(s -> s.startsWith(DIALOG_KEY)).findAny().orElse("")).getOrDefault("name", "unnamedDialog" + System.currentTimeMillis() % 1000);
 
                 final Dialog newDialog = new Dialog(new File(Core.getInstance().getMainDir(), dialogName));
                 newDialog.createMetaData();
@@ -288,7 +249,6 @@ public class DialogHandler {
                         totalAssetSize += assetURL.openConnection().getContentLength();
                     }
                 }
-
                 totalBytes.accept(totalAssetSize);
 
                 assets.forEach((url, file) -> {
@@ -369,5 +329,37 @@ public class DialogHandler {
 
     public List<DialogLine> getDisplayDialog() {
         return displayDialog;
+    }
+
+    public List<BasicCall> getBasicCalls() {
+        return basicCalls;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public List<String> getDialog() {
+        return dialog;
+    }
+
+    public int getLastLine() {
+        return lastLine;
+    }
+
+    public void setLastLine(int lastLine) {
+        this.lastLine = lastLine;
+    }
+
+    public void setPending(boolean pending) {
+        this.pending = pending;
+    }
+
+    public Dialog getDialogHolder() {
+        return dialogHolder;
+    }
+
+    public void setDialogHolder(Dialog dialogHolder) {
+        this.dialogHolder = dialogHolder;
     }
 }
