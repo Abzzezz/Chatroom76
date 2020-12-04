@@ -39,7 +39,7 @@ public class RoomScreen extends BasicScreen {
         final int yPos = getHeight() - height * 3;
         getUiComponents().add(playButton = new CustomButton(0, "Play", 50, yPos, buttonWidth, height, false));
         getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, yPos, buttonWidth, height));
-        getUiComponents().add(deleteButton =new CustomButton(2, "Delete", getWidth() - 150, yPos, buttonWidth, height, false));
+        getUiComponents().add(deleteButton = new CustomButton(2, "Delete", getWidth() - 150, yPos, buttonWidth, height, false));
         super.init();
     }
 
@@ -87,8 +87,7 @@ public class RoomScreen extends BasicScreen {
                     deleteButton.setEnabled(false);
                     playButton.setEnabled(false);
                     selected = null;
-                }
-                else {
+                } else {
                     selected = dialog;
 
                     deleteButton.setEnabled(true);

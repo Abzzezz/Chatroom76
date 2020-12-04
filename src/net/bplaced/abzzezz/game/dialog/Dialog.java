@@ -1,12 +1,15 @@
 package net.bplaced.abzzezz.game.dialog;
 
 import net.bplaced.abzzezz.core.util.data.FileUtil;
+import net.bplaced.abzzezz.core.util.logging.LogType;
+import net.bplaced.abzzezz.core.util.logging.Logger;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class Dialog {
 
@@ -69,6 +72,21 @@ public class Dialog {
         return this;
     }
 
+    public void delete() {
+        if (!dialogDir.delete()) {
+            for (final File listFile : Objects.requireNonNull(dialogDir.listFiles()))
+                Logger.log("Deleting dialog files: " + listFile.delete(), LogType.INFO);
+        }
+
+        if (!assets.delete() && assets.listFiles() != null) {
+            for (final File listFile : Objects.requireNonNull(assets.listFiles()))
+                Logger.log("Deleting assets: " + listFile.delete(), LogType.INFO);
+        }
+
+        Logger.log("Deleting asset dir:" + assets.delete(), LogType.INFO);
+        Logger.log("Deleting dialog dir:" + dialogDir.delete(), LogType.INFO);
+    }
+
     public String getCreationDate() {
         return metaData.getString("created");
     }
@@ -96,5 +114,6 @@ public class Dialog {
     public File getAssets() {
         return assets;
     }
+
 
 }

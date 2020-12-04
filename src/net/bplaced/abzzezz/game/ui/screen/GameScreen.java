@@ -35,7 +35,7 @@ public class GameScreen extends BasicScreen {
 
         for (final DialogLine dialogLine : GameMain.INSTANCE.getDialogHandler().getDisplayDialog()) {
             textFont.drawString(dialogLine.getDialog(), 0, 20 + yBuffer + scrollY, dialogLine.getTextColor());
-            yBuffer += textFont.getHeight() + 5;
+            yBuffer += textFont.getHeight(dialogLine.getDialog()) + 5;
         }
 
         if (GameMain.INSTANCE.getDialogHandler().isPending())

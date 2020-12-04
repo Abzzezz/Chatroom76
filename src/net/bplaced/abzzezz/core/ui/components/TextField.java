@@ -11,10 +11,7 @@
 package net.bplaced.abzzezz.core.ui.components;
 
 import net.bplaced.abzzezz.core.util.AllowedCharacter;
-import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.TimeUtil;
-import net.bplaced.abzzezz.core.util.animation.AnimationUtil;
-import net.bplaced.abzzezz.core.util.animation.easing.Quint;
 import net.bplaced.abzzezz.core.util.io.KeyboardUtil;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
@@ -23,8 +20,6 @@ import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TextField implements UIComponent {
 
@@ -35,10 +30,10 @@ public class TextField implements UIComponent {
     private final int width;
     private final int height;
     private final String name;
+    private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
     private boolean clicked, selectedAll;
     private FontUtil fontUtil;
 
-    private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
     /*
     TODO: More work, Adding to clipboard etc. Text moving, selecting
      */
@@ -69,7 +64,7 @@ public class TextField implements UIComponent {
         final String text = displayText.toString();
         RenderUtil.drawQuad(xPos, yPos, width, height, clicked ? ColorUtil.MAIN_COLOR : ColorUtil.MAIN_COLOR.darker());
 
-        if(clicked) {
+        if (clicked) {
             if (bounceTime.isTimeOver(1000)) {
                 if (bounceTime2.isTimeOver(1600)) {
                     bounceTime2.reset();

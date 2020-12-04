@@ -30,7 +30,7 @@ public class DialogUtil {
     public static final String DEFINED_KEY = "#define";
     public static final String IMPORT_KEY = "#import";
     public static final String DIALOG_KEY = "#dialog";
-    public static final String COLOR_CODE_KEY = "$#";
+    public static final String COLOR_CODE_KEY = "#$";
     public static final String END_KEY = "#end";
     public static final String GOTO_KEY = "#goto";
 
@@ -57,6 +57,10 @@ public class DialogUtil {
     public static final String VARIABLE_ARGUMENT = "v";
     public static final String DEFINE_ARGUMENT = "as";
 
+    public static final String URL_ARGUMENT = "url";
+    public static final String DESTINATION_ARGUMENT = "dest";
 
     public static final String PLAIN_WHITE = "0xFFFFFF";
+
+    public static final int MAX_LINE_LENGTH = 45;
 }

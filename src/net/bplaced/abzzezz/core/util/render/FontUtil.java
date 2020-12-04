@@ -51,6 +51,11 @@ public class FontUtil {
         return this.unicodeFont.getWidth(text);
     }
 
+    public float getHeight(final String text) {
+        return this.unicodeFont.getHeight(text);
+    }
+
+
     public float getHeight() {
         return this.unicodeFont.getFont().getSize();
     }
