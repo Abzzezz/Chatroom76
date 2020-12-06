@@ -51,7 +51,7 @@ public class MainMenu extends BasicScreen {
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().render();
+        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().update();
         super.drawShader();
     }
 }

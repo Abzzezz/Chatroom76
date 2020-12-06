@@ -53,4 +53,8 @@ public class MathUtil {
         return new Random().nextInt(bound);
     }
 
+    public static float mapFloat(float n, float nMin, float nMax, float min, float max) {
+        return (n - nMin) / (nMax - nMin) * (max - min) + min;
+    }
+
 }

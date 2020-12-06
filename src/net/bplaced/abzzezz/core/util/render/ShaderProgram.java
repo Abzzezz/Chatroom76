@@ -85,7 +85,8 @@ public class ShaderProgram {
 
     }
 
-    protected void render() {
+    protected void update() {
+        /*
         glBegin(GL_QUADS);
         {
             glVertex2d(-1.0f, 1.0f);
@@ -94,6 +95,8 @@ public class ShaderProgram {
             glVertex2d(-1.0f, -1.0f);
         }
         glEnd();
+
+         */
         speed += DeltaTime.deltaTime;
     }
 
