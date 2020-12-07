@@ -13,14 +13,15 @@ public class TextureShader extends ShaderProgram {
     }
 
     @Override
-    public void update() {
+    public void draw() {
         if (sampler != -1) {
             bind();
             bindTexture(sampler);
             setUniform2f("resolution", Display.getWidth(), Display.getHeight());
             setUniform1f("opacity", opacity);
-            setUniform1f("tex", 0F);
+            setUniform1f("tex", 0f);
             super.update();
+            this.drawFull();
             unbind();
         }
     }

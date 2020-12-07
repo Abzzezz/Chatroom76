@@ -1,6 +1,7 @@
 package net.bplaced.abzzezz.game.handler;
 
 import net.bplaced.abzzezz.game.shader.BackgroundShader;
+import net.bplaced.abzzezz.game.shader.BlurShader;
 import net.bplaced.abzzezz.game.shader.TextureShader;
 import net.bplaced.abzzezz.game.util.timer.UniformCacheTimer;
 

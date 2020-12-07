@@ -25,6 +25,7 @@ public class FontUtil {
         try {
             final String fontDir = Core.getInstance().getFontDir() + fontName + ".ttf";
             final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fontDir);
+            assert inputStream != null;
             final Font awtFont = Font.createFont(Font.PLAIN, inputStream);
             this.unicodeFont = new UnicodeFont(awtFont, size, false, false);
             unicodeFont.addAsciiGlyphs();

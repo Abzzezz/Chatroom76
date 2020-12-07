@@ -60,7 +60,7 @@ public class SettingsScreen extends BasicScreen {
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().update();
+        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().draw();
         super.drawShader();
     }
 

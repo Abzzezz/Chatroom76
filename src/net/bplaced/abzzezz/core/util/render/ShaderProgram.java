@@ -28,7 +28,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL20.*;
 
-public class ShaderProgram {
+public abstract class ShaderProgram {
 
     private final int program;
     protected float speed;
@@ -82,11 +82,15 @@ public class ShaderProgram {
         if (glGetObjectParameteriARB(program, GL_OBJECT_VALIDATE_STATUS_ARB) == GL_FALSE) {
             Logger.log("Shader-validation:" + getLogInfo(program), LogType.ERROR);
         }
-
     }
 
+    public abstract void draw();
+
     protected void update() {
-        /*
+        speed += DeltaTime.deltaTime;
+    }
+
+    protected void drawFull() {
         glBegin(GL_QUADS);
         {
             glVertex2d(-1.0f, 1.0f);
@@ -95,9 +99,6 @@ public class ShaderProgram {
             glVertex2d(-1.0f, -1.0f);
         }
         glEnd();
-
-         */
-        speed += DeltaTime.deltaTime;
     }
 
     public void unbind() {
@@ -117,6 +118,12 @@ public class ShaderProgram {
         if (shader == 0) return 0;
         glShaderSourceARB(shader, shaderSource);
         glCompileShaderARB(shader);
+
+        if (glGetObjectParameteriARB(shader, GL_OBJECT_COMPILE_STATUS_ARB) == GL_FALSE) {
+            System.out.println("Error when creating: " + getLogInfo(shader));
+            glDeleteObjectARB(shader);
+            return shader;
+        }
         return shader;
     }
 

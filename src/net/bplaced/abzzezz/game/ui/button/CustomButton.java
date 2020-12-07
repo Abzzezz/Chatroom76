@@ -4,10 +4,12 @@ import net.bplaced.abzzezz.core.ui.components.Button;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
+import net.bplaced.abzzezz.game.shader.BlurShader;
 
 public class CustomButton extends Button {
 
     private final int d = 10;
+    private final BlurShader blurShader;
 
     /**
      * Simple button. Buttons can be added just use this as a parent
@@ -19,18 +21,22 @@ public class CustomButton extends Button {
      */
     public CustomButton(float id, String text, float xPos, float yPos) {
         super(id, text, xPos, yPos);
+        blurShader = new BlurShader(xPos, yPos, getDimensions()[0], getDimensions()[1]);
     }
 
     public CustomButton(float id, String text, float xPos, float yPos, int width, int height) {
         super(id, text, xPos, yPos, width, height);
+        blurShader = new BlurShader(xPos, yPos, getDimensions()[0], getDimensions()[1]);
     }
 
     public CustomButton(float id, String text, float xPos, float yPos, int width, int height, boolean enabled) {
         super(id, text, xPos, yPos, width, height, enabled);
+        blurShader = new BlurShader(xPos, yPos, getDimensions()[0], getDimensions()[1]);
     }
 
     public CustomButton(float id, String text, float xPos, float yPos, boolean enabled) {
         super(id, text, xPos, yPos, enabled);
+        blurShader = new BlurShader(xPos, yPos, getDimensions()[0], getDimensions()[1]);
     }
 
     @Override
@@ -47,13 +53,7 @@ public class CustomButton extends Button {
 
     @Override
     public void drawShader() {
-        /*
-        ScissorUtil.enableScissor();
-        ScissorUtil.scissor(getXPos() - 20, getYPos(), getDimensions()[0] + 40, getDimensions()[1]);
-        GameMain.getInstance().getGlslShaderUtil().draw();
-        ScissorUtil.disableScissor();
-
-         */
+        blurShader.draw();
         super.drawShader();
     }
 }

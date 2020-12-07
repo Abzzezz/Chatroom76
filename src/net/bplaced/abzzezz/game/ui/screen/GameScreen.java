@@ -62,8 +62,8 @@ public class GameScreen extends BasicScreen {
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().update();
-        GameMain.INSTANCE.getShaderHandler().getTextureShader().update();
+        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().draw();
+        GameMain.INSTANCE.getShaderHandler().getTextureShader().draw();
 
         super.drawShader();
     }
