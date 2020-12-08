@@ -7,6 +7,7 @@ import net.bplaced.abzzezz.core.ui.components.ListView;
 import net.bplaced.abzzezz.core.ui.components.Slider;
 import net.bplaced.abzzezz.core.ui.components.UIComponent;
 import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.game.setting.Setting;
 import org.lwjgl.input.Keyboard;
 
@@ -60,7 +61,7 @@ public class SettingsScreen extends BasicScreen {
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().draw();
+        ShaderHandler.SHADER_HANDLER.getBackgroundShader().draw();
         super.drawShader();
     }
 

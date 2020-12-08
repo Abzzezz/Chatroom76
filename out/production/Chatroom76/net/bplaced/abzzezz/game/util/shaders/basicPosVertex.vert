@@ -1,9 +1,7 @@
-#version 330 core
-in vec3 position;
-
-uniform vec2 pos;
+#version 120
+//in vec3 position;
 
 void main()
 {
-    gl_Position = vec4(position + vec3(pos, 0), 1);
+    gl_Position =  gl_ModelViewProjectionMatrix * gl_Vertex;
 }

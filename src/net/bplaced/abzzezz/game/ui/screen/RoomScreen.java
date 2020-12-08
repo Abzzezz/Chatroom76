@@ -5,21 +5,19 @@ import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Button;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
-import net.bplaced.abzzezz.core.util.render.FontUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.game.ui.button.CustomButton;
 import org.lwjgl.input.Keyboard;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class RoomScreen extends BasicScreen {
 
-    protected FontUtil textFont;
     private List<Dialog> dialogs;
     private Dialog selected;
 
@@ -28,13 +26,9 @@ public class RoomScreen extends BasicScreen {
     @Override
     public void init() {
         this.dialogs = new ArrayList<>();
-        this.textFont = new FontUtil(ColorUtil.TEXT_FONT, 20);
-        for (int i = 0; i < Objects.requireNonNull(Core.getInstance().getMainDir().listFiles()).length; i++) {
-            File file = Objects.requireNonNull(Core.getInstance().getMainDir().listFiles())[i];
-            if (!file.getName().contains(".")) {
-                dialogs.add(new Dialog(file).loadMetaData());
-            }
-        }
+
+        this.addDialogs();
+
         final int buttonWidth = 100, height = 15;
         final int yPos = getHeight() - height * 3;
         getUiComponents().add(playButton = new CustomButton(0, "Play", 50, yPos, buttonWidth, height, false));
@@ -101,7 +95,17 @@ public class RoomScreen extends BasicScreen {
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().draw();
+        ShaderHandler.SHADER_HANDLER.getBackgroundShader().draw();
         super.drawShader();
+    }
+
+    private void addDialogs() {
+        final File[] files = Core.getInstance().getMainDir().listFiles();
+        assert files != null : "Files in Dialog directory are null";
+        for (final File file : files) {
+            if (file.isDirectory()) {
+                dialogs.add(new Dialog(file).loadMetaData());
+            }
+        }
     }
 }

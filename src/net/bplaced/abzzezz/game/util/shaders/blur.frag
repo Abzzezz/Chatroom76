@@ -1,7 +1,7 @@
 /**
 Taken from: https://www.shadertoy.com/view/Xltfzj
 */
-#version 330
+#version 120
 
 #ifdef GL_ES
 precision mediump float;
@@ -12,18 +12,55 @@ precision mediump float;
 uniform vec2 resolution;
 uniform sampler2D tex;
 
-uniform float weight[5] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216);
+const int mSize = 15;
+const int kSize = (mSize-1)/2;
 
-void main()
+float normpdf(in float x, in float sigma)
 {
-    vec2 tex_offset = 1.0 / textureSize(tex, 0);// gets size of single texel
-    vec3 result = texture(tex, gl_FragCoord.xy / resolution).rgb * weight[0];// current fragment's contribution
+    return 0.39894*exp(-0.5*x*x/(sigma*sigma))/sigma;
+}
 
-    for (int i = 1; i < 5; ++i)
+void mainImage(out vec4 fragColor, in vec2 fragCoord)
+{
+    vec3 c = texture2D(tex, gl_FragCoord.xy / resolution.xy).rgb;
+    if (fragCoord.x < 0.0)
     {
-        result += texture(tex, gl_FragCoord.xy + vec2(0.0, tex_offset.y * i)).rgb * weight[i];
-        result += texture(tex, gl_FragCoord.xy - vec2(0.0, tex_offset.y * i)).rgb * weight[i];
-    }
+        fragColor = vec4(c, 1.0);
+    } else {
 
-    gl_FragColor = vec4(result, 1.0);
+
+        float kernel[mSize];
+        vec3 final_colour = vec3(0.0);
+
+        //create the 1-D kernel
+        float sigma = 10.0;
+        float Z = 0.0;
+        for (int j = 0; j <= kSize; ++j)
+        {
+            kernel[kSize+j] = kernel[kSize-j] = normpdf(float(j), sigma);
+        }
+
+        //get the normalization factor (as the gaussian has been clamped)
+        for (int j = 0; j < mSize; ++j)
+        {
+            Z += kernel[j];
+        }
+
+        //read out the texels
+        for (int i=-kSize; i <= kSize; ++i)
+        {
+            for (int j=-kSize; j <= kSize; ++j)
+            {
+                final_colour += kernel[kSize+j]*kernel[kSize+i]*texture2D(tex, (gl_FragCoord.xy+vec2(float(i), float(j))) / resolution.xy).rgb;
+
+            }
+        }
+
+        fragColor = vec4(final_colour/(Z*Z), 1.0);
+    }
+}
+
+void main(void)
+{
+    mainImage(gl_FragColor, gl_FragCoord.xy);
 }

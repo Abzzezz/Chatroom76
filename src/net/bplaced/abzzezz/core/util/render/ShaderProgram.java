@@ -16,6 +16,8 @@ import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
 import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL13;
 
 import java.io.IOException;
@@ -33,7 +35,13 @@ public abstract class ShaderProgram {
     private final int program;
     protected float speed;
 
+    private final float width;
+    private final float height;
+
     public ShaderProgram(final String vertexShader, final String fragmentShader) {
+        width = Display.getWidth();
+        height = Display.getHeight();
+
         int compiledVertex, compiledFragment;
         this.program = glCreateProgramObjectARB();
 
@@ -50,6 +58,9 @@ public abstract class ShaderProgram {
     }
 
     public ShaderProgram(final URL vertexShader, final URL fragmentShader) {
+        width = Display.getWidth();
+        height = Display.getHeight();
+
         int compiledVertex, compiledFragment;
         this.program = glCreateProgramObjectARB();
 
@@ -82,6 +93,7 @@ public abstract class ShaderProgram {
         if (glGetObjectParameteriARB(program, GL_OBJECT_VALIDATE_STATUS_ARB) == GL_FALSE) {
             Logger.log("Shader-validation:" + getLogInfo(program), LogType.ERROR);
         }
+        ShaderHandler.SHADER_HANDLER.getProgramList().add(program);
     }
 
     public abstract void draw();
@@ -93,10 +105,10 @@ public abstract class ShaderProgram {
     protected void drawFull() {
         glBegin(GL_QUADS);
         {
-            glVertex2d(-1.0f, 1.0f);
-            glVertex2d(1.0f, 1.0f);
-            glVertex2d(1.0f, -1.0f);
-            glVertex2d(-1.0f, -1.0f);
+            glVertex2d(0, 0);
+            glVertex2d(width, 0);
+            glVertex2d(width, height);
+            glVertex2d(0, height);
         }
         glEnd();
     }
@@ -169,13 +181,13 @@ public abstract class ShaderProgram {
     }
 
     private int getUniformLocation(final String uniform) {
-        if (GameMain.INSTANCE.getShaderHandler().getProgramUniformLocationMap().containsKey(program) &&
-                GameMain.INSTANCE.getShaderHandler().getProgramUniformLocationMap().get(program).containsKey(uniform)) {
-            return GameMain.INSTANCE.getShaderHandler().getProgramUniformLocationMap().get(program).get(uniform);
+        if (ShaderHandler.SHADER_HANDLER.getProgramUniformLocationMap().containsKey(program) &&
+                ShaderHandler.SHADER_HANDLER.getProgramUniformLocationMap().get(program).containsKey(uniform)) {
+            return ShaderHandler.SHADER_HANDLER.getProgramUniformLocationMap().get(program).get(uniform);
         } else {
             final int loc = glGetUniformLocation(program, uniform);
             if (loc == -1) return -1;
-            GameMain.INSTANCE.getShaderHandler().putUniformLocation(program, uniform, loc);
+            ShaderHandler.SHADER_HANDLER.putUniformLocation(program, uniform, loc);
             return loc;
         }
     }

@@ -3,26 +3,35 @@ package net.bplaced.abzzezz.game.ui.screen;
 import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
-import net.bplaced.abzzezz.core.util.render.ColorUtil;
-import net.bplaced.abzzezz.core.util.render.FontUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.core.util.render.ScissorUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+import java.util.function.Function;
 
 public class GameScreen extends BasicScreen {
 
-    private FontUtil textFont;
     private boolean paused;
     private int scrollY;
 
+    private final String[] pauseMenu = {"Resume", "Back to menu"};
+
+    private final Function[] pauseActions = new Function[]{unused -> {
+        paused = !paused;
+        return null;
+    }, o -> {
+        GameMain.INSTANCE.getDialogHandler().savePreviousDialog();
+        Core.getInstance().setScreen(new RoomScreen());
+        return null;
+    }};
+
     @Override
     public void init() {
-        this.textFont = new FontUtil(ColorUtil.TEXT_FONT, 20);
         GameMain.INSTANCE.getDialogHandler().getNextDialog();
         super.init();
     }
@@ -54,28 +63,36 @@ public class GameScreen extends BasicScreen {
         ScissorUtil.disableScissor();
 
         if (paused) {
-            textFont.drawString("Resume", getWidth() / 2 - textFont.getStringWidth("Resume") / 2, getHeight() / 4, Color.decode("#836E81"));
-            textFont.drawString("Back to menu", getWidth() / 2 - textFont.getStringWidth("Back to menu") / 2, getHeight() / 4 + textFont.getHeight(), Color.decode("#836E81"));
+            int yStack = 0;
+            final int xPos = getWidth() / 2;
+            final int yPos = getHeight() / 4;
+
+            for (final String menu : pauseMenu) {
+                textFont.drawString(menu, xPos - textFont.getStringWidth(menu) / 2, yPos + yStack, Color.decode("#836E81"));
+                yStack += textFont.getHeight();
+            }
+
         }
         super.drawScreen();
     }
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().draw();
-        GameMain.INSTANCE.getShaderHandler().getTextureShader().draw();
-
+        ShaderHandler.SHADER_HANDLER.getBackgroundShader().draw();
+        ShaderHandler.SHADER_HANDLER.getTextureShader().draw();
         super.drawShader();
     }
 
     @Override
     public void mousePressed(int mouseButton) {
         if (paused) {
-            if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth("Resume") / 2, getHeight() / 4, textFont.getStringWidth("Resume"), textFont.getHeight())) {
-                paused = !paused;
-            } else if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth("Back to menu") / 2, getHeight() / 4 + textFont.getHeight(), textFont.getStringWidth("Back to menu"), textFont.getHeight())) {
-                GameMain.INSTANCE.getDialogHandler().savePreviousDialog();
-                Core.getInstance().setScreen(new RoomScreen());
+            int yStack = 0;
+
+            for (int i = 0; i < pauseMenu.length; i++) {
+                if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth(pauseMenu[i]) / 2, getHeight() / 4 + yStack, textFont.getStringWidth(pauseMenu[i]), textFont.getHeight())) {
+                    pauseActions[i].apply(null);
+                }
+                yStack += textFont.getHeight();
             }
         } else
             GameMain.INSTANCE.getDialogHandler().getNextDialog();

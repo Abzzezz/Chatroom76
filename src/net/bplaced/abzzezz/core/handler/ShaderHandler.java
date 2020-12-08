@@ -1,18 +1,20 @@
-package net.bplaced.abzzezz.game.handler;
+package net.bplaced.abzzezz.core.handler;
 
 import net.bplaced.abzzezz.game.shader.BackgroundShader;
-import net.bplaced.abzzezz.game.shader.BlurShader;
 import net.bplaced.abzzezz.game.shader.TextureShader;
 import net.bplaced.abzzezz.game.util.timer.UniformCacheTimer;
+import org.lwjgl.opengl.ARBShaderObjects;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class ShaderHandler {
 
+    public static final ShaderHandler SHADER_HANDLER = new ShaderHandler();
+
     private final Map<Integer, Map<String, Integer>> programUniformLocationMap = new HashMap<>();
+    private final List<Integer> programList = new ArrayList<>();
+
 
     private BackgroundShader backgroundShader;
     private TextureShader textureShader;
@@ -25,6 +27,10 @@ public class ShaderHandler {
     public void setupShaders() {
         this.backgroundShader = new BackgroundShader();
         this.textureShader = new TextureShader();
+    }
+
+    public void deletePrograms() {
+        getProgramList().forEach(ARBShaderObjects::glDeleteObjectARB);
     }
 
     public TextureShader getTextureShader() {
@@ -45,5 +51,9 @@ public class ShaderHandler {
 
     public Map<Integer, Map<String, Integer>> getProgramUniformLocationMap() {
         return programUniformLocationMap;
+    }
+
+    public List<Integer> getProgramList() {
+        return programList;
     }
 }

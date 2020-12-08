@@ -5,6 +5,7 @@ import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Progressbar;
 import net.bplaced.abzzezz.core.ui.components.TextField;
 import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.game.ui.button.CustomButton;
 import org.lwjgl.input.Keyboard;
 
@@ -49,7 +50,7 @@ public class ImportDialogScreen extends BasicScreen {
 
     @Override
     public void drawShader() {
-        GameMain.INSTANCE.getShaderHandler().getBackgroundShader().draw();
+        ShaderHandler.SHADER_HANDLER.getBackgroundShader().draw();
         super.drawShader();
     }
 

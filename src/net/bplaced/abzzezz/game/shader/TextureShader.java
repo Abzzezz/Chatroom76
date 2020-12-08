@@ -20,7 +20,6 @@ public class TextureShader extends ShaderProgram {
             setUniform2f("resolution", Display.getWidth(), Display.getHeight());
             setUniform1f("opacity", opacity);
             setUniform1f("tex", 0f);
-            super.update();
             this.drawFull();
             unbind();
         }

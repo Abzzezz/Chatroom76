@@ -1,5 +1,6 @@
 package net.bplaced.abzzezz.core.util.render;
 
+import net.bplaced.abzzezz.core.handler.TextureHandler;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
 
@@ -30,7 +31,7 @@ public class TextureLoader {
 
         buffer.flip();
 
-        int textureID = glGenTextures(); //Generate texture ID
+        final int textureID = glGenTextures(); //Generate texture ID
         glBindTexture(GL_TEXTURE_2D, textureID); //Bind texture ID
 
         //Setup wrap mode
@@ -43,6 +44,7 @@ public class TextureLoader {
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 
+        TextureHandler.TEXTURE_HANDLER.getTextureList().add(textureID);
         return textureID;
     }
 }

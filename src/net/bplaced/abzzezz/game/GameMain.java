@@ -6,7 +6,7 @@ import net.bplaced.abzzezz.core.util.logging.Logger;
 import net.bplaced.abzzezz.game.file.SettingsFile;
 import net.bplaced.abzzezz.game.handler.DialogHandler;
 import net.bplaced.abzzezz.game.handler.SettingsHandler;
-import net.bplaced.abzzezz.game.handler.ShaderHandler;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.game.sound.SoundPlayer;
 import net.bplaced.abzzezz.game.ui.screen.MainMenu;
 
@@ -26,7 +26,6 @@ public class GameMain {
     private DialogHandler dialogHandler;
     private SoundPlayer soundPlayer;
     private SettingsHandler settingsHandler;
-    private ShaderHandler shaderHandler;
 
     private void startEngine() {
         //Initialise and start engine
@@ -38,7 +37,7 @@ public class GameMain {
         core.setOpenGLReference(new Core.OpenGLReference() {
             @Override
             public void onGLInitialised() {
-                shaderHandler.setupShaders();
+                ShaderHandler.SHADER_HANDLER.setupShaders();
             }
 
             @Override
@@ -58,7 +57,6 @@ public class GameMain {
         this.dialogHandler = new DialogHandler();
         this.settingsHandler = new SettingsHandler();
         this.soundPlayer = new SoundPlayer();
-        this.shaderHandler = new ShaderHandler();
 
         Logger.log("Handlers initialised", LogType.INFO);
         this.startEngine();
@@ -104,7 +102,4 @@ public class GameMain {
         return gameName;
     }
 
-    public ShaderHandler getShaderHandler() {
-        return shaderHandler;
-    }
 }

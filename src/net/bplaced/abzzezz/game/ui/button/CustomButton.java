@@ -21,34 +21,37 @@ public class CustomButton extends Button {
      */
     public CustomButton(float id, String text, float xPos, float yPos) {
         super(id, text, xPos, yPos);
-        blurShader = new BlurShader(xPos, yPos, getDimensions()[0], getDimensions()[1]);
+        blurShader = new BlurShader(xPos - d, yPos, getDimen()[0], getDimen()[1]);
     }
 
     public CustomButton(float id, String text, float xPos, float yPos, int width, int height) {
         super(id, text, xPos, yPos, width, height);
-        blurShader = new BlurShader(xPos, yPos, getDimensions()[0], getDimensions()[1]);
+        blurShader = new BlurShader(xPos - d, yPos, getDimen()[0], getDimen()[1]);
     }
 
     public CustomButton(float id, String text, float xPos, float yPos, int width, int height, boolean enabled) {
         super(id, text, xPos, yPos, width, height, enabled);
-        blurShader = new BlurShader(xPos, yPos, getDimensions()[0], getDimensions()[1]);
+        blurShader = new BlurShader(xPos - d, yPos, getDimen()[0], getDimen()[1]);
     }
 
     public CustomButton(float id, String text, float xPos, float yPos, boolean enabled) {
         super(id, text, xPos, yPos, enabled);
-        blurShader = new BlurShader(xPos, yPos, getDimensions()[0], getDimensions()[1]);
+        blurShader = new BlurShader(xPos - d, yPos,getDimen()[0], getDimen()[1]);
     }
 
     @Override
     public void drawComponent() {
-        final int quadHeight = getDimensions()[1] + d * 2;
-        RenderUtil.drawQuad(getXPos() - d, getYPos(), getDimensions()[0] + d * 2, quadHeight, ColorUtil.MAIN_COLOR);
+        RenderUtil.drawQuad(getXPos() - d, getYPos(), getDimen()[0], getDimen()[1], ColorUtil.MAIN_COLOR);
         textFont.drawString(getText(), getXPos() + getDimensions()[0] / 2 - textFont.getStringWidth(getText()) / 2, getYPos() + d / 2, isEnabled() ? ColorUtil.TEXT_COLOR : ColorUtil.MAIN_COLOR);
+    }
+
+    public int[] getDimen() {
+        return new int[]{getDimensions()[0] + d * 2, getDimensions()[1] + d * 2};
     }
 
     @Override
     public boolean buttonHovered() {
-        return MouseUtil.mouseHovered(getXPos() - d, getYPos(), getDimensions()[0] + d * 2, getDimensions()[1] + d * 2);
+        return MouseUtil.mouseHovered(getXPos() - d, getYPos(), getDimen()[0], getDimen()[1]);
     }
 
     @Override

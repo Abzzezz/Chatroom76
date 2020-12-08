@@ -12,16 +12,20 @@ package net.bplaced.abzzezz.core;
 
 import net.bplaced.abzzezz.core.file.BasicFile;
 import net.bplaced.abzzezz.core.handler.FileHandler;
+import net.bplaced.abzzezz.core.handler.TextureHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
 import java.io.File;
 
@@ -150,6 +154,9 @@ public class Core {
     private void shutdown() {
         fileHandler.save();
         Logger.log("Saving files", LogType.INFO);
+        //Clean
+        ShaderHandler.SHADER_HANDLER.deletePrograms();
+        TextureHandler.TEXTURE_HANDLER.deleteTextures();
     }
 
     /**
@@ -186,8 +193,9 @@ public class Core {
 
         glOrtho(0, width, height, 0, 0.0f, 1.0f);
         glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
         glViewport(0, 0, width, height);
+        glLoadIdentity();
+
         lastFrame = getTime();
         if (openGLReference != null) openGLReference.onGLInitialised();
         basicScreen.init();
