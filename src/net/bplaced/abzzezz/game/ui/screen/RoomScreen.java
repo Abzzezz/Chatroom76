@@ -9,6 +9,7 @@ import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.core.handler.ShaderHandler;
+import net.bplaced.abzzezz.game.shader.BlurShader;
 import net.bplaced.abzzezz.game.ui.button.CustomButton;
 import org.lwjgl.input.Keyboard;
 

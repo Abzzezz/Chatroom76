@@ -147,14 +147,6 @@ public class DialogHandler {
         }
     }
 
-    private String playSound(final String format) {
-        final Map<String, String> args = getArguments(format);
-        final File file = new File(args.getOrDefault(PATH_ARGUMENT, "").replace("\\", "\\\\"));
-        final float volume = Float.parseFloat(args.getOrDefault(VOLUME_ARGUMENT, "0"));
-        GameMain.INSTANCE.getSoundPlayer().playSound(file, volume);
-        return args.getOrDefault(TEXT_ARGUMENT, "");
-    }
-
     private void prepareDialog() {
         dialog.removeIf(String::isEmpty);
 

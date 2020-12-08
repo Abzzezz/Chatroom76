@@ -35,12 +35,12 @@ public abstract class ShaderProgram {
     private final int program;
     protected float speed;
 
-    private final float width;
-    private final float height;
+    private final float screenWidth;
+    private final float screenHeight;
 
     public ShaderProgram(final String vertexShader, final String fragmentShader) {
-        width = Display.getWidth();
-        height = Display.getHeight();
+        screenWidth = Display.getWidth();
+        screenHeight = Display.getHeight();
 
         int compiledVertex, compiledFragment;
         this.program = glCreateProgramObjectARB();
@@ -58,8 +58,8 @@ public abstract class ShaderProgram {
     }
 
     public ShaderProgram(final URL vertexShader, final URL fragmentShader) {
-        width = Display.getWidth();
-        height = Display.getHeight();
+        screenWidth = Display.getWidth();
+        screenHeight = Display.getHeight();
 
         int compiledVertex, compiledFragment;
         this.program = glCreateProgramObjectARB();
@@ -106,9 +106,9 @@ public abstract class ShaderProgram {
         glBegin(GL_QUADS);
         {
             glVertex2d(0, 0);
-            glVertex2d(width, 0);
-            glVertex2d(width, height);
-            glVertex2d(0, height);
+            glVertex2d(screenWidth, 0);
+            glVertex2d(screenWidth, screenHeight);
+            glVertex2d(0, screenHeight);
         }
         glEnd();
     }

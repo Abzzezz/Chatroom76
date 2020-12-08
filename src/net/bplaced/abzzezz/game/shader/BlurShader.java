@@ -23,7 +23,7 @@ public class BlurShader extends ShaderProgram {
         setUniform2f("resolution", width, height);
         setUniform1i("tex", 0);
 
-        glBegin(GL_POLYGON);
+        glBegin(GL_QUADS);
         {
             glVertex2d(xPos, yPos);
             glVertex2d(xPos + width, yPos);
