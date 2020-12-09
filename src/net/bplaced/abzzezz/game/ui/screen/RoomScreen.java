@@ -1,6 +1,7 @@
 package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Button;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
@@ -8,8 +9,6 @@ import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
-import net.bplaced.abzzezz.core.handler.ShaderHandler;
-import net.bplaced.abzzezz.game.shader.BlurShader;
 import net.bplaced.abzzezz.game.ui.button.CustomButton;
 import org.lwjgl.input.Keyboard;
 

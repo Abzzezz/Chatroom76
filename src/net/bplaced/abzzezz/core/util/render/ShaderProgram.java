@@ -11,12 +11,12 @@
 package net.bplaced.abzzezz.core.util.render;
 
 
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
 import net.bplaced.abzzezz.game.GameMain;
-import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL13;
 
@@ -33,10 +33,9 @@ import static org.lwjgl.opengl.GL20.*;
 public abstract class ShaderProgram {
 
     private final int program;
-    protected float speed;
-
     private final float screenWidth;
     private final float screenHeight;
+    protected float speed;
 
     public ShaderProgram(final String vertexShader, final String fragmentShader) {
         screenWidth = Display.getWidth();

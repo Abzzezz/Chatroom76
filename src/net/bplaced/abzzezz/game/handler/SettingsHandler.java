@@ -1,6 +1,9 @@
 package net.bplaced.abzzezz.game.handler;
 
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.game.setting.Setting;
+import net.bplaced.abzzezz.game.shader.BackgroundShader;
+import net.bplaced.abzzezz.game.shader.ExitBackgroundShader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,13 @@ public class SettingsHandler {
             final String[] split = setting.getSelected().split("x");
         }));
         settings.add(new Setting("volume", 0, 100, 50));
+        settings.add(new Setting("background", "TV", true, "TV", "Exit").setSettingStateChangedListener(setting -> {
+            if (setting.getSelected().equals("TV")) {
+                ShaderHandler.SHADER_HANDLER.setBackgroundShader(new BackgroundShader());
+            } else {
+                ShaderHandler.SHADER_HANDLER.setBackgroundShader(new ExitBackgroundShader());
+            }
+        }));
     }
 
     public List<Setting> getSettings() {

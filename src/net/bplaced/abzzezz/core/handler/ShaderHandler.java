@@ -1,5 +1,6 @@
 package net.bplaced.abzzezz.core.handler;
 
+import net.bplaced.abzzezz.core.util.render.ShaderProgram;
 import net.bplaced.abzzezz.game.shader.BackgroundShader;
 import net.bplaced.abzzezz.game.shader.TextureShader;
 import net.bplaced.abzzezz.game.util.timer.UniformCacheTimer;
@@ -16,7 +17,7 @@ public class ShaderHandler {
     private final List<Integer> programList = new ArrayList<>();
 
 
-    private BackgroundShader backgroundShader;
+    private ShaderProgram backgroundShader;
     private TextureShader textureShader;
 
     public ShaderHandler() {
@@ -37,8 +38,12 @@ public class ShaderHandler {
         return textureShader;
     }
 
-    public BackgroundShader getBackgroundShader() {
+    public ShaderProgram getBackgroundShader() {
         return backgroundShader;
+    }
+
+    public void setBackgroundShader(ShaderProgram backgroundShader) {
+        this.backgroundShader = backgroundShader;
     }
 
     public void putUniformLocation(final int program, final String uniform, final int location) {

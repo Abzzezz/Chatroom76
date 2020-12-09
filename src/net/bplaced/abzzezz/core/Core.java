@@ -12,20 +12,18 @@ package net.bplaced.abzzezz.core;
 
 import net.bplaced.abzzezz.core.file.BasicFile;
 import net.bplaced.abzzezz.core.handler.FileHandler;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.handler.TextureHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
-import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
 
 import java.io.File;
 
@@ -125,7 +123,6 @@ public class Core {
 
         if (!mainDir.exists()) mainDir.mkdir();
 
-        fileHandler.load();
         Logger.log("Game starting", LogType.INFO);
         //System.setProperty("org.lwjgl.util.Debug", "true");
         run(width, height);
@@ -198,6 +195,7 @@ public class Core {
 
         lastFrame = getTime();
         if (openGLReference != null) openGLReference.onGLInitialised();
+        fileHandler.load();
         basicScreen.init();
     }
 

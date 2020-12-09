@@ -1,12 +1,12 @@
 package net.bplaced.abzzezz.game;
 
 import net.bplaced.abzzezz.core.Core;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
 import net.bplaced.abzzezz.game.file.SettingsFile;
 import net.bplaced.abzzezz.game.handler.DialogHandler;
 import net.bplaced.abzzezz.game.handler.SettingsHandler;
-import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.game.sound.SoundPlayer;
 import net.bplaced.abzzezz.game.ui.screen.MainMenu;
 

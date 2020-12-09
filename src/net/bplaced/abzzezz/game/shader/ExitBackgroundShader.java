@@ -3,14 +3,14 @@ package net.bplaced.abzzezz.game.shader;
 import net.bplaced.abzzezz.core.util.render.ShaderProgram;
 import org.lwjgl.opengl.Display;
 
-public class BackgroundShader extends ShaderProgram {
+public class ExitBackgroundShader extends ShaderProgram {
 
 
     private final float width;
     private final float height;
 
-    public BackgroundShader() {
-        super("pixelPositionVertex.vert", "backgroundShader.frag");
+    public ExitBackgroundShader() {
+        super("pixelPositionVertex.vert", "background2Shader.frag");
         width = Display.getWidth();
         height = Display.getHeight();
     }

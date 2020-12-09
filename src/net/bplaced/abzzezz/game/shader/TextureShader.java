@@ -9,7 +9,7 @@ public class TextureShader extends ShaderProgram {
     private float opacity;
 
     public TextureShader() {
-        super("basicPosVertex.vert", "textureShader.frag");
+        super("pixelPositionVertex.vert", "textureShader.frag");
     }
 
     @Override

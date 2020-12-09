@@ -10,7 +10,7 @@ public class BlurShader extends ShaderProgram {
     private final float xPos, yPos;
 
     public BlurShader(float xPos, float yPos, final float width, final float height) {
-        super("basicPosVertex.vert", "blur.frag");
+        super("pixelPositionVertex.vert", "blur.frag");
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;

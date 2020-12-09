@@ -1,8 +1,8 @@
 package net.bplaced.abzzezz.game.dialog.call.calls;
 
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.util.render.TextureLoader;
 import net.bplaced.abzzezz.game.dialog.call.BasicCall;
-import net.bplaced.abzzezz.core.handler.ShaderHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class BackgroundCall implements BasicCall {
         }
         ShaderHandler.SHADER_HANDLER.getTextureShader().setOpacity(opacity);
 
-        return new String[] {args.getOrDefault(TEXT_ARGUMENT, ""), color};
+        return new String[]{args.getOrDefault(TEXT_ARGUMENT, ""), color};
     }
 
     @Override

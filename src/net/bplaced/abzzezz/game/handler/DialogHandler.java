@@ -1,6 +1,7 @@
 package net.bplaced.abzzezz.game.handler;
 
 import net.bplaced.abzzezz.core.Core;
+import net.bplaced.abzzezz.core.util.AllowedCharacter;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
@@ -27,15 +28,13 @@ import static net.bplaced.abzzezz.game.util.dialog.DialogUtil.*;
 
 public class DialogHandler {
 
+    public final List<BasicCall> basicCalls;
     private final List<DialogLine> displayDialog;
     private final List<String> options;
     private final List<String> dialog;
-
-    private int lastLine;
     public boolean pending;
+    private int lastLine;
     private Dialog dialogHolder;
-
-    public final List<BasicCall> basicCalls;
 
     public DialogHandler() {
         this.dialog = new ArrayList<>();
@@ -87,11 +86,7 @@ public class DialogHandler {
                 return dialog.indexOf(":".concat(split[1])) + 1;
 
             case END_KEY:
-                lastLine = 0;
                 savePreviousDialog();
-                GameMain.INSTANCE.getSoundPlayer().stopMusic();
-                dialogHolder.save();
-                Core.getInstance().setScreen(new MainMenu());
                 return 0;
             default:
                 return lastLine + 1;
@@ -113,7 +108,7 @@ public class DialogHandler {
                 return basicCall.formatted(format, getColor(args), args);
             }
         }
-        return new String[] {format, getColor(args)};
+        return new String[]{format, getColor(args)};
     }
 
     /**
@@ -177,6 +172,7 @@ public class DialogHandler {
     private List<String> replaceInList(final List<String> lines, final Dialog dialog) {
         final Map<String, String> definedVars = new HashMap<>();
 
+        //Add defined variables
         for (final String line : lines) {
             final String[] split = line.split(" ");
             if (DEFINED_KEY.equals(split[0])) {
@@ -184,19 +180,22 @@ public class DialogHandler {
                 definedVars.put(args.get(VARIABLE_ARGUMENT), args.get(DEFINE_ARGUMENT));
             }
         }
-
+        //Replace variables
         for (int i = 0; i < lines.size(); i++) {
-            final String stringAt = lines.get(i);
+            String stringAt = lines.get(i);
             for (final Map.Entry<String, String> entry : definedVars.entrySet()) {
                 if (stringAt.contains(entry.getKey()) && !stringAt.startsWith(KEY))
-                    lines.set(i, stringAt.replace(entry.getKey(), entry.getValue()));
+                    stringAt = stringAt.replace(entry.getKey(), entry.getValue());
             }
 
             if (stringAt.contains(ASSET_KEY))
-                lines.set(i, stringAt.replace(ASSET_KEY, dialog.getAssets().getAbsolutePath()));
+                stringAt = stringAt.replace(ASSET_KEY, dialog.getAssets().getAbsolutePath());
 
             if (stringAt.contains(DIR_KEY))
-                lines.set(i, stringAt.replace(DIR_KEY, dialog.getDialogDir().getAbsolutePath()));
+                stringAt = stringAt.replace(DIR_KEY, dialog.getDialogDir().getAbsolutePath());
+
+            //Remove "umlaute"
+            lines.set(i, AllowedCharacter.replaceUmlaute(stringAt));
         }
         return lines;
     }
@@ -285,8 +284,12 @@ public class DialogHandler {
     public void savePreviousDialog() {
         if (dialogHolder == null) return;
 
+        lastLine = 0;
+        savePreviousDialog();
+        GameMain.INSTANCE.getSoundPlayer().stopMusic();
         dialogHolder.updateLine(lastLine);
         dialogHolder.save();
+        Core.getInstance().setScreen(new MainMenu());
         Logger.log("Saved previous state", LogType.INFO);
     }
 
@@ -299,16 +302,14 @@ public class DialogHandler {
         return pending;
     }
 
+    public void setPending(boolean pending) {
+        this.pending = pending;
+    }
+
     private void unloadPreviousDialog() {
         lastLine = 0;
         displayDialog.clear();
         dialog.clear();
-    }
-
-    public void setDialog(final List<String> dialog) {
-        this.dialog.clear();
-        this.dialog.addAll(dialog);
-        this.prepareDialog();
     }
 
     public String getColor(final Map<String, String> args) {
@@ -335,16 +336,18 @@ public class DialogHandler {
         return dialog;
     }
 
+    public void setDialog(final List<String> dialog) {
+        this.dialog.clear();
+        this.dialog.addAll(dialog);
+        this.prepareDialog();
+    }
+
     public int getLastLine() {
         return lastLine;
     }
 
     public void setLastLine(int lastLine) {
         this.lastLine = lastLine;
-    }
-
-    public void setPending(boolean pending) {
-        this.pending = pending;
     }
 
     public Dialog getDialogHolder() {

@@ -36,7 +36,7 @@ public class CustomButton extends Button {
 
     public CustomButton(float id, String text, float xPos, float yPos, boolean enabled) {
         super(id, text, xPos, yPos, enabled);
-        blurShader = new BlurShader(xPos - d, yPos,getDimen()[0], getDimen()[1]);
+        blurShader = new BlurShader(xPos - d, yPos, getDimen()[0], getDimen()[1]);
     }
 
     @Override

@@ -1,13 +1,13 @@
 package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.CheckBox;
 import net.bplaced.abzzezz.core.ui.components.ListView;
 import net.bplaced.abzzezz.core.ui.components.Slider;
 import net.bplaced.abzzezz.core.ui.components.UIComponent;
 import net.bplaced.abzzezz.game.GameMain;
-import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.game.setting.Setting;
 import org.lwjgl.input.Keyboard;
 
@@ -49,7 +49,6 @@ public class SettingsScreen extends BasicScreen {
                 yBuffer += 120;
             }
         }
-
         super.init();
     }
 

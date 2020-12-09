@@ -1,13 +1,12 @@
 package net.bplaced.abzzezz.game.ui.screen;
 
-import net.bplaced.abzzezz.core.Core;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.core.util.render.ScissorUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
-import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -16,19 +15,16 @@ import java.util.function.Function;
 
 public class GameScreen extends BasicScreen {
 
-    private boolean paused;
-    private int scrollY;
-
     private final String[] pauseMenu = {"Resume", "Back to menu"};
-
+    private boolean paused;
     private final Function[] pauseActions = new Function[]{unused -> {
         paused = !paused;
         return null;
     }, o -> {
         GameMain.INSTANCE.getDialogHandler().savePreviousDialog();
-        Core.getInstance().setScreen(new RoomScreen());
         return null;
     }};
+    private int scrollY;
 
     @Override
     public void init() {
