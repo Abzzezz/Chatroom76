@@ -285,7 +285,6 @@ public class DialogHandler {
         if (dialogHolder == null) return;
 
         lastLine = 0;
-        savePreviousDialog();
         GameMain.INSTANCE.getSoundPlayer().stopMusic();
         dialogHolder.updateLine(lastLine);
         dialogHolder.save();
