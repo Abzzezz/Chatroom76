@@ -60,21 +60,28 @@ public class CheckBox implements UIComponent {
         this.size = (int) textFont.getHeight();
     }
 
+    private float stringX, stringY, circleX;
+
     @Override
     public void initComponent() {
         this.animationUtil = new AnimationUtil(Quint.class, 0, 0, size / 2, 1, true, false);
+        refreshPositions();
     }
 
-    /**
-     * Check box now animated
-     */
+    @Override
+    public void refreshPositions() {
+        stringX = xPos + size * 2;
+        stringY = yPos - textFont.getHeight() / 1.5F;
+        circleX = xPos + size / 2;
+    }
+
     @Override
     public void drawComponent() {
         if (checked) animationUtil.animate();
-        RenderUtil.drawCircle(xPos + size / 2, yPos, size, 3, ColorUtil.MAIN_COLOR);
-        RenderUtil.drawCircle(xPos + size / 2, yPos, animationUtil.getInt(), 3, ColorUtil.MAIN_COLOR.darker());
+        RenderUtil.drawCircle(circleX, yPos, size, 3, ColorUtil.MAIN_COLOR);
+        RenderUtil.drawCircle(circleX, yPos, animationUtil.getInt(), 3, ColorUtil.MAIN_COLOR.darker());
 
-        textFont.drawString(text, xPos + size * 2, yPos - textFont.getHeight() / 1.5F, Color.BLACK);
+        textFont.drawString(text, stringX, stringY, Color.BLACK);
     }
 
     @Override
@@ -92,7 +99,6 @@ public class CheckBox implements UIComponent {
 
     @Override
     public void drawShader() {
-
     }
 
     public void setStateChangedListener(StateChangedListener stateChangedListener) {

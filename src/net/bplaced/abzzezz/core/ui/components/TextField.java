@@ -29,7 +29,7 @@ public class TextField implements UIComponent {
     private final float yPos;
     private final int width;
     private final int height;
-    private final String name;
+    private final String title;
     private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
     private boolean clicked, selectedAll;
     private FontUtil fontUtil;
@@ -37,26 +37,35 @@ public class TextField implements UIComponent {
     /*
     TODO: More work, Adding to clipboard etc. Text moving, selecting
      */
-    public TextField(float xPos, float yPos, String name) {
+    public TextField(float xPos, float yPos, String title) {
         this.xPos = xPos;
         this.yPos = yPos;
         //Auto set
         this.width = 100;
         this.height = 20;
-        this.name = name;
+        this.title = title;
     }
 
-    public TextField(float xPos, float yPos, int width, int height, String name) {
+    public TextField(float xPos, float yPos, int width, int height, String title) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
         this.height = height;
-        this.name = name;
+        this.title = title;
     }
+
+    private float titleY, displayStringY;
 
     @Override
     public void initComponent() {
         fontUtil = new FontUtil(ColorUtil.TEXT_FONT, width / 16);
+        refreshPositions();
+    }
+
+    @Override
+    public void refreshPositions() {
+        titleY = yPos - height;
+        displayStringY = yPos + height / 2 - fontUtil.getHeight() / 2;
     }
 
     @Override
@@ -75,8 +84,8 @@ public class TextField implements UIComponent {
                 RenderUtil.drawQuad(xPos + fontUtil.getStringWidth(text), yPos + height - tabHeight, tabHeight * 2, tabHeight, ColorUtil.MAIN_COLOR);
             }
         }
-        fontUtil.drawString(text, xPos, yPos + height / 2 - fontUtil.getHeight() / 2, selectedAll ? Color.LIGHT_GRAY : textColor);
-        textFont.drawString(name, xPos, yPos - height, textColor);
+        fontUtil.drawString(text, xPos, displayStringY, selectedAll ? Color.LIGHT_GRAY : textColor);
+        textFont.drawString(title, xPos, titleY, textColor);
     }
 
     /**
@@ -137,9 +146,7 @@ public class TextField implements UIComponent {
     }
 
     @Override
-    public void drawShader() {
-
-    }
+    public void drawShader() {}
 
     private boolean isTextFieldHovered() {
         return MouseUtil.mouseHovered(xPos, yPos, width, height);
@@ -151,10 +158,7 @@ public class TextField implements UIComponent {
      * @return
      */
     public String toString() {
-        final StringBuilder backupOut = new StringBuilder();
-        backupOut.append(backupText);
-        backupOut.append(displayText);
-        return backupOut.toString();
+        return String.valueOf(backupText) + displayText;
     }
 
     public boolean isClicked() {

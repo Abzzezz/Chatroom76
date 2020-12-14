@@ -77,6 +77,13 @@ public class Button implements UIComponent {
         this.enabled = enabled;
     }
 
+    private float stringX;
+
+    @Override
+    public void refreshPositions() {
+        stringX = xPos + width / 2 - textFont.getStringWidth(getText()) / 2;
+    }
+
     public boolean buttonHovered() {
         return MouseUtil.mouseHovered(xPos, yPos, getDimensions()[0], getDimensions()[1]);
     }
@@ -91,6 +98,7 @@ public class Button implements UIComponent {
 
     @Override
     public void initComponent() {
+        refreshPositions();
     }
 
     /**
@@ -99,14 +107,14 @@ public class Button implements UIComponent {
     @Override
     public void drawComponent() {
         RenderUtil.drawQuad(xPos, yPos, getDimensions()[0], getDimensions()[1], buttonHovered() ? ColorUtil.MAIN_COLOR.darker() : ColorUtil.MAIN_COLOR);
-        textFont.drawString(text, xPos + width / 2 - textFont.getStringWidth(getText()) / 2, yPos, buttonHovered() ? textColor.brighter() : textColor);
+        textFont.drawString(text, stringX, yPos, buttonHovered() ? textColor.brighter() : textColor);
     }
 
     @Override
     public void keyListener(int keyCode, char keyTyped) {
     }
 
-    public void setButtonPressed(ButtonPressed buttonPressed) {
+    public void setButtonPressed(final ButtonPressed buttonPressed) {
         this.buttonPressed = buttonPressed;
     }
 
@@ -123,7 +131,6 @@ public class Button implements UIComponent {
 
     @Override
     public void drawShader() {
-
     }
 
     public float getXPos() {
@@ -148,5 +155,25 @@ public class Button implements UIComponent {
 
     public interface ButtonPressed {
         void onButtonPressed(int mouseButton, Button button);
+    }
+
+    public float getxPos() {
+        return xPos;
+    }
+
+    public float getyPos() {
+        return yPos;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public ButtonPressed getButtonPressed() {
+        return buttonPressed;
     }
 }

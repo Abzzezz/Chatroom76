@@ -25,16 +25,25 @@ public class Progressbar implements UIComponent {
         this.animationUtil = new AnimationUtil(Quint.class, current, min, max, step, true, false);
     }
 
+    private float stringY, quadY;
+
     @Override
     public void initComponent() {
         this.step = width / max;
+        refreshPositions();
+    }
+
+    @Override
+    public void refreshPositions() {
+        quadY = yPos + height / 4;
+        stringY = yPos - height;
     }
 
     @Override
     public void drawComponent() {
         RenderUtil.drawQuad(xPos, yPos, width, height, ColorUtil.MAIN_COLOR);
-        RenderUtil.drawQuad(xPos, yPos + height / 4, current * step, height / 2, ColorUtil.MAIN_COLOR);
-        textFont.drawString(title, xPos, yPos - height, textColor);
+        RenderUtil.drawQuad(xPos, quadY, current * step, height / 2, ColorUtil.MAIN_COLOR);
+        textFont.drawString(title, xPos, stringY, textColor);
     }
 
     @Override

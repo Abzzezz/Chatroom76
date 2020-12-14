@@ -46,6 +46,18 @@ public class RenderUtil {
         endGL();
     }
 
+    public static void drawTriangle(float xPos, float yPos, float width, float height, Color triangleColor) {
+        setupGL();
+        glColor4f(triangleColor.getRed() / 255.0F, triangleColor.getGreen() / 255.0F, triangleColor.getBlue() / 255.0F, triangleColor.getAlpha() / 255.0F);
+        glBegin(GL_TRIANGLES);
+        {
+            drawTriangle(xPos, yPos, width, height);
+            drawTriangle(xPos + width, yPos + height, -width, -height);
+        }
+        glEnd();
+        endGL();
+    }
+
     /**
      * Copied and modified from http://slabode.exofire.net/circle_draw.shtml
      * Credit where credit is dou

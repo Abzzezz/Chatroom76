@@ -57,4 +57,8 @@ public class MathUtil {
         return (n - nMin) / (nMax - nMin) * (max - min) + min;
     }
 
+    public static float clamp(float val, float min, float max) {
+        return Math.max(min, Math.min(max, val));
+    }
+
 }

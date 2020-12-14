@@ -11,6 +11,7 @@
 package net.bplaced.abzzezz.core.ui.components;
 
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
+import net.bplaced.abzzezz.core.util.math.MathUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import org.lwjgl.input.Keyboard;
@@ -44,20 +45,25 @@ public class Slider implements UIComponent {
         this.height = height;
     }
 
-    public static float clamp(float val, float min, float max) {
-        return Math.max(min, Math.min(max, val));
-    }
+    private float innerQuadY, stringY;
 
     @Override
     public void initComponent() {
         this.step = width / max;
+        refreshPositions();
+    }
+
+    @Override
+    public void refreshPositions() {
+        innerQuadY = yPos + height / 4;
+        stringY = yPos - textFont.getHeight();
     }
 
     @Override
     public void drawComponent() {
         RenderUtil.drawQuad(xPos, yPos, width, height, ColorUtil.MAIN_COLOR);
         RenderUtil.drawQuad(xPos, yPos + height / 4, current * step, height / 2, ColorUtil.MAIN_COLOR);
-        textFont.drawString(text + ":" + Math.round(current), xPos, yPos - textFont.getHeight(), textColor);
+        textFont.drawString(text + ":" + Math.round(current), xPos, stringY, textColor);
     }
 
     @Override
@@ -69,7 +75,7 @@ public class Slider implements UIComponent {
             current += step;
             if (sliderListener != null) sliderListener.onSliderValueChanged(current);
         }
-        this.current = clamp(current, min, max);
+        this.current = MathUtil.clamp(current, min, max);
     }
 
     @Override
@@ -150,7 +156,6 @@ public class Slider implements UIComponent {
 
     @Override
     public void drawShader() {
-
     }
 
     public interface SliderListener {

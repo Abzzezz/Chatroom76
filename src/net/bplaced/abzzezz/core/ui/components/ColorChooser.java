@@ -38,6 +38,11 @@ public class ColorChooser implements UIComponent {
     }
 
     @Override
+    public void refreshPositions() {
+
+    }
+
+    @Override
     public void initComponent() {
         this.animationUtil = new AnimationUtil(Sine.class, 0, 0, size, 1, true, true);
     }

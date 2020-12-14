@@ -217,6 +217,7 @@ public class Core {
             if (Mouse.getEventButtonState())
                 basicScreen.mousePressed(Mouse.getEventButton());
         }
+
         while (Keyboard.next()) {
             if (Keyboard.getEventKeyState()) basicScreen.keyTyped(Keyboard.getEventKey(), Keyboard.getEventCharacter());
         }

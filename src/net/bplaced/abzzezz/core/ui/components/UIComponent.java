@@ -29,4 +29,5 @@ public interface UIComponent extends BasicComponent {
 
     void drawShader();
 
+    void refreshPositions();
 }

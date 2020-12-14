@@ -19,15 +19,21 @@ import java.awt.*;
 import java.io.InputStream;
 
 public class FontUtil {
+
     private UnicodeFont unicodeFont;
+    private Font awtFont;
+
+    private final int size;
 
     public FontUtil(String fontName, int size) {
+        this.size = size;
         try {
             final String fontDir = Core.getInstance().getFontDir() + fontName + ".ttf";
             final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fontDir);
             assert inputStream != null;
-            final Font awtFont = Font.createFont(Font.PLAIN, inputStream);
+            awtFont = Font.createFont(Font.PLAIN, inputStream);
             this.unicodeFont = new UnicodeFont(awtFont, size, false, false);
+
             unicodeFont.addAsciiGlyphs();
             unicodeFont.getEffects().add(new ColorEffect(Color.WHITE));
             unicodeFont.loadGlyphs();
@@ -56,9 +62,25 @@ public class FontUtil {
         return this.unicodeFont.getHeight(text);
     }
 
-
     public float getHeight() {
         return this.unicodeFont.getFont().getSize();
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * TODO: REPLACE!!
+     * @param s
+     * @param width
+     * @return
+     */
+    public int determineFontSizeMax(String s, int width, int size) {
+        int max = size;
+        while (new UnicodeFont(awtFont, max, false, false).getWidth(s) >= width)
+            max--;
+        return max;
     }
 
 }

@@ -13,7 +13,13 @@ import org.lwjgl.input.Mouse;
 import java.awt.*;
 import java.util.function.Function;
 
+
 public class GameScreen extends BasicScreen {
+
+
+    private int scrollY;
+    private final int halfWidth = getWidth() / 2;
+    private final int quadHeight = getHeight() / 4;
 
     private final String[] pauseMenu = {"Resume", "Back to menu"};
     private boolean paused;
@@ -24,7 +30,7 @@ public class GameScreen extends BasicScreen {
         GameMain.INSTANCE.getDialogHandler().savePreviousDialog();
         return null;
     }};
-    private int scrollY;
+
 
     @Override
     public void init() {
@@ -60,11 +66,9 @@ public class GameScreen extends BasicScreen {
 
         if (paused) {
             int yStack = 0;
-            final int xPos = getWidth() / 2;
-            final int yPos = getHeight() / 4;
 
             for (final String menu : pauseMenu) {
-                textFont.drawString(menu, xPos - textFont.getStringWidth(menu) / 2, yPos + yStack, Color.decode("#836E81"));
+                textFont.drawString(menu, halfWidth - textFont.getStringWidth(menu) / 2, quadHeight + yStack, Color.decode("#836E81"));
                 yStack += textFont.getHeight();
             }
 
@@ -86,7 +90,7 @@ public class GameScreen extends BasicScreen {
 
             for (int i = 0; i < pauseMenu.length; i++) {
                 if (MouseUtil.mouseHovered(getWidth() / 2 - textFont.getStringWidth(pauseMenu[i]) / 2, getHeight() / 4 + yStack, textFont.getStringWidth(pauseMenu[i]), textFont.getHeight())) {
-                    pauseActions[i].apply(null);
+                    pauseActions[i].apply("");
                 }
                 yStack += textFont.getHeight();
             }
@@ -102,4 +106,5 @@ public class GameScreen extends BasicScreen {
         GameMain.INSTANCE.getDialogHandler().selectOption(keyTyped);
         super.keyTyped(keyCode, keyTyped);
     }
+
 }

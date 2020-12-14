@@ -33,11 +33,11 @@ public class ListView implements UIComponent {
     protected int scrollY;
     private onListViewElementClicked clickListener;
 
-    public ListView(List<String> listIn, float xPos, float yPos, int height, String title) {
+    public ListView(List<String> listIn, float xPos, float yPos, int width, int height, String title) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.height = height;
-        this.width = textFont.getStringWidth(title);
+        this.width = width;
         this.title = title;
         this.list = new CopyOnWriteArrayList<>();
         listIn.forEach(o -> this.list.add(new ListViewElement(o)));
@@ -45,6 +45,12 @@ public class ListView implements UIComponent {
 
     @Override
     public void initComponent() {
+        refreshPositions();
+    }
+
+    @Override
+    public void refreshPositions() {
+
     }
 
     @Override
