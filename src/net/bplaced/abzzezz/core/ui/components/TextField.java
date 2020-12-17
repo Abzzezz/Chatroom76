@@ -165,19 +165,23 @@ public class TextField implements UIComponent {
         return clicked;
     }
 
-    public float getYPos() {
-        return yPos;
-    }
-
+    @Override
     public float getXPos() {
         return xPos;
     }
 
-    public int getHeight() {
-        return height;
+    @Override
+    public float getYPos() {
+        return yPos;
     }
 
+    @Override
     public int getWidth() {
         return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
     }
 }

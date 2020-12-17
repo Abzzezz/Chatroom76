@@ -122,18 +122,22 @@ public class Switcher<Item> implements UIComponent {
         <Item> void onItemSelected(Item item);
     }
 
-    public float getxPos() {
+    @Override
+    public float getXPos() {
         return xPos;
     }
 
-    public float getyPos() {
+    @Override
+    public float getYPos() {
         return yPos;
     }
 
+    @Override
     public int getWidth() {
         return width;
     }
 
+    @Override
     public int getHeight() {
         return height;
     }

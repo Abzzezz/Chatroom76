@@ -3,13 +3,13 @@ package net.bplaced.abzzezz.game.setting;
 import java.util.Arrays;
 import java.util.List;
 
-public class Setting {
+public class Setting<E> {
 
     private final String tag;
     private final SettingsType settingsType;
 
     private boolean state;
-    private List<String> components;
+    private List<E> components;
     private String selected;
     private float min, max, current;
     private SettingStateChanged settingStateChangedListener;
@@ -20,14 +20,14 @@ public class Setting {
         this.settingsType = SettingsType.BOOL;
     }
 
-    public Setting(String tag, String selected, List<String> components, boolean switcher) {
+    public Setting(String tag, String selected, List<E> components, boolean switcher) {
         this.tag = tag;
         this.components = components;
         this.selected = selected;
         this.settingsType = switcher ? SettingsType.SWITCHER : SettingsType.LIST;
     }
 
-    public Setting(String tag, String selected, boolean switcher, String... components) {
+    public Setting(String tag, String selected, boolean switcher, E... components) {
         this.tag = tag;
         this.components = Arrays.asList(components);
         this.selected = selected;
@@ -59,11 +59,11 @@ public class Setting {
         stateChanged();
     }
 
-    public List<String> getComponents() {
+    public List<E> getComponents() {
         return components;
     }
 
-    public void setComponents(List<String> components) {
+    public void setComponents(List<E> components) {
         this.components = components;
         stateChanged();
     }

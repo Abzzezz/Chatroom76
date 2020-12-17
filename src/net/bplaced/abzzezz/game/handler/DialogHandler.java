@@ -27,13 +27,30 @@ import java.util.regex.Matcher;
 import static net.bplaced.abzzezz.game.util.dialog.DialogUtil.*;
 
 public class DialogHandler {
-
+    /**
+     * List of all calls that can be used. For easy adding and deleting calls.
+     */
     public final List<BasicCall> basicCalls;
+    /**
+     * List of all displayed dialog-lines
+     */
     private final List<DialogLine> displayDialog;
+    /**
+     * List of the current options available. Could have used a array but it adds additional hustle
+     */
     private final List<String> options;
+    /**
+     * List of all lines as strings
+     */
     private final List<String> dialog;
+    /**
+     * Boolean to check whether input is registered
+     */
     public boolean pending;
     private int lastLine;
+    /**
+     * Instance of the current played dialog
+     */
     private Dialog dialogHolder;
 
     public DialogHandler() {
@@ -43,7 +60,6 @@ public class DialogHandler {
         this.basicCalls = new ArrayList<>();
 
         addBasicCalls(new PlaySoundCall(), new EndSoundCall(), new ColorCodeCall(), new BackgroundCall(), new QuestionCall());
-
     }
 
     private void addBasicCalls(final BasicCall... calls) {
@@ -128,6 +144,11 @@ public class DialogHandler {
         return argumentValueMap;
     }
 
+    /**
+     * Called from the game screen every time a key input is registered.
+     * This then checks if the current dialog is pending and locks in one of the options
+     * @param keyChar key character to check against
+     */
     public void selectOption(final char keyChar) {
         if (pending) {
             if (!Character.isDigit(keyChar)) return;
@@ -142,6 +163,9 @@ public class DialogHandler {
         }
     }
 
+    /**
+     * Prepares the dialog lines to be displayed. Starts the background music, removes empty lines, and splits the lines according to the screen size
+     */
     private void prepareDialog() {
         dialog.removeIf(String::isEmpty);
 
@@ -169,8 +193,19 @@ public class DialogHandler {
         Logger.log("Start line defined: " + lastLine, LogType.INFO);
     }
 
+    /**
+     * Replaces all lines according to a set up filter.
+     * - Replaces comments inside the dialog
+     * - Adds the defined variables and puts them in place.
+     * - Removes basic syntax such as $assets
+     * - Replaces all "umlaute"
+     * @param lines Lines to search and replace
+     * @param dialog Dialog to get asset and dialog directory from
+     * @return final list
+     */
     private List<String> replaceInList(final List<String> lines, final Dialog dialog) {
         final Map<String, String> definedVars = new HashMap<>();
+        lines.removeIf(s -> s.startsWith("//"));
 
         //Add defined variables
         for (final String line : lines) {
@@ -212,6 +247,13 @@ public class DialogHandler {
         getDisplayDialog().add(new DialogLine(string, Color.WHITE));
     }
 
+    /**
+     * Downloads the dialog from a given url
+     * @param input input from text field
+     * @param totalBytes Consumer to send the total byte sum to
+     * @param downloadedBytes Consumer to send the already downloaded bytes to
+     * @param downloadingFile Consumer to send the currently downloading file name to
+     */
     public void downloadDialog(final String input, final Consumer<Integer> totalBytes, final Consumer<Integer> downloadedBytes, final Consumer<String> downloadingFile) {
         new Thread(() -> {
             if (input == null || input.isEmpty()) return;
@@ -264,6 +306,10 @@ public class DialogHandler {
         }).start();
     }
 
+    /**
+     * Load in the given dialog. Load dialog, save the old one
+     * @param dialog Dialog to play
+     */
     public void loadDialog(final Dialog dialog) {
         if (dialog == null) return;
         this.savePreviousDialog();
@@ -280,7 +326,9 @@ public class DialogHandler {
         Core.getInstance().setScreen(new GameScreen());
     }
 
-
+    /**
+     * Saves the previous dialog. Cleans up all played stuff. Sets the last line, etc.
+     */
     public void savePreviousDialog() {
         if (dialogHolder == null) return;
 

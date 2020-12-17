@@ -45,7 +45,7 @@ public class Slider implements UIComponent {
         this.height = height;
     }
 
-    private float innerQuadY, stringY;
+    private float stringY;
 
     @Override
     public void initComponent() {
@@ -55,14 +55,13 @@ public class Slider implements UIComponent {
 
     @Override
     public void refreshPositions() {
-        innerQuadY = yPos + height / 4;
         stringY = yPos - textFont.getHeight();
     }
 
     @Override
     public void drawComponent() {
         RenderUtil.drawQuad(xPos, yPos, width, height, ColorUtil.MAIN_COLOR);
-        RenderUtil.drawQuad(xPos, yPos + height / 4, current * step, height / 2, ColorUtil.MAIN_COLOR);
+        RenderUtil.drawQuad(xPos, yPos, current * step, height, ColorUtil.MAIN_COLOR);
         textFont.drawString(text + ":" + Math.round(current), xPos, stringY, textColor);
     }
 
@@ -114,20 +113,24 @@ public class Slider implements UIComponent {
         this.current = current;
     }
 
-    public float getxPos() {
+    @Override
+    public float getXPos() {
         return xPos;
     }
 
-    public void setxPos(float xPos) {
-        this.xPos = xPos;
-    }
-
-    public float getyPos() {
+    @Override
+    public float getYPos() {
         return yPos;
     }
 
-    public void setyPos(float yPos) {
-        this.yPos = yPos;
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
     }
 
     public float getStep() {
@@ -136,22 +139,6 @@ public class Slider implements UIComponent {
 
     public void setStep(float step) {
         this.step = step;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     @Override

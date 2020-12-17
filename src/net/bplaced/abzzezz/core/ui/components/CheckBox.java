@@ -117,20 +117,24 @@ public class CheckBox implements UIComponent {
         this.checked = checked;
     }
 
+    @Override
     public float getXPos() {
         return xPos;
     }
 
+    @Override
     public float getYPos() {
         return yPos;
     }
 
-    public void setYPos(float xPos) {
-        this.xPos = xPos;
+    @Override
+    public int getWidth() {
+        return size;
     }
 
-    public void setYos(float yPos) {
-        this.yPos = yPos;
+    @Override
+    public int getHeight() {
+        return size;
     }
 
     public String getText() {

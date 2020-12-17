@@ -19,6 +19,14 @@ import net.bplaced.abzzezz.core.ui.BasicComponent;
 
 public interface UIComponent extends BasicComponent {
 
+    float getXPos();
+
+    float getYPos();
+
+    int getWidth();
+
+    int getHeight();
+
     void initComponent();
 
     void drawComponent();

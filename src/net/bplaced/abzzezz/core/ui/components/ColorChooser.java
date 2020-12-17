@@ -148,4 +148,25 @@ public class ColorChooser implements UIComponent {
     public interface ColorSelectedListener {
         void onColorSelected(Color color);
     }
+
+    @Override
+    public float getXPos() {
+        return xPos;
+    }
+
+    @Override
+    public float getYPos() {
+        return yPos;
+    }
+
+    @Override
+    public int getWidth() {
+        return size;
+    }
+
+    @Override
+    public int getHeight() {
+        return size;
+    }
+
 }

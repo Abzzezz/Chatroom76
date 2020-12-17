@@ -8,12 +8,13 @@ import net.bplaced.abzzezz.core.util.render.RenderUtil;
 public class Progressbar implements UIComponent {
 
     private final AnimationUtil animationUtil;
-    private final float xPos, yPos, width, height;
+    private final float xPos, yPos;
+    private int width, height;
     private float min, max, current;
     private float step;
     private String title;
 
-    public Progressbar(String title, float xPos, float yPos, float width, float height, float min, float max, float current) {
+    public Progressbar(String title, float xPos, float yPos, int width, int height, float min, float max, float current) {
         this.min = min;
         this.max = max;
         this.current = current;
@@ -91,19 +92,24 @@ public class Progressbar implements UIComponent {
         this.current = current;
     }
 
-    public float getxPos() {
+
+    @Override
+    public float getXPos() {
         return xPos;
     }
 
-    public float getyPos() {
+    @Override
+    public float getYPos() {
         return yPos;
     }
 
-    public float getWidth() {
+    @Override
+    public int getWidth() {
         return width;
     }
 
-    public float getHeight() {
+    @Override
+    public int getHeight() {
         return height;
     }
 

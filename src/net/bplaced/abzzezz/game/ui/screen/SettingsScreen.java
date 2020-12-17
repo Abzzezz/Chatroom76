@@ -3,7 +3,10 @@ package net.bplaced.abzzezz.game.ui.screen;
 import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
-import net.bplaced.abzzezz.core.ui.components.*;
+import net.bplaced.abzzezz.core.ui.components.CheckBox;
+import net.bplaced.abzzezz.core.ui.components.Slider;
+import net.bplaced.abzzezz.core.ui.components.Switcher;
+import net.bplaced.abzzezz.core.ui.components.UIComponent;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.setting.Setting;
 import org.lwjgl.input.Keyboard;
@@ -24,8 +27,9 @@ public class SettingsScreen extends BasicScreen {
             UIComponent component = null;
             final String tag = setting.getTag();
             switch (setting.getSettingsType()) {
+                case LIST:
                 case SWITCHER:
-                    component = new Switcher<>(setting.getComponents(), setting.getSelected(), xBuffer, yBuffer, 100, 60, tag);
+                    component = new Switcher<>(setting.getComponents(), setting.getSelected(), xBuffer, yBuffer, 100, 30, tag);
                     ((Switcher<?>) component).setSwitcherListener(new Switcher.SwitcherListener() {
                         @Override
                         public <Item> void onItemSelected(Item item) {
@@ -33,13 +37,8 @@ public class SettingsScreen extends BasicScreen {
                         }
                     });
                     break;
-                case LIST:
-                    if (setting.getComponents() == null) break;
-                    component = new ListView(setting.getComponents(), xBuffer, yBuffer,  100, 60, tag);
-                    ((ListView) component).setClickListener((index, item) -> setting.setSelected(item.getObjectString()));
-                    break;
                 case SLIDER:
-                    component = new Slider(tag, xBuffer, yBuffer, 100, 60, setting.getMin(), setting.getMax(), setting.getCurrent());
+                    component = new Slider(tag, xBuffer, yBuffer, 100, 15, setting.getMin(), setting.getMax(), setting.getCurrent());
                     ((Slider) component).setSliderListener(setting::setCurrent);
                     break;
                 case BOOL:
@@ -49,9 +48,10 @@ public class SettingsScreen extends BasicScreen {
                 default:
                     break;
             }
+
             if (component != null) {
                 getUiComponents().add(component);
-                yBuffer += 120;
+                yBuffer += component.getWidth();
             }
         }
         super.init();

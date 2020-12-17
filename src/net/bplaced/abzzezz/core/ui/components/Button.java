@@ -133,13 +133,26 @@ public class Button implements UIComponent {
     public void drawShader() {
     }
 
+    @Override
     public float getXPos() {
         return xPos;
     }
 
+    @Override
     public float getYPos() {
         return yPos;
     }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
 
     public String getText() {
         return text;
@@ -155,22 +168,6 @@ public class Button implements UIComponent {
 
     public interface ButtonPressed {
         void onButtonPressed(int mouseButton, Button button);
-    }
-
-    public float getxPos() {
-        return xPos;
-    }
-
-    public float getyPos() {
-        return yPos;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public ButtonPressed getButtonPressed() {
