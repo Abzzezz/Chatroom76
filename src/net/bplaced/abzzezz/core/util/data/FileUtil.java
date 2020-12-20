@@ -20,6 +20,22 @@ public class FileUtil {
         bufferedWriter.close();
     }
 
+    public static void writeToFile(final byte[] bytes, final File des) {
+        try (final FileOutputStream fileOutputStream = new FileOutputStream(des)) {
+            fileOutputStream.write(bytes);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void writeToFile(final byte[] bytes, final File des, boolean append) {
+        try (final FileOutputStream fileOutputStream = new FileOutputStream(des, append)) {
+            fileOutputStream.write(bytes);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static String readFromFile(final File file) throws IOException {
         final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         final StringBuilder builder = new StringBuilder();

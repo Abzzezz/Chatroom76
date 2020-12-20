@@ -20,10 +20,9 @@ import java.io.InputStream;
 
 public class FontUtil {
 
+    private final int size;
     private UnicodeFont unicodeFont;
     private Font awtFont;
-
-    private final int size;
 
     public FontUtil(String fontName, int size) {
         this.size = size;
@@ -72,6 +71,7 @@ public class FontUtil {
 
     /**
      * TODO: REPLACE!!
+     *
      * @param s
      * @param width
      * @return

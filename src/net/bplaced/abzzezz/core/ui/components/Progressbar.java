@@ -9,10 +9,12 @@ public class Progressbar implements UIComponent {
 
     private final AnimationUtil animationUtil;
     private final float xPos, yPos;
-    private int width, height;
+    private final int width;
+    private final int height;
     private float min, max, current;
     private float step;
     private String title;
+    private float stringY, quadY;
 
     public Progressbar(String title, float xPos, float yPos, int width, int height, float min, float max, float current) {
         this.min = min;
@@ -25,8 +27,6 @@ public class Progressbar implements UIComponent {
         this.title = title;
         this.animationUtil = new AnimationUtil(Quint.class, current, min, max, step, true, false);
     }
-
-    private float stringY, quadY;
 
     @Override
     public void initComponent() {

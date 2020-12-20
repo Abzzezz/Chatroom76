@@ -28,6 +28,7 @@ public class Button implements UIComponent {
      * @param mouseButton
      */
     private ButtonPressed buttonPressed;
+    private float stringX;
 
     /**
      * Simple button. Buttons can be added just use this as a parent
@@ -77,8 +78,6 @@ public class Button implements UIComponent {
         this.enabled = enabled;
     }
 
-    private float stringX;
-
     @Override
     public void refreshPositions() {
         stringX = xPos + width / 2 - textFont.getStringWidth(getText()) / 2;
@@ -112,10 +111,6 @@ public class Button implements UIComponent {
 
     @Override
     public void keyListener(int keyCode, char keyTyped) {
-    }
-
-    public void setButtonPressed(final ButtonPressed buttonPressed) {
-        this.buttonPressed = buttonPressed;
     }
 
     @Override
@@ -153,7 +148,6 @@ public class Button implements UIComponent {
         return height;
     }
 
-
     public String getText() {
         return text;
     }
@@ -166,11 +160,15 @@ public class Button implements UIComponent {
         this.enabled = enabled;
     }
 
-    public interface ButtonPressed {
-        void onButtonPressed(int mouseButton, Button button);
-    }
-
     public ButtonPressed getButtonPressed() {
         return buttonPressed;
+    }
+
+    public void setButtonPressed(final ButtonPressed buttonPressed) {
+        this.buttonPressed = buttonPressed;
+    }
+
+    public interface ButtonPressed {
+        void onButtonPressed(int mouseButton, Button button);
     }
 }

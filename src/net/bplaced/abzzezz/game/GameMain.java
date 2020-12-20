@@ -4,6 +4,7 @@ import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
+import net.bplaced.abzzezz.game.dialog.DialogLoader;
 import net.bplaced.abzzezz.game.file.SettingsFile;
 import net.bplaced.abzzezz.game.handler.DialogHandler;
 import net.bplaced.abzzezz.game.handler.SettingsHandler;
@@ -26,6 +27,7 @@ public class GameMain {
     private DialogHandler dialogHandler;
     private SoundPlayer soundPlayer;
     private SettingsHandler settingsHandler;
+    private DialogLoader dialogLoader;
 
     private void startEngine() {
         //Initialise and start engine
@@ -34,15 +36,19 @@ public class GameMain {
         core.setMainDir(new File(System.getenv("LOCALAPPDATA"), gameName));
         core.addSaveFile(new SettingsFile());
 
+        this.dialogLoader = new DialogLoader();
+
         core.setOpenGLReference(new Core.OpenGLReference() {
             @Override
             public void onGLInitialised() {
+                dialogLoader.loadDialogs();
                 ShaderHandler.SHADER_HANDLER.setupShaders();
             }
 
             @Override
             public void closeRequested() {
                 dialogHandler.savePreviousDialog();
+                dialogLoader.saveDialogs();
             }
 
         });
@@ -102,4 +108,7 @@ public class GameMain {
         return gameName;
     }
 
+    public DialogLoader getDialogLoader() {
+        return dialogLoader;
+    }
 }

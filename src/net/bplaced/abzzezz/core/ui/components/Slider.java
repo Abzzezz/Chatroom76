@@ -20,9 +20,16 @@ import org.lwjgl.input.Mouse;
 public class Slider implements UIComponent {
 
     private final String text;
-    private float min, max, current, xPos, yPos, step;
-    private int width, height;
+    private float min;
+    private float max;
+    private float current;
+    private final float xPos;
+    private final float yPos;
+    private float step;
+    private final int width;
+    private final int height;
     private SliderListener sliderListener;
+    private float stringY;
 
     public Slider(String text, float xPos, float yPos, int width, int height, float min, float max, float current) {
         this.text = text;
@@ -44,8 +51,6 @@ public class Slider implements UIComponent {
         this.width = width;
         this.height = height;
     }
-
-    private float stringY;
 
     @Override
     public void initComponent() {

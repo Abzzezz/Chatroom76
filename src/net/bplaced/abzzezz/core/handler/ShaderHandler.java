@@ -16,7 +16,6 @@ public class ShaderHandler {
     private final Map<Integer, Map<String, Integer>> programUniformLocationMap = new HashMap<>();
     private final List<Integer> programList = new ArrayList<>();
 
-
     private ShaderProgram backgroundShader;
     private TextureShader textureShader;
 

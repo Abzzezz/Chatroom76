@@ -24,12 +24,10 @@ public class ImportDialogScreen extends BasicScreen {
     public void init() {
         final int componentHeight = 20;
         int size = bigFont.getStringWidth(title);
-
         final int xPos = getWidth() / 2 - size / 2;
 
         getUiComponents().add(textFieldURL = new TextField(xPos, getHeight() / 2, size, componentHeight, "URL"));
         getUiComponents().add(downloadProgress = new Progressbar("Download: ", xPos, getHeight() / 1.5F, size, componentHeight, 0, 0, 0));
-
 
         getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, getHeight() - componentHeight * 3, 100, componentHeight));
         super.init();

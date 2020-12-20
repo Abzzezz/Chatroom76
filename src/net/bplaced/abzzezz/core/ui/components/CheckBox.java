@@ -21,12 +21,13 @@ import java.awt.*;
 public class CheckBox implements UIComponent {
 
     private boolean checked;
-    private float xPos, yPos;
+    private final float xPos;
+    private final float yPos;
     private int size;
     private String text;
     private AnimationUtil animationUtil;
     private StateChangedListener stateChangedListener;
-
+    private float stringX, stringY, circleX;
 
     public CheckBox(float xPos, float yPos, int size, String text) {
         this.xPos = xPos;
@@ -59,8 +60,6 @@ public class CheckBox implements UIComponent {
         //Auto set
         this.size = (int) textFont.getHeight();
     }
-
-    private float stringX, stringY, circleX;
 
     @Override
     public void initComponent() {

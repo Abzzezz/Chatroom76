@@ -2,7 +2,7 @@ package net.bplaced.abzzezz.core.util;
 
 public class AllowedCharacter {
 
-    private static final String[][] UMLAUT_REPLACEMENTS = { { "Ä", "Ae" }, { "Ü", "Ue" }, { "Ö", "Oe" }, { "ä", "ae" }, { "ü", "ue" }, { "ö", "oe" }, { "ß", "ss" } };
+    private static final String[][] UMLAUT_REPLACEMENTS = {{"Ä", "Ae"}, {"Ü", "Ue"}, {"Ö", "Oe"}, {"ä", "ae"}, {"ü", "ue"}, {"ö", "oe"}, {"ß", "ss"}};
 
     public static boolean isAllowedCharacter(char character) {
         return character != 167 && character >= 32;

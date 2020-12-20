@@ -9,6 +9,7 @@ import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
+import net.bplaced.abzzezz.game.dialog.DialogLoader;
 import net.bplaced.abzzezz.game.ui.button.CustomButton;
 import org.lwjgl.input.Keyboard;
 
@@ -25,9 +26,7 @@ public class RoomScreen extends BasicScreen {
 
     @Override
     public void init() {
-        this.dialogs = new ArrayList<>();
-
-        this.addDialogs();
+        this.dialogs = GameMain.INSTANCE.getDialogLoader().getDialogs();
 
         final int buttonWidth = 100, height = 15;
         final int yPos = getHeight() - height * 3;
@@ -83,7 +82,6 @@ public class RoomScreen extends BasicScreen {
                     selected = null;
                 } else {
                     selected = dialog;
-
                     deleteButton.setEnabled(true);
                     playButton.setEnabled(true);
                 }
@@ -97,15 +95,5 @@ public class RoomScreen extends BasicScreen {
     public void drawShader() {
         ShaderHandler.SHADER_HANDLER.getBackgroundShader().draw();
         super.drawShader();
-    }
-
-    private void addDialogs() {
-        final File[] files = Core.getInstance().getMainDir().listFiles();
-        assert files != null : "Files in Dialog directory are null";
-        for (final File file : files) {
-            if (file.isDirectory()) {
-                dialogs.add(new Dialog(file).loadMetaData());
-            }
-        }
     }
 }

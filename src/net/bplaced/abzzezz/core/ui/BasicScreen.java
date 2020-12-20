@@ -84,7 +84,11 @@ public abstract class BasicScreen implements BasicComponent {
         return uiComponents;
     }
 
-    public Button getButtonByID(float id) { return (Button) uiComponents.stream().filter(uiComponent -> uiComponent instanceof Button && ((Button) uiComponent).getId() == id).findFirst().get(); }
+    public Button getButtonByID(float id) {
+        return (Button) uiComponents.stream().filter(uiComponent -> uiComponent instanceof Button && ((Button) uiComponent).getId() == id).findFirst().get();
+    }
 
-    public void drawCenteredMenuString(final String string, final float xPos, final float yPos) { bigFont.drawString(string, xPos - bigFont.getStringWidth(string) / 2, yPos, ColorUtil.MAIN_COLOR); }
+    public void drawCenteredMenuString(final String string, final float xPos, final float yPos) {
+        bigFont.drawString(string, xPos - bigFont.getStringWidth(string) / 2, yPos, ColorUtil.MAIN_COLOR);
+    }
 }

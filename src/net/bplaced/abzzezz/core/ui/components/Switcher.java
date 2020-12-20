@@ -11,21 +11,24 @@ import java.util.List;
 public class Switcher<Item> implements UIComponent {
 
     private final List<Item> items;
-    private Item selected;
-
     private final float xPos;
     private final float yPos;
     private final int width;
     private final int height;
-
     private final String title;
     private final String leftArrow = "<";
     private final String rightArrow = ">";
-
     private final int textWidth;
-
-    private SwitcherListener switcherListener;
     private final FontUtil fontUtil;
+    private Item selected;
+    private SwitcherListener switcherListener;
+    private float
+            stringX,
+            midHeight,
+            rightArrowX,
+            titleY,
+            leftArrowWidth,
+            rightArrowWidth;
 
     public Switcher(List<Item> listIn, Item selected, float xPos, float yPos, int width, int height, String title) {
         this.xPos = xPos;
@@ -41,14 +44,6 @@ public class Switcher<Item> implements UIComponent {
         assert maxItem != null;
         this.fontUtil = new FontUtil(ColorUtil.TEXT_FONT, textFont.determineFontSizeMax(maxItem.toString(), textWidth, 20));
     }
-
-    private float
-            stringX,
-            midHeight,
-            rightArrowX,
-            titleY,
-            leftArrowWidth,
-            rightArrowWidth;
 
     @Override
     public void initComponent() {
@@ -101,7 +96,8 @@ public class Switcher<Item> implements UIComponent {
     }
 
     @Override
-    public void drawShader() {}
+    public void drawShader() {
+    }
 
     @Override
     public void refreshPositions() {
@@ -112,14 +108,6 @@ public class Switcher<Item> implements UIComponent {
 
         leftArrowWidth = textFont.getStringWidth(leftArrow);
         rightArrowWidth = textFont.getStringWidth(rightArrow);
-    }
-
-    public void setSwitcherListener(SwitcherListener switcherListener) {
-        this.switcherListener = switcherListener;
-    }
-
-    public interface SwitcherListener {
-        <Item> void onItemSelected(Item item);
     }
 
     @Override
@@ -160,6 +148,10 @@ public class Switcher<Item> implements UIComponent {
 
     public SwitcherListener getSwitcherListener() {
         return switcherListener;
+    }
+
+    public void setSwitcherListener(SwitcherListener switcherListener) {
+        this.switcherListener = switcherListener;
     }
 
     public FontUtil getFontUtil() {
@@ -212,5 +204,9 @@ public class Switcher<Item> implements UIComponent {
 
     public void setRightArrowWidth(float rightArrowWidth) {
         this.rightArrowWidth = rightArrowWidth;
+    }
+
+    public interface SwitcherListener {
+        <Item> void onItemSelected(Item item);
     }
 }

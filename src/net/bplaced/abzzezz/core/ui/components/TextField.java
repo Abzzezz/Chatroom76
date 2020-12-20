@@ -33,6 +33,7 @@ public class TextField implements UIComponent {
     private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
     private boolean clicked, selectedAll;
     private FontUtil fontUtil;
+    private float titleY, displayStringY;
 
     /*
     TODO: More work, Adding to clipboard etc. Text moving, selecting
@@ -53,8 +54,6 @@ public class TextField implements UIComponent {
         this.height = height;
         this.title = title;
     }
-
-    private float titleY, displayStringY;
 
     @Override
     public void initComponent() {
@@ -146,7 +145,8 @@ public class TextField implements UIComponent {
     }
 
     @Override
-    public void drawShader() {}
+    public void drawShader() {
+    }
 
     private boolean isTextFieldHovered() {
         return MouseUtil.mouseHovered(xPos, yPos, width, height);

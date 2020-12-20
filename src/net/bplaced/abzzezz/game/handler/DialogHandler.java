@@ -8,6 +8,7 @@ import net.bplaced.abzzezz.core.util.logging.Logger;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
+import net.bplaced.abzzezz.game.dialog.DialogLoader;
 import net.bplaced.abzzezz.game.dialog.call.BasicCall;
 import net.bplaced.abzzezz.game.dialog.call.calls.*;
 import net.bplaced.abzzezz.game.ui.screen.GameScreen;
@@ -65,7 +66,6 @@ public class DialogHandler {
     private void addBasicCalls(final BasicCall... calls) {
         basicCalls.addAll(Arrays.asList(calls));
     }
-
 
     /**
      * Get the next available dialog text to add
@@ -147,6 +147,7 @@ public class DialogHandler {
     /**
      * Called from the game screen every time a key input is registered.
      * This then checks if the current dialog is pending and locks in one of the options
+     *
      * @param keyChar key character to check against
      */
     public void selectOption(final char keyChar) {
@@ -184,9 +185,16 @@ public class DialogHandler {
         for (int i = 0; i < dialog.size(); i++) {
             final String stringAt = lines.get(i);
             if (stringAt.length() > MAX_LINE_LENGTH && !stringAt.startsWith(KEY) && !stringAt.startsWith(":")) {
-                final StringBuilder builder = new StringBuilder(stringAt);
-                builder.insert(MAX_LINE_LENGTH, "\n-");
-                lines.set(i, builder.toString());
+                final StringBuilder stringAtBuilder = new StringBuilder(stringAt);
+                final StringBuilder line = new StringBuilder();
+
+                while (stringAtBuilder.length() > MAX_LINE_LENGTH) {
+                    line.append(stringAtBuilder.substring(0, MAX_LINE_LENGTH)).append("\n-");
+                    stringAtBuilder.delete(0, MAX_LINE_LENGTH);
+                }
+
+                line.append(stringAtBuilder);
+                lines.set(i, line.toString());
             }
         }
         this.lastLine = dialog.indexOf(":start");
@@ -199,7 +207,8 @@ public class DialogHandler {
      * - Adds the defined variables and puts them in place.
      * - Removes basic syntax such as $assets
      * - Replaces all "umlaute"
-     * @param lines Lines to search and replace
+     *
+     * @param lines  Lines to search and replace
      * @param dialog Dialog to get asset and dialog directory from
      * @return final list
      */
@@ -249,8 +258,9 @@ public class DialogHandler {
 
     /**
      * Downloads the dialog from a given url
-     * @param input input from text field
-     * @param totalBytes Consumer to send the total byte sum to
+     *
+     * @param input           input from text field
+     * @param totalBytes      Consumer to send the total byte sum to
      * @param downloadedBytes Consumer to send the already downloaded bytes to
      * @param downloadingFile Consumer to send the currently downloading file name to
      */
@@ -263,7 +273,7 @@ public class DialogHandler {
                 //TODO: Whip up better solution
                 final String dialogName = getArguments(urlLines.stream().filter(s -> s.startsWith(DIALOG_KEY)).findAny().orElse("")).getOrDefault("name", "unnamedDialog" + System.currentTimeMillis() % 1000);
 
-                final Dialog newDialog = new Dialog(new File(Core.getInstance().getMainDir(), dialogName));
+                final Dialog newDialog = new Dialog(dialogName);
                 newDialog.createMetaData();
                 newDialog.save();
 
@@ -300,6 +310,8 @@ public class DialogHandler {
                     }
                 });
                 downloadingFile.accept("Done");
+
+                GameMain.INSTANCE.getDialogLoader().addDialog(newDialog);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -308,6 +320,7 @@ public class DialogHandler {
 
     /**
      * Load in the given dialog. Load dialog, save the old one
+     *
      * @param dialog Dialog to play
      */
     public void loadDialog(final Dialog dialog) {
@@ -342,6 +355,7 @@ public class DialogHandler {
 
     public void deleteDialog(final Dialog dialog) {
         if (dialog == null) return;
+        GameMain.INSTANCE.getDialogLoader().removeDialog(dialog);
         dialog.delete();
     }
 
@@ -363,16 +377,10 @@ public class DialogHandler {
         return args.getOrDefault(COLOR_ARGUMENT, PLAIN_WHITE);
     }
 
-    public Color getColor0(final Map<String, String> args) {
-        return Color.decode(args.getOrDefault(COLOR_ARGUMENT, PLAIN_WHITE));
-    }
+    public Color getColor0(final Map<String, String> args) { return Color.decode(args.getOrDefault(COLOR_ARGUMENT, PLAIN_WHITE)); }
 
     public List<DialogLine> getDisplayDialog() {
         return displayDialog;
-    }
-
-    public List<BasicCall> getBasicCalls() {
-        return basicCalls;
     }
 
     public List<String> getOptions() {
@@ -387,21 +395,5 @@ public class DialogHandler {
         this.dialog.clear();
         this.dialog.addAll(dialog);
         this.prepareDialog();
-    }
-
-    public int getLastLine() {
-        return lastLine;
-    }
-
-    public void setLastLine(int lastLine) {
-        this.lastLine = lastLine;
-    }
-
-    public Dialog getDialogHolder() {
-        return dialogHolder;
-    }
-
-    public void setDialogHolder(Dialog dialogHolder) {
-        this.dialogHolder = dialogHolder;
     }
 }

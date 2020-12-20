@@ -6,16 +6,15 @@ import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.TimeUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
+import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.ui.button.CustomButton;
 
 public class MainMenu extends BasicScreen {
-
 
     private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
 
     @Override
     public void init() {
-
         final int buttonWidth = 100, height = 15;
         final int xPos = getWidth() / 2 - buttonWidth / 2;
 
@@ -36,7 +35,7 @@ public class MainMenu extends BasicScreen {
 
     @Override
     public void drawScreen() {
-        drawCenteredMenuString("Chatroom76", getWidth() / 2, getHeight() / 6);
+        drawCenteredMenuString(GameMain.INSTANCE.getGameName(), getWidth() / 2, getHeight() / 6);
 
         if (bounceTime.isTimeOver(1000)) {
             if (bounceTime2.isTimeOver(1600)) {
@@ -44,7 +43,7 @@ public class MainMenu extends BasicScreen {
                 bounceTime.reset();
             }
         } else {
-            RenderUtil.drawQuad(getWidth() / 2 + bigFont.getStringWidth("Chatroom76") / 2, getHeight() / 6 + 45, 30, 5, ColorUtil.MAIN_COLOR);
+            RenderUtil.drawQuad(getWidth() / 2 + bigFont.getStringWidth(GameMain.INSTANCE.getGameName()) / 2, getHeight() / 6 + 45, 30, 5, ColorUtil.MAIN_COLOR);
         }
         super.drawScreen();
     }

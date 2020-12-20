@@ -14,6 +14,7 @@ import org.lwjgl.input.Keyboard;
 
 public class SettingsScreen extends BasicScreen {
 
+    private final String title = "Settings";
 
     @Override
     public void init() {
@@ -59,7 +60,7 @@ public class SettingsScreen extends BasicScreen {
 
     @Override
     public void drawScreen() {
-        drawCenteredMenuString("Settings", getWidth() / 2, getHeight() / 6);
+        drawCenteredMenuString(title, getWidth() / 2, getHeight() / 6);
         super.drawScreen();
     }
 

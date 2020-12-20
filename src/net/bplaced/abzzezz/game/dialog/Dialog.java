@@ -3,6 +3,7 @@ package net.bplaced.abzzezz.game.dialog;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
+import net.bplaced.abzzezz.game.GameMain;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -10,39 +11,50 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Dialog {
 
     private final String dialogName;
-    private final File cfgFile, dialogFile, dialogDir, assets;
+    private final String dialogID;
+
+    private final File cfgFile, dialogFile, dialogDir, assetsDir;
     private JSONObject metaData;
 
-    public Dialog(final File dialogDir) {
-        this.dialogDir = dialogDir;
-        this.dialogName = dialogDir.getName();
-        this.cfgFile = new File(dialogDir, dialogName.concat(".cfg"));
-        this.dialogFile = new File(dialogDir, dialogName.concat(".dlg"));
-        this.assets = new File(dialogDir, "assets");
+    public Dialog(final String dialogName) {
+        //Set dialog name and generate dialog id
+        this.dialogName = dialogName;
+        this.dialogID = UUID.randomUUID().toString();
+
+        this.dialogDir = new File(GameMain.INSTANCE.getDialogLoader().getDialogDir(), dialogID);
+        this.cfgFile = new File(dialogDir, dialogID.concat(".cfg"));
+        this.dialogFile = new File(dialogDir, dialogID.concat(".dlg"));
+        this.assetsDir = new File(dialogDir, "assets");
         this.metaData = new JSONObject();
-        createDirectories();
+        this.createDirectories();
     }
 
-    public Dialog(final File dialogDir, final JSONObject metaData) {
-        this.dialogDir = dialogDir;
-        this.dialogName = dialogDir.getName();
-        this.cfgFile = new File(dialogDir, dialogName.concat(".cfg"));
-        this.dialogFile = new File(dialogDir, dialogName.concat(".dlg"));
-        this.assets = new File(dialogDir, "assets");
-        this.metaData = metaData;
-        createDirectories();
+    public Dialog(final String dialogName, final String dialogID) {
+        //Set dialog name and generate dialog id
+        this.dialogName = dialogName;
+        this.dialogID = dialogID;
+
+        this.dialogDir = new File(GameMain.INSTANCE.getDialogLoader().getDialogDir(), dialogID);
+        this.cfgFile = new File(dialogDir, dialogID.concat(".cfg"));
+        this.dialogFile = new File(dialogDir, dialogID.concat(".dlg"));
+        this.assetsDir = new File(dialogDir, "assets");
+        this.metaData = new JSONObject();
+        this.createDirectories();
+        this.loadMetaData();
     }
 
     private void createDirectories() {
         try {
-            if (!dialogDir.exists()) dialogDir.mkdir();
-            if (!cfgFile.exists()) cfgFile.createNewFile();
-            if (!assets.exists()) assets.mkdir();
-        } catch (IOException e) {
+            if (!dialogDir.exists()) Logger.log("Creating dialog directory: " + dialogDir.mkdir(), LogType.INFO);
+            if (!cfgFile.exists()) Logger.log("Creating config file: " + cfgFile.createNewFile(), LogType.INFO);
+            if (!assetsDir.exists()) Logger.log("Creating asset directory: " + assetsDir.mkdir(), LogType.INFO);
+        } catch (final IOException e) {
+            Logger.log("Error creating dialog-necessary directories ", LogType.WARNING);
             e.printStackTrace();
         }
     }
@@ -63,13 +75,12 @@ public class Dialog {
         }
     }
 
-    public Dialog loadMetaData() {
+    public void loadMetaData() {
         try {
             metaData = new JSONObject(FileUtil.readFromFile(cfgFile));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return this;
     }
 
     public void delete() {
@@ -78,12 +89,12 @@ public class Dialog {
                 Logger.log("Deleting dialog files: " + listFile.delete(), LogType.INFO);
         }
 
-        if (!assets.delete() && assets.listFiles() != null) {
-            for (final File listFile : Objects.requireNonNull(assets.listFiles()))
+        if (!assetsDir.delete() && assetsDir.listFiles() != null) {
+            for (final File listFile : Objects.requireNonNull(assetsDir.listFiles()))
                 Logger.log("Deleting assets: " + listFile.delete(), LogType.INFO);
         }
 
-        Logger.log("Deleting asset dir:" + assets.delete(), LogType.INFO);
+        Logger.log("Deleting asset dir:" + assetsDir.delete(), LogType.INFO);
         Logger.log("Deleting dialog dir:" + dialogDir.delete(), LogType.INFO);
     }
 
@@ -112,8 +123,10 @@ public class Dialog {
     }
 
     public File getAssets() {
-        return assets;
+        return assetsDir;
     }
 
-
+    public String getDialogID() {
+        return dialogID;
+    }
 }
