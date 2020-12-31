@@ -78,7 +78,7 @@ public class Dialog {
     public void loadMetaData() {
         try {
             metaData = new JSONObject(FileUtil.readFromFile(cfgFile));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

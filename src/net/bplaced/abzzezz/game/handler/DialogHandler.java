@@ -8,7 +8,6 @@ import net.bplaced.abzzezz.core.util.logging.Logger;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
-import net.bplaced.abzzezz.game.dialog.DialogLoader;
 import net.bplaced.abzzezz.game.dialog.call.BasicCall;
 import net.bplaced.abzzezz.game.dialog.call.calls.*;
 import net.bplaced.abzzezz.game.ui.screen.GameScreen;
@@ -271,35 +270,33 @@ public class DialogHandler {
             try {
                 final List<String> urlLines = FileUtil.readListFromURL(new URL(input));
                 //TODO: Whip up better solution
-                final String dialogName = getArguments(urlLines.stream().filter(s -> s.startsWith(DIALOG_KEY)).findAny().orElse("")).getOrDefault("name", "unnamedDialog" + System.currentTimeMillis() % 1000);
 
-                final Dialog newDialog = new Dialog(dialogName);
-                newDialog.createMetaData();
-                newDialog.save();
+                final Dialog dialog = new Dialog(getArguments(urlLines.stream().filter(s -> s.startsWith(DIALOG_KEY)).findAny().orElse("")).getOrDefault("name", "unnamedDialog" + System.currentTimeMillis() % 1000));
+                dialog.createMetaData();
+                dialog.save();
 
-                final List<String> lines = replaceInList(urlLines, newDialog);
-                FileUtil.writeListToFile(newDialog.getDialogFile(), lines);
+                final List<String> dialogLines = replaceInList(urlLines, dialog);
+                FileUtil.writeListToFile(dialog.getDialogFile(), dialogLines);
 
-                final Map<URL, File> assets = new HashMap<>();
+                final Map<URL, File> assetMap = new HashMap<>();
                 int totalAssetSize = 0;
 
-                for (final String line : lines) {
+                for (final String line : dialogLines) {
                     if (line.startsWith(IMPORT_KEY)) {
                         final Map<String, String> args = getArguments(line);
-                        final File asset = new File(newDialog.getAssets(), args.get(DESTINATION_ARGUMENT));
+                        final File asset = new File(dialog.getAssets(), args.get(DESTINATION_ARGUMENT));
                         final URL assetURL = new URL(args.get(URL_ARGUMENT));
-                        assets.put(assetURL, asset);
+                        assetMap.put(assetURL, asset);
                         totalAssetSize += assetURL.openConnection().getContentLength();
                     }
                 }
                 totalBytes.accept(totalAssetSize);
 
-                assets.forEach((url, file) -> {
+                assetMap.forEach((url, file) -> {
                     downloadingFile.accept(file.getName().substring(0, file.getName().lastIndexOf(".")));
 
-                    try (final BufferedInputStream in = new BufferedInputStream(url.openStream());
-                         final FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-                        byte[] dataBuffer = new byte[1024];
+                    try (final BufferedInputStream in = new BufferedInputStream(url.openStream()); final FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+                        final byte[] dataBuffer = new byte[1024];
                         int bytesRead;
                         while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
                             fileOutputStream.write(dataBuffer, 0, bytesRead);
@@ -309,9 +306,10 @@ public class DialogHandler {
                         e.printStackTrace();
                     }
                 });
+
                 downloadingFile.accept("Done");
 
-                GameMain.INSTANCE.getDialogLoader().addDialog(newDialog);
+                GameMain.INSTANCE.getDialogLoader().addDialog(dialog);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -377,7 +375,9 @@ public class DialogHandler {
         return args.getOrDefault(COLOR_ARGUMENT, PLAIN_WHITE);
     }
 
-    public Color getColor0(final Map<String, String> args) { return Color.decode(args.getOrDefault(COLOR_ARGUMENT, PLAIN_WHITE)); }
+    public Color getColor0(final Map<String, String> args) {
+        return Color.decode(args.getOrDefault(COLOR_ARGUMENT, PLAIN_WHITE));
+    }
 
     public List<DialogLine> getDisplayDialog() {
         return displayDialog;

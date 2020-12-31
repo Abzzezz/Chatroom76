@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +26,12 @@ public class DialogLoader {
         if (exists()) {
             if (dialogsFile.delete()) {
                 Logger.log("Saving dialogs", LogType.INFO);
-                dialogs.forEach(dialog -> {
-                    final JSONObject dialogJSON = new JSONObject().put("id", dialog.getDialogID()).put("name", dialog.getDialogName());
-                    FileUtil.writeToFile((dialogJSON.toString() + "\n").getBytes(StandardCharsets.UTF_8), dialogsFile, true);
+                dialogs.stream().map(dialog -> new JSONObject().put("id", dialog.getDialogID()).put("name", dialog.getDialogName())).forEach(jsonObject -> {
+                    try {
+                        FileUtil.writeStringToFile(jsonObject.toString(), dialogsFile);
+                    } catch (final IOException e) {
+                        e.printStackTrace();
+                    }
                 });
             }
         } else createDirectories();
@@ -39,8 +41,7 @@ public class DialogLoader {
         if (exists()) {
             try {
                 Logger.log("Loading dialogs", LogType.INFO);
-                final List<String> lines = FileUtil.readListFromFile(dialogsFile);
-                lines.forEach(line -> {
+                FileUtil.readListFromFile(dialogsFile).forEach(line -> {
                     final JSONObject lineJSON = new JSONObject(line);
                     final String dialogID = lineJSON.getString("id");
                     final String dialogName = lineJSON.getString("name");

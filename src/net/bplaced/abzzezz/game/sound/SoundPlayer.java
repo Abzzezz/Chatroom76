@@ -32,7 +32,7 @@ public class SoundPlayer {
     public void playBackgroundMusic(File soundLocation, float volume) {
         try {
             this.backgroundMusic = new Music(soundLocation.toURI().toURL());
-            backgroundMusic.play();
+            backgroundMusic.play(pitch, volume * GameMain.INSTANCE.getSettingsHandler().getSettingByTag("volume").map(setting -> setting.getCurrent() / 100).orElse(1F));
             backgroundMusic.loop(pitch, volume * GameMain.INSTANCE.getSettingsHandler().getSettingByTag("volume").map(setting -> setting.getCurrent() / 100).orElse(1F));
         } catch (IOException | SlickException e) {
             e.printStackTrace();
