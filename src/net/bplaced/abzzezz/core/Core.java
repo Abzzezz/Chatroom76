@@ -210,8 +210,10 @@ public class Core {
         lastFrame = time;
         DeltaTime.deltaTime = deltaTime;
 
+
         basicScreen.drawShader();
         basicScreen.draw();
+        ShaderHandler.SHADER_HANDLER.getBitShader().draw();
 
         while (Mouse.next()) {
             if (Mouse.getEventButtonState())

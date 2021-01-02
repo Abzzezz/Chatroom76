@@ -10,7 +10,7 @@ public class ExitBackgroundShader extends ShaderProgram {
     private final float height;
 
     public ExitBackgroundShader() {
-        super("pixelPositionVertex.vert", "background2Shader.frag");
+        super("ppVertex.vert", "background2Shader.frag");
         width = Display.getWidth();
         height = Display.getHeight();
     }
@@ -18,7 +18,7 @@ public class ExitBackgroundShader extends ShaderProgram {
     @Override
     public void draw() {
         bind();
-        setUniform1f("time", speed / 1000);
+        setUniform1f("time", time / 1000);
         setUniform2f("resolution", width, height);
         drawFull();
         super.update();

@@ -64,6 +64,8 @@ public class RoomScreen extends BasicScreen {
 
             textFont.drawString(name, xPos, yPos, ColorUtil.TEXT_COLOR);
             textFont.drawString(dialog.getCreationDate(), xPos, yPos + textFont.getHeight() + 5, ColorUtil.TEXT_COLOR);
+            if(dialog == selected)
+            RenderUtil.drawTopTriangle(xPos, yPos, 190, 10);
 
             yBuffer += 50;
         }

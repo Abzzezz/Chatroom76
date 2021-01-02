@@ -116,6 +116,7 @@ public abstract class BasicScreen implements BasicComponent {
             newSelected.setSelected(true);
             setSelectedKeyButton(newSelected);
         }
+        keyButtons.forEach(keyButton -> keyButton.keyListener(keyCode, keyTyped));
         uiComponents.forEach(uiComponent -> uiComponent.keyListener(keyCode, keyTyped));
     }
 

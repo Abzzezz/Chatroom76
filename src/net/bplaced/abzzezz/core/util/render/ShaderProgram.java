@@ -35,7 +35,7 @@ public abstract class ShaderProgram {
     private final int program;
     private final float screenWidth;
     private final float screenHeight;
-    protected float speed;
+    protected float time;
 
     public ShaderProgram(final String vertexShader, final String fragmentShader) {
         screenWidth = Display.getWidth();
@@ -45,8 +45,8 @@ public abstract class ShaderProgram {
         this.program = glCreateProgramObjectARB();
 
         try {
-            compiledVertex = compileShader(FileUtil.readShader(GameMain.class.getResource("util/shaders/".concat(vertexShader))), GL_VERTEX_SHADER_ARB);
-            compiledFragment = compileShader(FileUtil.readShader(GameMain.class.getResource("util/shaders/".concat(fragmentShader))), GL_FRAGMENT_SHADER_ARB);
+            compiledVertex = compileShader(FileUtil.readShader(GameMain.class.getResource("util/shaders/vertex/".concat(vertexShader))), GL_VERTEX_SHADER_ARB);
+            compiledFragment = compileShader(FileUtil.readShader(GameMain.class.getResource("util/shaders/fragment/".concat(fragmentShader))), GL_FRAGMENT_SHADER_ARB);
         } catch (final IOException e) {
             e.printStackTrace();
             compiledFragment = 0;
@@ -98,7 +98,7 @@ public abstract class ShaderProgram {
     public abstract void draw();
 
     protected void update() {
-        speed += DeltaTime.deltaTime;
+        time += DeltaTime.deltaTime;
     }
 
     protected void drawFull() {

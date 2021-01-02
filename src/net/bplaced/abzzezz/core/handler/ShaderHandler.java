@@ -2,6 +2,7 @@ package net.bplaced.abzzezz.core.handler;
 
 import net.bplaced.abzzezz.core.util.render.ShaderProgram;
 import net.bplaced.abzzezz.game.shader.BackgroundShader;
+import net.bplaced.abzzezz.game.shader.CRTShader;
 import net.bplaced.abzzezz.game.shader.TextureShader;
 import net.bplaced.abzzezz.game.util.timer.UniformCacheTimer;
 import org.lwjgl.opengl.ARBShaderObjects;
@@ -18,6 +19,7 @@ public class ShaderHandler {
 
     private ShaderProgram backgroundShader;
     private TextureShader textureShader;
+    private CRTShader CRTShader;
 
     public ShaderHandler() {
         final Timer timer = new Timer("Shader-uniform cache timer");
@@ -27,6 +29,7 @@ public class ShaderHandler {
     public void setupShaders() {
         this.backgroundShader = new BackgroundShader();
         this.textureShader = new TextureShader();
+        this.CRTShader = new CRTShader();
     }
 
     public void deletePrograms() {
@@ -39,6 +42,10 @@ public class ShaderHandler {
 
     public ShaderProgram getBackgroundShader() {
         return backgroundShader;
+    }
+
+    public CRTShader getBitShader() {
+        return CRTShader;
     }
 
     public void setBackgroundShader(ShaderProgram backgroundShader) {

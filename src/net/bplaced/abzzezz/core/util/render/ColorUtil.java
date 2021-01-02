@@ -31,5 +31,9 @@ public class ColorUtil {
      * Text color
      */
     public static final Color TEXT_COLOR = Color.WHITE;
+    /**
+     * Accent color
+     */
+    public static final Color ACCENT_COLOR = Color.GREEN;
 
 }

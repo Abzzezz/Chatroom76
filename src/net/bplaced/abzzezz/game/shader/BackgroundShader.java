@@ -10,7 +10,7 @@ public class BackgroundShader extends ShaderProgram {
     private final float height;
 
     public BackgroundShader() {
-        super("pixelPositionVertex.vert", "backgroundShader.frag");
+        super("ppVertex.vert", "backgroundShader.frag");
         width = Display.getWidth();
         height = Display.getHeight();
     }
@@ -18,7 +18,7 @@ public class BackgroundShader extends ShaderProgram {
     @Override
     public void draw() {
         bind();
-        setUniform1f("time", speed / 1000);
+        setUniform1f("time", time / 1000);
         setUniform2f("resolution", width, height);
         drawFull();
         super.update();

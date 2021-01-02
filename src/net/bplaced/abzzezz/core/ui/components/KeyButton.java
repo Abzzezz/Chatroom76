@@ -1,5 +1,7 @@
 package net.bplaced.abzzezz.core.ui.components;
 
+import net.bplaced.abzzezz.core.util.render.ColorUtil;
+import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import org.lwjgl.input.Keyboard;
 
 public class KeyButton implements UIComponent {
@@ -47,19 +49,18 @@ public class KeyButton implements UIComponent {
     @Override
     public void drawComponent() {
         textFont.drawString(text, xPos, yPos, isSelected() ? mainColor : textColor);
+        if (isSelected()) {
+            RenderUtil.drawTopTriangle(xPos, yPos, width, 5);
+        }
     }
 
     @Override
     public void keyListener(int keyCode, char keyTyped) {
-        if (this != OPEN_GL_CORE_INSTANCE.getScreen().getSelectedKeyButton()) return;
-
-        if (keyCode == Keyboard.KEY_RETURN) OPEN_GL_CORE_INSTANCE.getScreen().keyButtonEntered(getID());
+        if (isSelected() && keyCode == Keyboard.KEY_RETURN) OPEN_GL_CORE_INSTANCE.getScreen().keyButtonEntered(getID());
     }
 
     @Override
-    public void mouseListener(int mouseButton) {
-
-    }
+    public void mouseListener(int mouseButton) { }
 
     public boolean isSelected() {
         return selected;

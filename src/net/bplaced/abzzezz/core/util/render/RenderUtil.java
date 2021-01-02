@@ -58,6 +58,19 @@ public class RenderUtil {
         endGL();
     }
 
+    public static void drawTopTriangle(float xPos, float yPos, float offset, float size) {
+        setupGL();
+        glColor4f(ColorUtil.ACCENT_COLOR.getRed() / 255.0F, ColorUtil.ACCENT_COLOR.getGreen() / 255.0F, ColorUtil.ACCENT_COLOR.getBlue() / 255.0F, ColorUtil.ACCENT_COLOR.getAlpha() / 255.0F);
+        glBegin(GL_TRIANGLES);
+        {
+            glVertex2f(xPos + offset, yPos);
+            glVertex2f(xPos + offset + size, yPos);
+            glVertex2f(xPos + offset + size, yPos + size);
+        }
+        glEnd();
+       endGL();
+    }
+
     /**
      * Copied and modified from http://slabode.exofire.net/circle_draw.shtml
      * Credit where credit is dou

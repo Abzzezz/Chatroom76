@@ -31,17 +31,11 @@ public class MainMenu extends BasicScreen {
 
     @Override
     public void keyButtonEntered(float id) {
-        System.out.println(id);
-        super.keyButtonEntered(id);
-    }
-
-    @Override
-    public void buttonPressed(float buttonID) {
-        if (buttonID == 0)
+        if (id == 0)
             Core.getInstance().setScreen(new RoomScreen());
-        else if (buttonID == 1)
+        else if (id == 1)
             Core.getInstance().setScreen(new SettingsScreen());
-        super.buttonPressed(buttonID);
+        super.keyButtonEntered(id);
     }
 
     @Override
