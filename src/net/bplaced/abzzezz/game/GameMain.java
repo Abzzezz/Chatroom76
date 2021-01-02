@@ -22,7 +22,6 @@ public class GameMain {
     public final static GameMain INSTANCE = new GameMain();
 
     private final String gameName = "Chatroom76";
-    private String serverURL;
 
     private DialogHandler dialogHandler;
     private SoundPlayer soundPlayer;
@@ -59,7 +58,6 @@ public class GameMain {
      * Initialise all handlers, then start engine
      */
     public void initHandlers() {
-        this.serverURL = "http://abzzezz.bplaced.net/Chatroom/";
         this.dialogHandler = new DialogHandler();
         this.settingsHandler = new SettingsHandler();
         this.soundPlayer = new SoundPlayer();
@@ -72,36 +70,12 @@ public class GameMain {
         return settingsHandler;
     }
 
-    public void setSettingsHandler(SettingsHandler settingsHandler) {
-        this.settingsHandler = settingsHandler;
-    }
-
-    public String getFileOnServer(String file) {
-        return getServerURL() + file;
-    }
-
-    public String getServerURL() {
-        return serverURL;
-    }
-
-    public void setServerURL(String serverURL) {
-        this.serverURL = serverURL;
-    }
-
     public DialogHandler getDialogHandler() {
         return dialogHandler;
     }
 
-    public void setDialogHandler(DialogHandler dialogHandler) {
-        this.dialogHandler = dialogHandler;
-    }
-
     public SoundPlayer getSoundPlayer() {
         return soundPlayer;
-    }
-
-    public void setSoundPlayer(SoundPlayer soundPlayer) {
-        this.soundPlayer = soundPlayer;
     }
 
     public String getGameName() {

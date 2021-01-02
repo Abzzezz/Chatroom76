@@ -211,7 +211,7 @@ public class Core {
         DeltaTime.deltaTime = deltaTime;
 
         basicScreen.drawShader();
-        basicScreen.drawScreen();
+        basicScreen.draw();
 
         while (Mouse.next()) {
             if (Mouse.getEventButtonState())

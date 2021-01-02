@@ -20,14 +20,14 @@ import org.lwjgl.input.Mouse;
 public class Slider implements UIComponent {
 
     private final String text;
+    private final float xPos;
+    private final float yPos;
+    private final int width;
+    private final int height;
     private float min;
     private float max;
     private float current;
-    private final float xPos;
-    private final float yPos;
     private float step;
-    private final int width;
-    private final int height;
     private SliderListener sliderListener;
     private float stringY;
 

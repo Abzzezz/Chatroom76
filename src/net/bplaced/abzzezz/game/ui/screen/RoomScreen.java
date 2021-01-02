@@ -1,20 +1,17 @@
 package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
-import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Button;
+import net.bplaced.abzzezz.core.ui.components.Text;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
-import net.bplaced.abzzezz.game.dialog.DialogLoader;
-import net.bplaced.abzzezz.game.ui.button.CustomButton;
+import net.bplaced.abzzezz.game.ui.interactible.CustomButton;
 import org.lwjgl.input.Keyboard;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RoomScreen extends BasicScreen {
@@ -33,6 +30,8 @@ public class RoomScreen extends BasicScreen {
         getUiComponents().add(playButton = new CustomButton(0, "Play", 50, yPos, buttonWidth, height, false));
         getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, yPos, buttonWidth, height));
         getUiComponents().add(deleteButton = new CustomButton(2, "Delete", getWidth() - 150, yPos, buttonWidth, height, false));
+
+        getUiComponents().add(new Text(getWidth() / 2, getHeight() / 6, "Rooms", mainColor, true, bigFont));
         super.init();
     }
 
@@ -47,14 +46,14 @@ public class RoomScreen extends BasicScreen {
 
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
-        if (keyCode == Keyboard.KEY_ESCAPE) {
+        if (keyCode == Keyboard.KEY_ESCAPE)
             Core.getInstance().setScreen(new MainMenu());
-        }
+
         super.keyTyped(keyCode, keyTyped);
     }
 
     @Override
-    public void drawScreen() {
+    public void draw() {
         int yBuffer = 0;
         for (final Dialog dialog : dialogs) {
             final String name = dialog.getDialogName();
@@ -68,7 +67,7 @@ public class RoomScreen extends BasicScreen {
 
             yBuffer += 50;
         }
-        super.drawScreen();
+        super.draw();
     }
 
     @Override
@@ -91,9 +90,4 @@ public class RoomScreen extends BasicScreen {
         super.mousePressed(mouseButton);
     }
 
-    @Override
-    public void drawShader() {
-        ShaderHandler.SHADER_HANDLER.getBackgroundShader().draw();
-        super.drawShader();
-    }
 }

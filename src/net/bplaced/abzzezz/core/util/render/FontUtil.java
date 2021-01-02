@@ -49,6 +49,11 @@ public class FontUtil {
      * @param yPos
      * @param color
      */
+    public void drawString(String text, float xPos, float yPos, org.newdawn.slick.Color color) {
+        unicodeFont.drawString(xPos, yPos, text, color);
+    }
+
+
     public void drawString(String text, float xPos, float yPos, Color color) {
         unicodeFont.drawString(xPos, yPos, text, new org.newdawn.slick.Color(color.getRGB()));
     }
@@ -57,7 +62,7 @@ public class FontUtil {
         return this.unicodeFont.getWidth(text);
     }
 
-    public float getHeight(final String text) {
+    public int getHeight(final String text) {
         return this.unicodeFont.getHeight(text);
     }
 

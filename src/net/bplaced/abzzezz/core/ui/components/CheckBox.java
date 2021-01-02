@@ -20,9 +20,9 @@ import java.awt.*;
 
 public class CheckBox implements UIComponent {
 
-    private boolean checked;
     private final float xPos;
     private final float yPos;
+    private boolean checked;
     private int size;
     private String text;
     private AnimationUtil animationUtil;

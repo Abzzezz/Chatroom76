@@ -1,4 +1,4 @@
-package net.bplaced.abzzezz.game.ui.button;
+package net.bplaced.abzzezz.game.ui.interactible;
 
 import net.bplaced.abzzezz.core.ui.components.Button;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;

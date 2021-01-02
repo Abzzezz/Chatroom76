@@ -1,20 +1,14 @@
 package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
-import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
-import net.bplaced.abzzezz.core.ui.components.CheckBox;
-import net.bplaced.abzzezz.core.ui.components.Slider;
-import net.bplaced.abzzezz.core.ui.components.Switcher;
-import net.bplaced.abzzezz.core.ui.components.UIComponent;
+import net.bplaced.abzzezz.core.ui.components.*;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.setting.Setting;
 import org.lwjgl.input.Keyboard;
 
 
 public class SettingsScreen extends BasicScreen {
-
-    private final String title = "Settings";
 
     @Override
     public void init() {
@@ -24,6 +18,7 @@ public class SettingsScreen extends BasicScreen {
         for (final Setting setting : GameMain.INSTANCE.getSettingsHandler().getSettings()) {
             if (yBuffer >= getHeight() - 100) {
                 xBuffer += 150;
+                yBuffer = 0;
             }
             UIComponent component = null;
             final String tag = setting.getTag();
@@ -55,19 +50,8 @@ public class SettingsScreen extends BasicScreen {
                 yBuffer += component.getWidth();
             }
         }
+        getUiComponents().add(new Text(getWidth() / 2, getHeight() / 6, "Settings", mainColor, true, bigFont));
         super.init();
-    }
-
-    @Override
-    public void drawScreen() {
-        drawCenteredMenuString(title, getWidth() / 2, getHeight() / 6);
-        super.drawScreen();
-    }
-
-    @Override
-    public void drawShader() {
-        ShaderHandler.SHADER_HANDLER.getBackgroundShader().draw();
-        super.drawShader();
     }
 
     @Override

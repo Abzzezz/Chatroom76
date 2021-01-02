@@ -10,9 +10,12 @@
 
 package net.bplaced.abzzezz.core.ui;
 
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.ui.components.Button;
+import net.bplaced.abzzezz.core.ui.components.KeyButton;
 import net.bplaced.abzzezz.core.ui.components.UIComponent;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 import java.util.List;
@@ -21,6 +24,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public abstract class BasicScreen implements BasicComponent {
 
     private final List<UIComponent> uiComponents = new CopyOnWriteArrayList<>();
+    private final List<KeyButton> keyButtons = new CopyOnWriteArrayList<>();
+
+    protected KeyButton selectedKeyButton;
 
     /**
      * Int method to add things like buttons etc.
@@ -37,20 +43,30 @@ public abstract class BasicScreen implements BasicComponent {
     public void buttonPressed(float buttonID) {
     }
 
+    public void keyButtonEntered(final float id) {
+    }
+
     private void initComponents() {
         uiComponents.forEach(UIComponent::initComponent);
+        keyButtons.forEach(KeyButton::initComponent);
+        if (keyButtons.size() > 0) {
+            setSelectedKeyButton(keyButtons.get(0));
+        }
     }
 
     /*
     Screen drawing - simple
      */
-    public void drawScreen() {
+    public void draw() {
         uiComponents.forEach(UIComponent::drawComponent);
+        keyButtons.forEach(KeyButton::drawComponent);
     }
 
 
     public void drawShader() {
         uiComponents.forEach(UIComponent::drawShader);
+        keyButtons.forEach(KeyButton::drawShader);
+        ShaderHandler.SHADER_HANDLER.getBackgroundShader().draw();
     }
 
     /**
@@ -59,6 +75,7 @@ public abstract class BasicScreen implements BasicComponent {
      * @param mouseButton
      */
     public void mousePressed(int mouseButton) {
+        keyButtons.forEach(keyButton -> keyButton.mouseListener(mouseButton));
         uiComponents.forEach(uiComponent -> uiComponent.mouseListener(mouseButton));
     }
 
@@ -69,6 +86,36 @@ public abstract class BasicScreen implements BasicComponent {
      * @param keyTyped
      */
     public void keyTyped(int keyCode, char keyTyped) {
+        if (keyCode == Keyboard.KEY_UP) {
+            final int index = keyButtons.indexOf(getSelectedKeyButton());
+            int previousIndex;
+            if (index == -1) return;
+            else if (index - 1 == -1) {
+                previousIndex = keyButtons.size() - 1;
+            } else
+                previousIndex = index - 1;
+
+            if (previousIndex == -1) return;
+            selectedKeyButton.setSelected(false);
+            final KeyButton newSelected = keyButtons.get(previousIndex);
+
+            newSelected.setSelected(true);
+            setSelectedKeyButton(newSelected);
+        } else if (keyCode == Keyboard.KEY_DOWN) {
+            final int index = keyButtons.indexOf(getSelectedKeyButton());
+
+            int nextIndex;
+            if (index == -1) return;
+            else if (index + 1 > keyButtons.size() - 1) {
+                nextIndex = 0;
+            } else
+                nextIndex = index + 1;
+
+            selectedKeyButton.setSelected(false);
+            final KeyButton newSelected = keyButtons.get(nextIndex);
+            newSelected.setSelected(true);
+            setSelectedKeyButton(newSelected);
+        }
         uiComponents.forEach(uiComponent -> uiComponent.keyListener(keyCode, keyTyped));
     }
 
@@ -84,11 +131,23 @@ public abstract class BasicScreen implements BasicComponent {
         return uiComponents;
     }
 
+    public List<KeyButton> getKeyButtons() {
+        return keyButtons;
+    }
+
     public Button getButtonByID(float id) {
-        return (Button) uiComponents.stream().filter(uiComponent -> uiComponent instanceof Button && ((Button) uiComponent).getId() == id).findFirst().get();
+        return (Button) uiComponents.stream().filter(uiComponent -> uiComponent instanceof Button && ((Button) uiComponent).getId() == id).findFirst().orElse(null);
     }
 
     public void drawCenteredMenuString(final String string, final float xPos, final float yPos) {
         bigFont.drawString(string, xPos - bigFont.getStringWidth(string) / 2, yPos, ColorUtil.MAIN_COLOR);
+    }
+
+    public KeyButton getSelectedKeyButton() {
+        return selectedKeyButton;
+    }
+
+    public void setSelectedKeyButton(KeyButton selectedKeyButton) {
+        this.selectedKeyButton = selectedKeyButton;
     }
 }

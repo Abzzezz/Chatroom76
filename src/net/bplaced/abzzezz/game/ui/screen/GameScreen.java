@@ -17,11 +17,10 @@ import java.util.function.Function;
 public class GameScreen extends BasicScreen {
 
 
-    private int scrollY;
     private final int halfWidth = getWidth() / 2;
     private final int quadHeight = getHeight() / 4;
-
     private final String[] pauseMenu = {"Resume", "Back to menu"};
+    private int scrollY;
     private boolean paused;
     private final Function[] pauseActions = new Function[]{unused -> {
         paused = !paused;
@@ -39,7 +38,7 @@ public class GameScreen extends BasicScreen {
     }
 
     @Override
-    public void drawScreen() {
+    public void draw() {
         int yBuffer = 0;
         ScissorUtil.enableScissor();
         ScissorUtil.scissor(0, 0, getWidth(), getHeight());
@@ -73,12 +72,11 @@ public class GameScreen extends BasicScreen {
             }
 
         }
-        super.drawScreen();
+        super.draw();
     }
 
     @Override
     public void drawShader() {
-        ShaderHandler.SHADER_HANDLER.getBackgroundShader().draw();
         ShaderHandler.SHADER_HANDLER.getTextureShader().draw();
         super.drawShader();
     }
@@ -94,16 +92,18 @@ public class GameScreen extends BasicScreen {
                 }
                 yStack += textFont.getHeight();
             }
-        } else
-            GameMain.INSTANCE.getDialogHandler().getNextDialog();
-
+        }
         super.mousePressed(mouseButton);
     }
 
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
-        if (keyCode == Keyboard.KEY_ESCAPE) paused = !paused;
         GameMain.INSTANCE.getDialogHandler().selectOption(keyTyped);
+
+        if (keyCode == Keyboard.KEY_ESCAPE) paused = !paused;
+        else if (keyCode == Keyboard.KEY_SPACE)
+            GameMain.INSTANCE.getDialogHandler().getNextDialog();
+
         super.keyTyped(keyCode, keyTyped);
     }
 

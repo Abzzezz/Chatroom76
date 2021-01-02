@@ -1,18 +1,17 @@
 package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
-import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Progressbar;
+import net.bplaced.abzzezz.core.ui.components.Text;
 import net.bplaced.abzzezz.core.ui.components.TextField;
 import net.bplaced.abzzezz.game.GameMain;
-import net.bplaced.abzzezz.game.ui.button.CustomButton;
+import net.bplaced.abzzezz.game.ui.interactible.CustomButton;
 import org.lwjgl.input.Keyboard;
 
 public class ImportDialogScreen extends BasicScreen {
 
     private final BasicScreen parent;
-    private final String title = "Import";
     private TextField textFieldURL;
     private Progressbar downloadProgress;
 
@@ -23,6 +22,7 @@ public class ImportDialogScreen extends BasicScreen {
     @Override
     public void init() {
         final int componentHeight = 20;
+        String title = "Import";
         int size = bigFont.getStringWidth(title);
         final int xPos = getWidth() / 2 - size / 2;
 
@@ -30,6 +30,8 @@ public class ImportDialogScreen extends BasicScreen {
         getUiComponents().add(downloadProgress = new Progressbar("Download: ", xPos, getHeight() / 1.5F, size, componentHeight, 0, 0, 0));
 
         getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, getHeight() - componentHeight * 3, 100, componentHeight));
+
+        getUiComponents().add(new Text(getWidth() / 2, getHeight() / 6, title, mainColor, true, bigFont));
         super.init();
     }
 
@@ -38,18 +40,6 @@ public class ImportDialogScreen extends BasicScreen {
         if (buttonID == 1)
             GameMain.INSTANCE.getDialogHandler().downloadDialog(textFieldURL.toString(), integer -> downloadProgress.setMax(integer), integer -> downloadProgress.increment(integer), s -> downloadProgress.setTitle("Download: " + s));
         super.buttonPressed(buttonID);
-    }
-
-    @Override
-    public void drawScreen() {
-        drawCenteredMenuString(title, getWidth() / 2, getHeight() / 6);
-        super.drawScreen();
-    }
-
-    @Override
-    public void drawShader() {
-        ShaderHandler.SHADER_HANDLER.getBackgroundShader().draw();
-        super.drawShader();
     }
 
     @Override
