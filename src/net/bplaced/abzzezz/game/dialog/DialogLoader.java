@@ -4,10 +4,12 @@ import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,31 +28,43 @@ public class DialogLoader {
         if (exists()) {
             if (dialogsFile.delete()) {
                 Logger.log("Saving dialogs", LogType.INFO);
-                dialogs.stream().map(dialog -> new JSONObject().put("id", dialog.getDialogID()).put("name", dialog.getDialogName())).forEach(jsonObject -> {
-                    try {
-                        FileUtil.writeStringToFile(jsonObject.toString(), dialogsFile);
-                    } catch (final IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+                final JSONArray dialogJSONArray = new JSONArray();
+                dialogs.stream()
+                        .map(dialog -> new JSONObject().put("id", dialog.getDialogID()).put("name", dialog.getDialogName()))
+                        .forEach(dialogJSONArray::put);
+                try {
+                    FileUtil.writeStringToFile(dialogJSONArray.toString(), dialogsFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        } else createDirectories();
+        } else {
+            createDirectories();
+            saveDialogs();
+        }
     }
 
     public void loadDialogs() {
         if (exists()) {
             try {
                 Logger.log("Loading dialogs", LogType.INFO);
-                FileUtil.readListFromFile(dialogsFile).forEach(line -> {
-                    final JSONObject lineJSON = new JSONObject(line);
+                final String readString = FileUtil.readFromFile(dialogsFile);
+                if (readString.isEmpty()) return;
+
+                final JSONArray dialogJSONArray = new JSONArray(readString);
+                for (int i = 0; i < dialogJSONArray.length(); i++) {
+                    final JSONObject lineJSON = dialogJSONArray.getJSONObject(i);
                     final String dialogID = lineJSON.getString("id");
                     final String dialogName = lineJSON.getString("name");
                     dialogs.add(new Dialog(dialogName, dialogID));
-                });
+                }
             } catch (final IOException e) {
                 e.printStackTrace();
             }
-        } else createDirectories();
+        } else {
+            createDirectories();
+            loadDialogs();
+        }
     }
 
     public void addDialog(final Dialog dialog) {

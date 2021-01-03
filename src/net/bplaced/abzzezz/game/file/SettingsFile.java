@@ -3,6 +3,7 @@ package net.bplaced.abzzezz.game.file;
 import net.bplaced.abzzezz.core.file.BasicFile;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.game.GameMain;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -16,8 +17,11 @@ public class SettingsFile extends BasicFile {
     @Override
     public void read() {
         try {
-            FileUtil.readListFromFile(thisFile).forEach(s -> {
-                final JSONObject readObject = new JSONObject(s);
+            final String readString = FileUtil.readFromFile(thisFile);
+            if (readString.isEmpty()) return;
+            final JSONArray settingsJSONArray = new JSONArray(readString);
+            for (int i = 0; i < settingsJSONArray.length(); i++) {
+                final JSONObject readObject = settingsJSONArray.getJSONObject(i);
                 GameMain.INSTANCE.getSettingsHandler().getSettingByTag(readObject.getString("tag")).ifPresent(setting -> {
                     switch (setting.getSettingsType()) {
                         case BOOL:
@@ -34,7 +38,8 @@ public class SettingsFile extends BasicFile {
                             break;
                     }
                 });
-            });
+            }
+
         } catch (final IOException e) {
             e.printStackTrace();
         }
@@ -43,7 +48,7 @@ public class SettingsFile extends BasicFile {
 
     @Override
     public void write() {
-        final StringBuilder builder = new StringBuilder();
+        final JSONArray settingsJSONArray = new JSONArray();
         GameMain.INSTANCE.getSettingsHandler().getSettings().forEach(setting -> {
             final JSONObject jsonObject = new JSONObject();
             jsonObject.put("tag", setting.getTag());
@@ -61,10 +66,10 @@ public class SettingsFile extends BasicFile {
                 default:
                     break;
             }
-            builder.append(jsonObject.toString()).append("\n");
+            settingsJSONArray.put(jsonObject);
         });
         try {
-            FileUtil.writeStringToFile(builder.toString(), thisFile);
+            FileUtil.writeStringToFile(settingsJSONArray.toString(), thisFile);
         } catch (final IOException e) {
             e.printStackTrace();
         }
