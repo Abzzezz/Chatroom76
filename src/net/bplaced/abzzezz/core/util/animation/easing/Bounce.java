@@ -6,13 +6,22 @@
 
 package net.bplaced.abzzezz.core.util.animation.easing;
 
-public class Bounce {
+import net.bplaced.abzzezz.core.util.animation.Animation;
 
-    public static float easeIn(float t, float b, float c, float d) {
+public class Bounce extends Animation {
+
+    @Override
+    public float easeIn(float t, float b, float c, float d) {
         return c - easeOut(d - t, 0, c, d) + b;
     }
 
-    public static float easeOut(float t, float b, float c, float d) {
+    @Override
+    public float easeIn(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    @Override
+    public float easeOut(float t, float b, float c, float d) {
         if ((t /= d) < (1 / 2.75f)) {
             return c * (7.5625f * t * t) + b;
         } else if (t < (2 / 2.75f)) {
@@ -24,9 +33,20 @@ public class Bounce {
         }
     }
 
-    public static float easeInOut(float t, float b, float c, float d) {
+    @Override
+    public float easeOut(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    @Override
+    public float easeInOut(float t, float b, float c, float d) {
         if (t < d / 2) return easeIn(t * 2, 0, c, d) * .5f + b;
         else return easeOut(t * 2 - d, 0, c, d) * .5f + c * .5f + b;
+    }
+
+    @Override
+    public float easeInOut(float t, float b, float c, float d, float s) {
+        return 0;
     }
 
 }

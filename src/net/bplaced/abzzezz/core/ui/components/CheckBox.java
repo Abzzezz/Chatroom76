@@ -11,12 +11,10 @@
 package net.bplaced.abzzezz.core.ui.components;
 
 import net.bplaced.abzzezz.core.util.animation.AnimationUtil;
+import net.bplaced.abzzezz.core.util.animation.easing.Bounce;
 import net.bplaced.abzzezz.core.util.animation.easing.Quint;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
-import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
-
-import java.awt.*;
 
 public class CheckBox implements UIComponent {
 
@@ -27,7 +25,7 @@ public class CheckBox implements UIComponent {
     private String text;
     private AnimationUtil animationUtil;
     private StateChangedListener stateChangedListener;
-    private float stringX, stringY, circleX;
+    private float stringX, stringY, circleX, circleY;
 
     public CheckBox(float xPos, float yPos, int size, String text) {
         this.xPos = xPos;
@@ -50,7 +48,7 @@ public class CheckBox implements UIComponent {
         this.yPos = yPos;
         this.text = text;
         //Auto set
-        this.size = (int) textFont.getHeight();
+        this.size = textFont.getHeight(text);
     }
 
     public CheckBox(float xPos, float yPos, String text) {
@@ -58,29 +56,32 @@ public class CheckBox implements UIComponent {
         this.yPos = yPos;
         this.text = text;
         //Auto set
-        this.size = (int) textFont.getHeight();
+        this.size = textFont.getHeight(text);
     }
 
     @Override
     public void initComponent() {
-        this.animationUtil = new AnimationUtil(Quint.class, 0, 0, size / 2, 1, true, false);
+        this.animationUtil = new AnimationUtil(new Bounce(), 0, 0, size / 2,  2, false);
         refreshPositions();
     }
 
     @Override
     public void refreshPositions() {
-        stringX = xPos + size * 2;
-        stringY = yPos - textFont.getHeight() / 1.5F;
+        stringX = xPos + size;
+        stringY = yPos + textFont.getHeight(text) / 2;
         circleX = xPos + size / 2;
+        circleY = yPos + size / 2;
     }
 
     @Override
     public void drawComponent() {
-        if (checked) animationUtil.animate();
-        RenderUtil.drawCircle(circleX, yPos, size, 3, ColorUtil.MAIN_COLOR);
-        RenderUtil.drawCircle(circleX, yPos, animationUtil.getInt(), 3, ColorUtil.MAIN_COLOR.darker());
+        animationUtil.animate();
 
-        textFont.drawString(text, stringX, stringY, Color.BLACK);
+        RenderUtil.drawQuad(xPos, yPos, size, size, mainColor);
+
+        RenderUtil.drawCircle(circleX, circleY, animationUtil.getInt(), 3, textColor);
+
+        textFont.drawString(text, stringX, stringY, textColor);
     }
 
     @Override
@@ -92,7 +93,7 @@ public class CheckBox implements UIComponent {
         if (checkBoxHovered() && mouseButton == 0) {
             checked = !checked;
             if (stateChangedListener != null) stateChangedListener.onStateChanged(checked);
-            if (!checked) animationUtil.reset();
+            if (!checked) animationUtil.reset(true);
         }
     }
 
@@ -105,7 +106,7 @@ public class CheckBox implements UIComponent {
     }
 
     private boolean checkBoxHovered() {
-        return MouseUtil.mouseHovered(xPos, yPos, size);
+        return MouseUtil.mouseHovered(xPos, yPos, size, size);
     }
 
     public boolean isChecked() {

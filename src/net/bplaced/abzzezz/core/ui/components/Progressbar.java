@@ -1,13 +1,13 @@
 package net.bplaced.abzzezz.core.ui.components;
 
 import net.bplaced.abzzezz.core.util.animation.AnimationUtil;
+import net.bplaced.abzzezz.core.util.animation.easing.Bounce;
 import net.bplaced.abzzezz.core.util.animation.easing.Quint;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 
 public class Progressbar implements UIComponent {
 
-    private final AnimationUtil animationUtil;
     private final float xPos, yPos;
     private final int width;
     private final int height;
@@ -25,7 +25,6 @@ public class Progressbar implements UIComponent {
         this.width = width;
         this.height = height;
         this.title = title;
-        this.animationUtil = new AnimationUtil(Quint.class, current, min, max, step, true, false);
     }
 
     @Override

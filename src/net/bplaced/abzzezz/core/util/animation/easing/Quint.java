@@ -6,19 +6,38 @@
 
 package net.bplaced.abzzezz.core.util.animation.easing;
 
-public class Quint {
+import net.bplaced.abzzezz.core.util.animation.Animation;
 
-    public static float easeIn(float t, float b, float c, float d) {
+public class Quint extends Animation {
+    @Override
+    public float easeIn(float t, float b, float c, float d) {
         return c * (t /= d) * t * t * t * t + b;
     }
 
-    public static float easeOut(float t, float b, float c, float d) {
+    @Override
+    public float easeIn(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    @Override
+    public float easeOut(float t, float b, float c, float d) {
         return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
     }
 
-    public static float easeInOut(float t, float b, float c, float d) {
+    @Override
+    public float easeOut(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    @Override
+    public float easeInOut(float t, float b, float c, float d) {
         if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
         return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
+    }
+
+    @Override
+    public float easeInOut(float t, float b, float c, float d, float s) {
+        return 0;
     }
 
 }

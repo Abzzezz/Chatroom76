@@ -6,19 +6,36 @@
 
 package net.bplaced.abzzezz.core.util.animation.easing;
 
-public class Quart {
+import net.bplaced.abzzezz.core.util.animation.Animation;
 
-    public static float easeIn(float t, float b, float c, float d) {
+public class Quart extends Animation {
+
+    public float easeIn(float t, float b, float c, float d) {
         return c * (t /= d) * t * t * t + b;
     }
 
-    public static float easeOut(float t, float b, float c, float d) {
+    @Override
+    public float easeIn(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    public float easeOut(float t, float b, float c, float d) {
         return -c * ((t = t / d - 1) * t * t * t - 1) + b;
     }
 
-    public static float easeInOut(float t, float b, float c, float d) {
+    @Override
+    public float easeOut(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    public float easeInOut(float t, float b, float c, float d) {
         if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
         return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
+    }
+
+    @Override
+    public float easeInOut(float t, float b, float c, float d, float s) {
+        return 0;
     }
 
 }

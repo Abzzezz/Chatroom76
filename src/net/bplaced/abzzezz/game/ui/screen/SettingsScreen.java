@@ -38,7 +38,7 @@ public class SettingsScreen extends BasicScreen {
                     ((Slider) component).setSliderListener(setting::setCurrent);
                     break;
                 case BOOL:
-                    component = new CheckBox(setting.isState(), xBuffer, yBuffer, 60, tag);
+                    component = new CheckBox(setting.isState(), xBuffer, yBuffer, 30, tag);
                     ((CheckBox) component).setStateChangedListener(setting::setState);
                     break;
                 default:

@@ -18,6 +18,8 @@ import net.bplaced.abzzezz.core.ui.BasicScreen;
 import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
+import net.bplaced.abzzezz.game.handler.Settings;
+import net.bplaced.abzzezz.game.handler.SettingsHandler;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -26,6 +28,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import java.io.File;
+import java.security.Key;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -172,6 +175,12 @@ public class Core {
             System.exit(0);
         }
         /*
+         * Enable repeated events
+         */
+
+        Keyboard.enableRepeatEvents(true);
+
+        /*
         Init first screen
          */
 
@@ -210,9 +219,9 @@ public class Core {
         lastFrame = time;
         DeltaTime.deltaTime = deltaTime;
 
-
         basicScreen.drawShader();
         basicScreen.draw();
+        if(Settings.crtBackground)
         ShaderHandler.SHADER_HANDLER.getBitShader().draw();
 
         while (Mouse.next()) {
@@ -221,7 +230,8 @@ public class Core {
         }
 
         while (Keyboard.next()) {
-            if (Keyboard.getEventKeyState()) basicScreen.keyTyped(Keyboard.getEventKey(), Keyboard.getEventCharacter());
+            if (Keyboard.getEventKeyState() || Keyboard.isRepeatEvent())
+                basicScreen.keyTyped(Keyboard.getEventKey(), Keyboard.getEventCharacter());
         }
     }
 
@@ -295,10 +305,6 @@ public class Core {
 
     public FileHandler getFileManager() {
         return fileHandler;
-    }
-
-    public void setFileManager(FileHandler fileHandler) {
-        this.fileHandler = fileHandler;
     }
 
     public interface OpenGLReference {

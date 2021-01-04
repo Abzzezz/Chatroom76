@@ -6,11 +6,8 @@
 
 package net.bplaced.abzzezz.core.util.animation;
 
-import net.bplaced.abzzezz.core.util.data.ClassUtil;
+import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.math.MathUtil;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * @author: trey & Abzzezz
@@ -23,53 +20,61 @@ import java.lang.reflect.Method;
 
 public class AnimationUtil {
 
-    private final Class<?> classToUse;
+    private final Animation animation;
     public float velocity, oppositeVelocity, min, max, step;
     public float time;
-    public boolean animated, reversed;
+    public boolean reversed;
     public String type;
 
-    public AnimationUtil(final Class<?> classToUse, final float velocity, final float min, final float max, final float step, final boolean animated, final boolean reversed) {
+    public AnimationUtil(final Animation animation, final float velocity, final float min, final float max, final float step, final boolean reversed) {
         this.velocity = velocity;
         this.oppositeVelocity = (MathUtil.nabs(velocity));
         this.min = min;
         this.max = max;
-        this.step = step;
-        this.animated = animated;
         this.reversed = reversed;
-        this.classToUse = classToUse;
+        this.animation = animation;
+        this.step = step;
         if (reversed)
-            time = (int) max;
+            time = max;
         else
-            time = (int) min;
+            time = min;
     }
 
     public void animate() {
         if (reversed) {
             if (time > min) {
-                time -= step;
+                time -= step * (DeltaTime.deltaTime / 10F);
             }
         } else {
             if (time < max) {
-                time += step;
+                time += step * (DeltaTime.deltaTime / 10F);
             }
         }
 
-        try {
-            final Method m = ClassUtil.getMethod(classToUse, "easeInOut", float.class, float.class, float.class, float.class);
-            this.velocity = (float) m.invoke(classToUse, time, min, max, max);
-            this.oppositeVelocity = MathUtil.nabs((float) m.invoke(classToUse, time, min, max, max));
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+        this.velocity = animation.easeInOut(time, min, max, max);
+        this.oppositeVelocity = MathUtil.nabs(velocity);
     }
 
-    public void reset() {
-        if (reversed) time = max;
-        else time = min;
+    public void reset(boolean animated) {
+        if (animated) {
+            if (reversed) {
+                if (time < max) {
+                    time += step * (DeltaTime.deltaTime / 10F);
+                }
+            } else {
+                if (time > min) {
+                    time -= step * (DeltaTime.deltaTime / 10F);
+                }
+            }
+            velocity = animation.easeInOut(time, min, max, max);
+            oppositeVelocity = (MathUtil.nabs(velocity));
+        } else {
+            if (reversed) time = max;
+            else time = min;
 
-        velocity = min;
-        oppositeVelocity = (MathUtil.nabs(velocity));
+            velocity = min;
+            oppositeVelocity = (MathUtil.nabs(velocity));
+        }
     }
 
     public int getInt() {

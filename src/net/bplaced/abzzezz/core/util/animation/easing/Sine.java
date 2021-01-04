@@ -6,18 +6,40 @@
 
 package net.bplaced.abzzezz.core.util.animation.easing;
 
-public class Sine {
+import net.bplaced.abzzezz.core.util.animation.Animation;
 
-    public static float easeIn(float t, float b, float c, float d) {
+public class Sine extends Animation {
+    @Override
+
+    public float easeIn(float t, float b, float c, float d) {
         return -c * (float) Math.cos(t / d * (Math.PI / 2)) + c + b;
     }
 
-    public static float easeOut(float t, float b, float c, float d) {
+    @Override
+    public float easeIn(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    @Override
+
+    public float easeOut(float t, float b, float c, float d) {
         return c * (float) Math.sin(t / d * (Math.PI / 2)) + b;
     }
 
-    public static float easeInOut(float t, float b, float c, float d) {
+    @Override
+    public float easeOut(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    @Override
+
+    public float easeInOut(float t, float b, float c, float d) {
         return -c / 2 * ((float) Math.cos(Math.PI * t / d) - 1) + b;
+    }
+
+    @Override
+    public float easeInOut(float t, float b, float c, float d, float s) {
+        return 0;
     }
 
 }

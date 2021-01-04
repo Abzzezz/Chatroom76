@@ -44,7 +44,7 @@ public class ColorChooser implements UIComponent {
 
     @Override
     public void initComponent() {
-        this.animationUtil = new AnimationUtil(Sine.class, 0, 0, size, 1, true, true);
+        this.animationUtil = new AnimationUtil(new Sine(), 0, 0, size, 1,  true);
     }
 
     @Override

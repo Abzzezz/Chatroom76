@@ -6,18 +6,24 @@
 
 package net.bplaced.abzzezz.core.util.animation.easing;
 
-public class Elastic {
+import net.bplaced.abzzezz.core.util.animation.Animation;
 
-    public static float easeIn(float t, float b, float c, float d) {
+public class Elastic extends Animation {
+    @Override
+    public float easeIn(float t, float b, float c, float d) {
         if (t == 0) return b;
         if ((t /= d) == 1) return b + c;
         float p = d * .3f;
-        float a = c;
         float s = p / 4;
-        return -(a * (float) Math.pow(2, 10 * (t -= 1)) * (float) Math.sin((t * d - s) * (2 * (float) Math.PI) / p)) + b;
+        return -(c * (float) Math.pow(2, 10 * (t -= 1)) * (float) Math.sin((t * d - s) * (2 * (float) Math.PI) / p)) + b;
     }
 
-    public static float easeIn(float t, float b, float c, float d, float a, float p) {
+    @Override
+    public float easeIn(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    public float easeIn(float t, float b, float c, float d, float a, float p) {
         float s;
         if (t == 0) return b;
         if ((t /= d) == 1) return b + c;
@@ -30,7 +36,8 @@ public class Elastic {
         return -(a * (float) Math.pow(2, 10 * (t -= 1)) * (float) Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
     }
 
-    public static float easeOut(float t, float b, float c, float d) {
+    @Override
+    public float easeOut(float t, float b, float c, float d) {
         if (t == 0) return b;
         if ((t /= d) == 1) return b + c;
         float p = d * .3f;
@@ -39,7 +46,12 @@ public class Elastic {
         return (a * (float) Math.pow(2, -10 * t) * (float) Math.sin((t * d - s) * (2 * (float) Math.PI) / p) + c + b);
     }
 
-    public static float easeOut(float t, float b, float c, float d, float a, float p) {
+    @Override
+    public float easeOut(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    public float easeOut(float t, float b, float c, float d, float a, float p) {
         float s;
         if (t == 0) return b;
         if ((t /= d) == 1) return b + c;
@@ -52,7 +64,8 @@ public class Elastic {
         return (a * (float) Math.pow(2, -10 * t) * (float) Math.sin((t * d - s) * (2 * (float) Math.PI) / p) + c + b);
     }
 
-    public static float easeInOut(float t, float b, float c, float d) {
+    @Override
+    public float easeInOut(float t, float b, float c, float d) {
         if (t == 0) return b;
         if ((t /= d / 2) == 2) return b + c;
         float p = d * (.3f * 1.5f);
@@ -63,7 +76,12 @@ public class Elastic {
         return a * (float) Math.pow(2, -10 * (t -= 1)) * (float) Math.sin((t * d - s) * (2 * (float) Math.PI) / p) * .5f + c + b;
     }
 
-    public static float easeInOut(float t, float b, float c, float d, float a, float p) {
+    @Override
+    public float easeInOut(float t, float b, float c, float d, float s) {
+        return 0;
+    }
+
+    public float easeInOut(float t, float b, float c, float d, float a, float p) {
         float s;
         if (t == 0) return b;
         if ((t /= d / 2) == 2) return b + c;
