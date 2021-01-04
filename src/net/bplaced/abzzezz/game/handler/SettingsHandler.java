@@ -1,3 +1,11 @@
+/*
+ * @author Roman
+ * Last modified: 04.01.21, 19:55 by kursc
+ *
+ *
+ *
+ */
+
 package net.bplaced.abzzezz.game.handler;
 
 import net.bplaced.abzzezz.core.handler.ShaderHandler;

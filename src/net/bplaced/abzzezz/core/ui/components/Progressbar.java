@@ -1,3 +1,11 @@
+/*
+ * @author Roman
+ * Last modified: 04.01.21, 20:45 by kursc
+ *
+ *
+ *
+ */
+
 package net.bplaced.abzzezz.core.ui.components;
 
 import net.bplaced.abzzezz.core.util.animation.AnimationUtil;

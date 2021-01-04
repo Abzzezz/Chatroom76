@@ -1,3 +1,11 @@
+/*
+ * @author Roman
+ * Last modified: 03.01.21, 20:22 by kursc
+ *
+ *
+ *
+ */
+
 package net.bplaced.abzzezz.game.ui.interactible;
 
 import net.bplaced.abzzezz.core.ui.components.Button;

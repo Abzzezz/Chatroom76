@@ -1,11 +1,9 @@
 /*
- * Copyright (c) 2020. Roman P.
- * All code belongs to its owners!
- * Last modified: 07.06.20, 16:58
- * APIS used:
- * LWJGL (https://www.lwjgl.org/)
- * Slick (http://slick.ninjacave.com/slick-util/)
- * Abzzezz Util (https://github.com/Abzzezz/AbzzezzUtil)
+ * @author Roman
+ * Last modified: 04.01.21, 20:37 by kursc
+ *
+ *
+ *
  */
 
 package net.bplaced.abzzezz.core.ui.components;
@@ -79,7 +77,7 @@ public class CheckBox implements UIComponent {
 
         RenderUtil.drawQuad(xPos, yPos, size, size, mainColor);
 
-        RenderUtil.drawCircle(circleX, circleY, animationUtil.getInt(), 3, textColor);
+        RenderUtil.drawCircle(circleX, circleY, animationUtil.getInt(), 0, textColor);
 
         textFont.drawString(text, stringX, stringY, textColor);
     }

@@ -1,3 +1,11 @@
+/*
+ * @author Roman
+ * Last modified: 04.01.21, 20:09 by kursc
+ *
+ *
+ *
+ */
+
 package net.bplaced.abzzezz.core.util.animation;
 
 public abstract class Animation {

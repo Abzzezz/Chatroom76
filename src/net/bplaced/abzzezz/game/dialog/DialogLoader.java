@@ -1,3 +1,11 @@
+/*
+ * @author Roman
+ * Last modified: 03.01.21, 21:52 by kursc
+ *
+ *
+ *
+ */
+
 package net.bplaced.abzzezz.game.dialog;
 
 import net.bplaced.abzzezz.core.Core;

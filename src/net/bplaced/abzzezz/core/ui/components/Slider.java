@@ -1,11 +1,9 @@
 /*
- * Copyright (c) 2020. Roman P.
- * All code belongs to its owners!
- * Last modified: 24.06.20, 15:29
- * APIS used:
- * LWJGL (https://www.lwjgl.org/)
- * Slick (http://slick.ninjacave.com/slick-util/)
- * Abzzezz Util (https://github.com/Abzzezz/AbzzezzUtil)
+ * @author Roman
+ * Last modified: 03.01.21, 20:22 by kursc
+ *
+ *
+ *
  */
 
 package net.bplaced.abzzezz.core.ui.components;

@@ -1,4 +1,12 @@
 /*
+ * @author Roman
+ * Last modified: 03.01.21, 20:22 by kursc
+ *
+ *
+ *
+ */
+
+/*
  * @author Roman P.
  * Abzzezz Util is used to automate easy tasks.
  *
