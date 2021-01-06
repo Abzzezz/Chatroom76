@@ -14,7 +14,7 @@ import net.bplaced.abzzezz.core.ui.components.Progressbar;
 import net.bplaced.abzzezz.core.ui.components.Text;
 import net.bplaced.abzzezz.core.ui.components.TextField;
 import net.bplaced.abzzezz.game.GameMain;
-import net.bplaced.abzzezz.game.ui.interactible.CustomButton;
+import net.bplaced.abzzezz.game.ui.component.ShaderButton;
 import org.lwjgl.input.Keyboard;
 
 public class ImportDialogScreen extends BasicScreen {
@@ -37,7 +37,7 @@ public class ImportDialogScreen extends BasicScreen {
         getUiComponents().add(textFieldURL = new TextField(xPos, getHeight() / 2, size, componentHeight, "URL"));
         getUiComponents().add(downloadProgress = new Progressbar("Download: ", xPos, getHeight() / 1.5F, size, componentHeight, 0, 0, 0));
 
-        getUiComponents().add(new CustomButton(1, "Import", getWidth() / 2 - 50, getHeight() - componentHeight * 3, 100, componentHeight));
+        getUiComponents().add(new ShaderButton(1, "Import", getWidth() / 2 - 50, getHeight() - componentHeight * 3, 100, componentHeight));
 
         getUiComponents().add(new Text(getWidth() / 2, getHeight() / 6, title, mainColor, true, bigFont));
         super.init();

@@ -9,6 +9,7 @@
 package net.bplaced.abzzezz.game.shader;
 
 import net.bplaced.abzzezz.core.util.render.ShaderProgram;
+import net.bplaced.abzzezz.game.handler.Settings;
 import org.lwjgl.opengl.Display;
 
 public class CRTShader extends ShaderProgram {
@@ -22,6 +23,7 @@ public class CRTShader extends ShaderProgram {
         bind();
         setUniform2f("resolution", Display.getWidth(), Display.getHeight());
         setUniform1f("time", time);
+        setUniform1f("alpha", Settings.crtAlpha);
         drawFull();
         this.update();
         unbind();

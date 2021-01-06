@@ -14,12 +14,18 @@
 
 package net.bplaced.abzzezz.core.util.math;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Random;
 
 /**
  * Util for simple math tasks
  */
 public class MathUtil {
+
+    public static final NumberFormat NUMBER_FORMAT_TWO_INTEGERS = new DecimalFormat("00");
+
+    public static final NumberFormat NUMBER_FORMAT_TWO_DECIMALS = new DecimalFormat("00.00");
 
     public static float abs(final float num) {
         return (num < 0) ? 0 - num : num;
@@ -67,6 +73,14 @@ public class MathUtil {
 
     public static float clamp(float val, float min, float max) {
         return Math.max(min, Math.min(max, val));
+    }
+
+    public static boolean isInRange(final float current, final float min, final float max) {
+        return (current > min && current < max);
+    }
+
+    public static boolean inMaxBound(final float current, final float max) {
+        return (current >= 0 && current < max);
     }
 
 }

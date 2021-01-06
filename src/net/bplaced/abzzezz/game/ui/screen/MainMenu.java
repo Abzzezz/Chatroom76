@@ -8,14 +8,14 @@
 
 package net.bplaced.abzzezz.game.ui.screen;
 
-import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
-import net.bplaced.abzzezz.core.ui.components.KeyButton;
 import net.bplaced.abzzezz.core.ui.components.Text;
 import net.bplaced.abzzezz.core.util.TimeUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.game.ui.component.InputLine;
+import net.bplaced.abzzezz.game.ui.component.Option;
 
 public class MainMenu extends BasicScreen {
 
@@ -23,27 +23,16 @@ public class MainMenu extends BasicScreen {
 
     @Override
     public void init() {
-        final int buttonWidth = 100, height = 15;
+        final int buttonWidth = 100;
         final int xPos = getWidth() / 2 - buttonWidth / 2;
 
-        // getUiComponents().add(new CustomButton(0, "Rooms", xPos, getHeight() / 2, buttonWidth, height));
-        //  getUiComponents().add(new CustomButton(1, "Settings", xPos, getHeight() / 2 + 40, buttonWidth, height));
-
-        final KeyButton buttonOne = new KeyButton(0, xPos, getHeight() / 2, buttonWidth, height, "Rooms", true);
-        getKeyButtons().add(buttonOne);
-        getKeyButtons().add(new KeyButton(1, xPos, getHeight() / 2 + 40, buttonWidth, height, "Settings"));
+        getOptions().add(new Option(xPos, getHeight() / 2, "Rooms", consumer -> OPEN_GL_CORE_INSTANCE.setScreen(new RoomScreen())));
+        getOptions().add(new Option(xPos, getHeight() / 2 + 40, "Settings", consumer -> OPEN_GL_CORE_INSTANCE.setScreen(new SettingsScreen())));
 
         getUiComponents().add(new Text(getWidth() / 2, getHeight() / 6, GameMain.INSTANCE.getGameName(), mainColor, true, bigFont));
-        super.init();
-    }
+        getUiComponents().add(new InputLine());
 
-    @Override
-    public void keyButtonEntered(float id) {
-        if (id == 0)
-            Core.getInstance().setScreen(new RoomScreen());
-        else if (id == 1)
-            Core.getInstance().setScreen(new SettingsScreen());
-        super.keyButtonEntered(id);
+        super.init();
     }
 
     @Override

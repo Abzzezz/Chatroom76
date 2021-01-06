@@ -9,13 +9,13 @@
 package net.bplaced.abzzezz.core.ui.components;
 
 
-import net.bplaced.abzzezz.core.ui.BasicComponent;
+import net.bplaced.abzzezz.core.Basic;
 
 /**
  * UIComponent interface. Add this to own ui components
  */
 
-public interface UIComponent extends BasicComponent {
+public interface UIComponent extends Basic {
 
     void initComponent();
 

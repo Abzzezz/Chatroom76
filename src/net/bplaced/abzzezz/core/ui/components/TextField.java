@@ -68,7 +68,7 @@ public class TextField implements UIComponent {
     @Override
     public void drawComponent() {
         final String text = displayText.toString();
-        RenderUtil.drawQuad(xPos, yPos, width, height, clicked ? ColorUtil.MAIN_COLOR : ColorUtil.MAIN_COLOR.darker());
+        RenderUtil.drawQuad(xPos, yPos, width, height, clicked ? mainColor : mainColor);
 
         if (clicked) {
             if (bounceTime.isTimeOver(1000)) {
@@ -78,7 +78,7 @@ public class TextField implements UIComponent {
                 }
             } else {
                 final int tabHeight = 4;
-                RenderUtil.drawQuad(xPos + fontUtil.getStringWidth(text), yPos + height - tabHeight, tabHeight * 2, tabHeight, ColorUtil.MAIN_COLOR);
+                RenderUtil.drawQuad(xPos + fontUtil.getStringWidth(text), yPos + height - tabHeight, tabHeight * 2, tabHeight, mainColor);
             }
         }
         fontUtil.drawString(text, xPos, displayStringY, selectedAll ? Color.LIGHT_GRAY : textColor);

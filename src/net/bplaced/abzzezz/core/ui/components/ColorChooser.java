@@ -42,14 +42,14 @@ public class ColorChooser implements UIComponent {
 
     @Override
     public void initComponent() {
-        this.animationUtil = new AnimationUtil(new Sine(), 0, 0, size, 1,  true);
+        this.animationUtil = new AnimationUtil(new Sine(), 0, 0, size, 1, true);
     }
 
     @Override
     public void drawComponent() {
         animationUtil.animate();
-
-        drawColorWheel(xPos, yPos, animationUtil.getInt(), lineWidth);
+        if (animationUtil.velocity > animationUtil.min)
+            drawColorWheel(xPos, yPos, animationUtil.getInt(), lineWidth);
         RenderUtil.drawCircle(xPos, yPos, size / 10, 2, Color.BLACK);
 
         if (animationUtil.velocity >= size - 10)

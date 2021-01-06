@@ -10,7 +10,6 @@ package net.bplaced.abzzezz.core.ui.components;
 
 import net.bplaced.abzzezz.core.util.animation.AnimationUtil;
 import net.bplaced.abzzezz.core.util.animation.easing.Bounce;
-import net.bplaced.abzzezz.core.util.animation.easing.Quint;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 
@@ -18,12 +17,12 @@ public class CheckBox implements UIComponent {
 
     private final float xPos;
     private final float yPos;
+    private final int size;
+    protected float stringX, stringY, circleX, circleY;
     private boolean checked;
-    private int size;
     private String text;
     private AnimationUtil animationUtil;
     private StateChangedListener stateChangedListener;
-    private float stringX, stringY, circleX, circleY;
 
     public CheckBox(float xPos, float yPos, int size, String text) {
         this.xPos = xPos;
@@ -59,7 +58,7 @@ public class CheckBox implements UIComponent {
 
     @Override
     public void initComponent() {
-        this.animationUtil = new AnimationUtil(new Bounce(), 0, 0, size / 2,  2, false);
+        this.animationUtil = new AnimationUtil(new Bounce(), 0, 0, size / 2, 1, !checked);
         refreshPositions();
     }
 
@@ -91,7 +90,7 @@ public class CheckBox implements UIComponent {
         if (checkBoxHovered() && mouseButton == 0) {
             checked = !checked;
             if (stateChangedListener != null) stateChangedListener.onStateChanged(checked);
-            if (!checked) animationUtil.reset(true);
+            animationUtil.reversed = !checked;
         }
     }
 
@@ -143,8 +142,20 @@ public class CheckBox implements UIComponent {
         this.text = text;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public float getStringX() {
+        return stringX;
+    }
+
+    public float getStringY() {
+        return stringY;
+    }
+
+    public float getCircleX() {
+        return circleX;
+    }
+
+    public float getCircleY() {
+        return circleY;
     }
 
     public interface StateChangedListener {

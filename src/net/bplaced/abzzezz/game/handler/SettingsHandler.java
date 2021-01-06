@@ -25,14 +25,15 @@ public class SettingsHandler {
         settings.add(new Setting("volume", 0, 100, 50));
         settings.add(new Setting("background", "TV", true, "TV", "Exit")
                 .setSettingStateChangedListener(setting -> {
-            if (setting.getSelected().equals("TV")) {
-                ShaderHandler.SHADER_HANDLER.setBackgroundShader(new BackgroundShader());
-            } else {
-                ShaderHandler.SHADER_HANDLER.setBackgroundShader(new ExitBackgroundShader());
-            }
-        }));
+                    if (setting.getSelected().equals("TV")) {
+                        ShaderHandler.SHADER_HANDLER.setBackgroundShader(new BackgroundShader());
+                    } else {
+                        ShaderHandler.SHADER_HANDLER.setBackgroundShader(new ExitBackgroundShader());
+                    }
+                }));
 
         settings.add(new Setting("CRT-shader", true).setSettingStateChangedListener(setting -> Settings.crtBackground = setting.isState()));
+        settings.add(new Setting("CRT-Alpha", 0, 1, 0.6f).setSettingStateChangedListener(setting -> Settings.crtAlpha = setting.getCurrent()));
     }
 
     public List<Setting> getSettings() {

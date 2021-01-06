@@ -66,7 +66,7 @@ public class RenderUtil {
             glVertex2f(xPos + offset + size, yPos + size);
         }
         glEnd();
-       endGL();
+        endGL();
     }
 
     /**

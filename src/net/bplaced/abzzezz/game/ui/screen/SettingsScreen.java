@@ -10,9 +10,14 @@ package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
-import net.bplaced.abzzezz.core.ui.components.*;
+import net.bplaced.abzzezz.core.ui.components.Slider;
+import net.bplaced.abzzezz.core.ui.components.Switcher;
+import net.bplaced.abzzezz.core.ui.components.Text;
+import net.bplaced.abzzezz.core.ui.components.UIComponent;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.setting.Setting;
+import net.bplaced.abzzezz.game.ui.component.DOSCheckBox;
+import net.bplaced.abzzezz.game.ui.component.InputLine;
 import org.lwjgl.input.Keyboard;
 
 
@@ -20,20 +25,22 @@ public class SettingsScreen extends BasicScreen {
 
     @Override
     public void init() {
-        int yBuffer = getHeight() / 4 + 15;
-        int xBuffer = 50;
+        final int initialY = getHeight() / 4 + 40;
+
+        int yStack = initialY;
+        int xStack = 50;
 
         for (final Setting setting : GameMain.INSTANCE.getSettingsHandler().getSettings()) {
-            if (yBuffer >= getHeight() - 100) {
-                xBuffer += 150;
-                yBuffer = 0;
+            if (yStack >= getHeight() - 100) {
+                xStack += 250;
+                yStack = initialY;
             }
             UIComponent component = null;
             final String tag = setting.getTag();
             switch (setting.getSettingsType()) {
                 case LIST:
                 case SWITCHER:
-                    component = new Switcher<>(setting.getComponents(), setting.getSelected(), xBuffer, yBuffer, 100, 30, tag);
+                    component = new Switcher<>(setting.getComponents(), setting.getSelected(), xStack, yStack, 200, 30, tag);
                     ((Switcher<?>) component).setSwitcherListener(new Switcher.SwitcherListener() {
                         @Override
                         public <Item> void onItemSelected(Item item) {
@@ -42,12 +49,12 @@ public class SettingsScreen extends BasicScreen {
                     });
                     break;
                 case SLIDER:
-                    component = new Slider(tag, xBuffer, yBuffer, 100, 15, setting.getMin(), setting.getMax(), setting.getCurrent());
+                    component = new Slider(tag, xStack, yStack, 200, 15, setting.getMin(), setting.getMax(), setting.getCurrent());
                     ((Slider) component).setSliderListener(setting::setCurrent);
                     break;
                 case BOOL:
-                    component = new CheckBox(setting.isState(), xBuffer, yBuffer, 30, tag);
-                    ((CheckBox) component).setStateChangedListener(setting::setState);
+                    component = new DOSCheckBox(setting.isState(), xStack, yStack, 30, tag);
+                    ((DOSCheckBox) component).setStateChangedListener(setting::setState);
                     break;
                 default:
                     break;
@@ -55,10 +62,11 @@ public class SettingsScreen extends BasicScreen {
 
             if (component != null) {
                 getUiComponents().add(component);
-                yBuffer += component.getWidth();
+                yStack += component.getHeight() * 5;
             }
         }
         getUiComponents().add(new Text(getWidth() / 2, getHeight() / 6, "Settings", mainColor, true, bigFont));
+        getUiComponents().add(new InputLine());
         super.init();
     }
 

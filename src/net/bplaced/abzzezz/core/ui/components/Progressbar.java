@@ -8,9 +8,6 @@
 
 package net.bplaced.abzzezz.core.ui.components;
 
-import net.bplaced.abzzezz.core.util.animation.AnimationUtil;
-import net.bplaced.abzzezz.core.util.animation.easing.Bounce;
-import net.bplaced.abzzezz.core.util.animation.easing.Quint;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 

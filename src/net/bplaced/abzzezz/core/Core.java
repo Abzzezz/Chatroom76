@@ -17,7 +17,6 @@ import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
 import net.bplaced.abzzezz.game.handler.Settings;
-import net.bplaced.abzzezz.game.handler.SettingsHandler;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -26,14 +25,13 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import java.io.File;
-import java.security.Key;
 
 import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Singleton Class for all basic core functionality
  */
-public class Core {
+public class Core implements Basic {
 
     private static Core instance;
     private final int width, height;
@@ -219,8 +217,8 @@ public class Core {
 
         basicScreen.drawShader();
         basicScreen.draw();
-        if(Settings.crtBackground)
-        ShaderHandler.SHADER_HANDLER.getBitShader().draw();
+        if (Settings.crtBackground)
+            ShaderHandler.SHADER_HANDLER.getBitShader().draw();
 
         while (Mouse.next()) {
             if (Mouse.getEventButtonState())
@@ -260,13 +258,14 @@ public class Core {
         return basicScreen;
     }
 
-    public void setScreen(BasicScreen basicScreen) {
+    public void setScreen(BasicScreen newScreen) {
         //Clear old screen
         this.basicScreen.getUiComponents().clear();
+        screens.push(this.basicScreen);
         //Init new screen
-        basicScreen.init();
+        newScreen.init();
         //Set new screen
-        this.basicScreen = basicScreen;
+        this.basicScreen = newScreen;
     }
 
     public void setOpenGLReference(OpenGLReference openGLReference) {

@@ -52,12 +52,12 @@ public class ShaderHandler {
         return backgroundShader;
     }
 
-    public CRTShader getBitShader() {
-        return CRTShader;
-    }
-
     public void setBackgroundShader(ShaderProgram backgroundShader) {
         this.backgroundShader = backgroundShader;
+    }
+
+    public CRTShader getBitShader() {
+        return CRTShader;
     }
 
     public void putUniformLocation(final int program, final String uniform, final int location) {

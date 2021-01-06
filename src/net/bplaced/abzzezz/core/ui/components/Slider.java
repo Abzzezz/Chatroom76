@@ -12,12 +12,11 @@ import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.math.MathUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 public class Slider implements UIComponent {
 
-    private final String text;
+    private final String sliderTitle;
     private final float xPos;
     private final float yPos;
     private final int width;
@@ -28,9 +27,10 @@ public class Slider implements UIComponent {
     private float step;
     private SliderListener sliderListener;
     private float stringY;
+    private String displayText;
 
-    public Slider(String text, float xPos, float yPos, int width, int height, float min, float max, float current) {
-        this.text = text;
+    public Slider(String sliderTitle, float xPos, float yPos, int width, int height, float min, float max, float current) {
+        this.sliderTitle = sliderTitle;
         this.min = min;
         this.max = max;
         this.current = current;
@@ -38,16 +38,18 @@ public class Slider implements UIComponent {
         this.yPos = yPos;
         this.width = width;
         this.height = height;
+        this.displayText = formatValue();
     }
 
-    public Slider(String text, float xPos, float yPos, int width, int height, float min, float max) {
-        this.text = text;
+    public Slider(String title, float xPos, float yPos, int width, int height, float min, float max) {
+        this.sliderTitle = title;
         this.min = min;
         this.max = max;
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
         this.height = height;
+        this.displayText = formatValue();
     }
 
     @Override
@@ -65,19 +67,11 @@ public class Slider implements UIComponent {
     public void drawComponent() {
         RenderUtil.drawQuad(xPos, yPos, width, height, ColorUtil.MAIN_COLOR);
         RenderUtil.drawQuad(xPos, yPos, current * step, height, ColorUtil.MAIN_COLOR);
-        textFont.drawString(text + ":" + Math.round(current), xPos, stringY, textColor);
+        textFont.drawString(displayText, xPos, stringY, textColor);
     }
 
     @Override
     public void keyListener(int keyCode, char keyTyped) {
-        if (keyCode == Keyboard.KEY_LEFT) {
-            current -= step;
-            if (sliderListener != null) sliderListener.onSliderValueChanged(current);
-        } else if (keyCode == Keyboard.KEY_RIGHT) {
-            current += step;
-            if (sliderListener != null) sliderListener.onSliderValueChanged(current);
-        }
-        this.current = MathUtil.clamp(current, min, max);
     }
 
     @Override
@@ -85,7 +79,12 @@ public class Slider implements UIComponent {
         if (MouseUtil.mouseHovered(xPos, yPos, width, height)) {
             current = min + ((Mouse.getX() - xPos) / width) * (max - min);
             if (sliderListener != null) sliderListener.onSliderValueChanged(current);
+            displayText = formatValue();
         }
+    }
+
+    private String formatValue() {
+        return sliderTitle + ":" + MathUtil.NUMBER_FORMAT_TWO_DECIMALS.format(current);
     }
 
     public void setSliderListener(net.bplaced.abzzezz.core.ui.components.Slider.SliderListener sliderListener) {

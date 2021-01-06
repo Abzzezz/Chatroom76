@@ -50,7 +50,7 @@ public class Switcher<Item> implements UIComponent {
 
         final Item maxItem = listIn.stream().max(Comparator.comparingInt(value -> value.toString().length())).orElse(null);
         assert maxItem != null;
-        this.fontUtil = new FontUtil(ColorUtil.TEXT_FONT, textFont.determineFontSizeMax(maxItem.toString(), textWidth, 20));
+        this.fontUtil = new FontUtil(ColorUtil.TEXT_FONT, textFont.determineFontSizeMax(maxItem.toString(), textWidth, 25));
     }
 
     @Override
