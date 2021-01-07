@@ -25,7 +25,7 @@ public class InputLine implements UIComponent {
 
     private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
 
-    private final float xPos, yPos;
+    private int xPos, yPos;
     private final int width, height;
 
     public InputLine() {
@@ -122,6 +122,14 @@ public class InputLine implements UIComponent {
     @Override
     public void refreshPositions() {
 
+    }
+
+    public void setXPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setYPos(int yPos) {
+        this.yPos = yPos;
     }
 
     @Override

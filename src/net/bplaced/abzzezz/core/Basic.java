@@ -25,7 +25,6 @@
 package net.bplaced.abzzezz.core;
 
 import net.bplaced.abzzezz.core.ui.components.UIComponent;
-import net.bplaced.abzzezz.core.ui.elements.UIElement;
 import net.bplaced.abzzezz.core.ui.screen.BasicScreen;
 import net.bplaced.abzzezz.core.util.render.FontUtil;
 import net.bplaced.abzzezz.game.ui.component.Option;
@@ -52,10 +51,6 @@ public interface Basic {
      * List of all ui components currently active
      */
     List<UIComponent> uiComponents = new CopyOnWriteArrayList<>();
-    /**
-     * List of all ui elements currently active
-     */
-    List<UIElement> uiElements = new CopyOnWriteArrayList<>();
     /**
      * List of all options currently shown
      */
