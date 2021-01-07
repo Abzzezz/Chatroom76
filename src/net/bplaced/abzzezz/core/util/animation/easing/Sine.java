@@ -14,11 +14,10 @@
 
 package net.bplaced.abzzezz.core.util.animation.easing;
 
-import net.bplaced.abzzezz.core.util.animation.Animation;
 
-public class Sine extends Animation {
+public class Sine extends net.bplaced.abzzezz.game.util.animation.Animation {
+
     @Override
-
     public float easeIn(float t, float b, float c, float d) {
         return -c * (float) Math.cos(t / d * (Math.PI / 2)) + c + b;
     }

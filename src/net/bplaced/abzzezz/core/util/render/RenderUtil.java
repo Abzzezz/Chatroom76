@@ -8,7 +8,7 @@
 
 package net.bplaced.abzzezz.core.util.render;
 
-import net.bplaced.abzzezz.core.Basic;
+import net.bplaced.abzzezz.core.util.Basic;
 
 import java.awt.*;
 
@@ -57,7 +57,8 @@ public class RenderUtil implements Basic {
         glEnd();
         endGL();
     }
-
+/*
+TODO: Reimplement
     public static void drawTopTriangle(float xPos, float yPos, float offset, float size) {
         setupGL();
         glColor4f(accentColor.getRed() / 255.0F, accentColor.getGreen() / 255.0F, accentColor.getBlue() / 255.0F, accentColor.getAlpha() / 255.0F);
@@ -70,6 +71,8 @@ public class RenderUtil implements Basic {
         glEnd();
         endGL();
     }
+
+ */
 
     /**
      * Copied and modified from http://slabode.exofire.net/circle_draw.shtml

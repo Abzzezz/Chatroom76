@@ -1,6 +1,6 @@
 /*
  * @author Roman
- * Last modified: 03.01.21, 20:22 by kursc
+ * Last modified: 07.01.21, 23:09 by Roman
  *
  *
  *
@@ -10,6 +10,6 @@ package net.bplaced.abzzezz.core.util;
 
 public class DeltaTime {
 
-    public static int deltaTime;
+    public static double deltaTime;
 
 }

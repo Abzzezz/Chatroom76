@@ -9,7 +9,6 @@
 package net.bplaced.abzzezz.core.util.render;
 
 
-import net.bplaced.abzzezz.core.Core;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
@@ -28,7 +27,8 @@ public class FontUtil {
         this.size = size;
         this.fontName = fontName;
         try {
-            final String fontDir = Core.getInstance().getFontDir() + fontName + ".ttf";
+            //TODO: Font path
+            final String fontDir = "";//Core.getInstance().getFontDir() + fontName + ".ttf";
             final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fontDir);
             assert inputStream != null;
             this.awtFont = Font.createFont(Font.PLAIN, inputStream);

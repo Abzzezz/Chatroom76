@@ -14,7 +14,8 @@
 
 package net.bplaced.abzzezz.core.util.animation.easing;
 
-import net.bplaced.abzzezz.core.util.animation.Animation;
+
+import net.bplaced.abzzezz.game.util.animation.Animation;
 
 public class Circ extends Animation {
 

@@ -12,9 +12,9 @@ package net.bplaced.abzzezz.core.util.render;
 import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
-import net.bplaced.abzzezz.core.util.logging.LogType;
-import net.bplaced.abzzezz.core.util.logging.Logger;
-import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.core.util.log.LogType;
+import net.bplaced.abzzezz.core.util.log.Logger;
+import net.bplaced.abzzezz.game.Game;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL13;
 
@@ -43,8 +43,8 @@ public abstract class ShaderProgram {
         this.program = glCreateProgramObjectARB();
 
         try {
-            compiledVertex = compileShader(FileUtil.readShader(GameMain.class.getResource("util/shaders/vertex/".concat(vertexShader))), GL_VERTEX_SHADER_ARB);
-            compiledFragment = compileShader(FileUtil.readShader(GameMain.class.getResource("util/shaders/fragment/".concat(fragmentShader))), GL_FRAGMENT_SHADER_ARB);
+            compiledVertex = compileShader(FileUtil.readShader(Game.class.getResource("util/shaders/vertex/".concat(vertexShader))), GL_VERTEX_SHADER_ARB);
+            compiledFragment = compileShader(FileUtil.readShader(Game.class.getResource("util/shaders/fragment/".concat(fragmentShader))), GL_FRAGMENT_SHADER_ARB);
         } catch (final IOException e) {
             e.printStackTrace();
             compiledFragment = 0;

@@ -14,9 +14,9 @@
 
 package net.bplaced.abzzezz.core.util.animation.easing;
 
-import net.bplaced.abzzezz.core.util.animation.Animation;
 
-public class Quart extends Animation {
+
+public class Quart extends net.bplaced.abzzezz.game.util.animation.Animation {
 
     public float easeIn(float t, float b, float c, float d) {
         return c * (t /= d) * t * t * t + b;

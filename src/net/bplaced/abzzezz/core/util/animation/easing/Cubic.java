@@ -1,5 +1,13 @@
 /*
  * @author Roman
+ * Last modified: 07.01.21, 23:31 by Roman
+ *
+ *
+ *
+ */
+
+/*
+ * @author Roman
  * Last modified: 04.01.21, 20:11 by kursc
  *
  *
@@ -14,9 +22,7 @@
 
 package net.bplaced.abzzezz.core.util.animation.easing;
 
-import net.bplaced.abzzezz.core.util.animation.Animation;
-
-public class Cubic extends Animation {
+public class Cubic extends net.bplaced.abzzezz.game.util.animation.Animation {
 
     @Override
     public float easeIn(float t, float b, float c, float d) {

@@ -14,9 +14,8 @@
 
 package net.bplaced.abzzezz.core.util.animation.easing;
 
-import net.bplaced.abzzezz.core.util.animation.Animation;
 
-public class Expo extends Animation {
+public class Expo extends net.bplaced.abzzezz.game.util.animation.Animation {
     @Override
 
     public float easeIn(float t, float b, float c, float d) {

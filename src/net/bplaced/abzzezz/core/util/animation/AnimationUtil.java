@@ -12,10 +12,10 @@
  *
  */
 
-package net.bplaced.abzzezz.core.util.animation;
+package net.bplaced.abzzezz.game.util.animation;
 
 import net.bplaced.abzzezz.core.util.DeltaTime;
-import net.bplaced.abzzezz.core.util.math.MathUtil;
+import net.bplaced.abzzezz.core.util.calc.MathUtil;
 
 /**
  * @author: trey & Abzzezz
@@ -75,14 +75,13 @@ public class AnimationUtil {
                 }
             }
             velocity = animation.easeInOut(time, min, max, max);
-            oppositeVelocity = (MathUtil.nabs(velocity));
         } else {
             if (reversed) time = max;
             else time = min;
 
             velocity = min;
-            oppositeVelocity = (MathUtil.nabs(velocity));
         }
+        oppositeVelocity = (MathUtil.nabs(velocity));
     }
 
     public int getInt() {

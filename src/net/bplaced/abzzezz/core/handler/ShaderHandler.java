@@ -9,10 +9,7 @@
 package net.bplaced.abzzezz.core.handler;
 
 import net.bplaced.abzzezz.core.util.render.ShaderProgram;
-import net.bplaced.abzzezz.game.shader.BackgroundShader;
-import net.bplaced.abzzezz.game.shader.CRTShader;
-import net.bplaced.abzzezz.game.shader.TextureShader;
-import net.bplaced.abzzezz.game.util.timer.UniformCacheTimer;
+import net.bplaced.abzzezz.core.util.timer.UniformCacheTimer;
 import org.lwjgl.opengl.ARBShaderObjects;
 
 import java.util.*;
@@ -26,8 +23,6 @@ public class ShaderHandler {
     private final List<Integer> programList = new ArrayList<>();
 
     private ShaderProgram backgroundShader;
-    private TextureShader textureShader;
-    private CRTShader CRTShader;
 
     public ShaderHandler() {
         final Timer timer = new Timer("Shader-uniform cache timer");
@@ -35,17 +30,11 @@ public class ShaderHandler {
     }
 
     public void setupShaders() {
-        this.backgroundShader = new BackgroundShader();
-        this.textureShader = new TextureShader();
-        this.CRTShader = new CRTShader();
+
     }
 
     public void deletePrograms() {
         getProgramList().forEach(ARBShaderObjects::glDeleteObjectARB);
-    }
-
-    public TextureShader getTextureShader() {
-        return textureShader;
     }
 
     public ShaderProgram getBackgroundShader() {
@@ -54,10 +43,6 @@ public class ShaderHandler {
 
     public void setBackgroundShader(ShaderProgram backgroundShader) {
         this.backgroundShader = backgroundShader;
-    }
-
-    public CRTShader getBitShader() {
-        return CRTShader;
     }
 
     public void putUniformLocation(final int program, final String uniform, final int location) {
