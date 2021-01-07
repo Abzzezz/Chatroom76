@@ -21,7 +21,14 @@ public class CommandHandler {
     private final List<Command> commands = new ArrayList<>();
 
     public CommandHandler() {
-        addCommands(new ReturnCommand(), new GotoCommand(), new ExecuteCommand(), new InsertCommand(), new DeleteCommand());
+        addCommands(
+                new ReturnCommand(),
+                new GotoCommand(),
+                new ExecuteCommand(),
+                new InsertCommand(),
+                new DeleteCommand(),
+                new RoomCommand()
+        );
     }
 
     public void addCommands(final Command... commands) {

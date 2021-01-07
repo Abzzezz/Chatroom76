@@ -8,10 +8,9 @@
 
 package net.bplaced.abzzezz.game.ui.screen;
 
-import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.ui.screen.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Text;
 import net.bplaced.abzzezz.core.util.TimeUtil;
-import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.command.OptionType;
@@ -44,7 +43,7 @@ public class MainMenu extends BasicScreen {
                 bounceTime.reset();
             }
         } else
-            RenderUtil.drawQuad(getWidth() / 2 + bigFont.getStringWidth(GameMain.INSTANCE.getGameName()) / 2, getHeight() / 6 + 45, 30, 5, ColorUtil.MAIN_COLOR);
+            RenderUtil.drawQuad(getWidth() / 2 + bigFont.getStringWidth(GameMain.INSTANCE.getGameName()) / 2, getHeight() / 6 + 45, 30, 5, mainColor);
         super.draw();
     }
 }

@@ -8,7 +8,6 @@
 
 package net.bplaced.abzzezz.core.ui.components;
 
-import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 
 public class Progressbar implements UIComponent {
@@ -46,8 +45,8 @@ public class Progressbar implements UIComponent {
 
     @Override
     public void drawComponent() {
-        RenderUtil.drawQuad(xPos, yPos, width, height, ColorUtil.MAIN_COLOR);
-        RenderUtil.drawQuad(xPos, quadY, current * step, height / 2, ColorUtil.MAIN_COLOR);
+        RenderUtil.drawQuad(xPos, yPos, width, height, mainColor);
+        RenderUtil.drawQuad(xPos, quadY, current * step, height / 2, mainColor);
         textFont.drawString(title, xPos, stringY, textColor);
     }
 

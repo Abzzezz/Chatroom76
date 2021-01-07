@@ -30,9 +30,6 @@ public class TextField implements UIComponent {
     private boolean selected, selectedAll;
     private float titleY, displayStringY;
 
-    /*
-    TODO: More work, Adding to clipboard etc. Text moving, selecting
-     */
     public TextField(float xPos, float yPos, String title) {
         this.xPos = xPos;
         this.yPos = yPos;
@@ -128,7 +125,6 @@ public class TextField implements UIComponent {
     }
 
     public void append(final String string) {
-        //If text out of bounds append old characters to backuptext and delete from displayed string
         displayText.append(string);
 
         while (textFont.getStringWidth(displayText.toString()) > width - 10) {

@@ -9,7 +9,6 @@
 package net.bplaced.abzzezz.core.ui.components;
 
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
-import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 
 public class Button implements UIComponent {
@@ -103,7 +102,7 @@ public class Button implements UIComponent {
      */
     @Override
     public void drawComponent() {
-        RenderUtil.drawQuad(xPos, yPos, getDimensions()[0], getDimensions()[1], buttonHovered() ? ColorUtil.MAIN_COLOR.darker() : ColorUtil.MAIN_COLOR);
+        RenderUtil.drawQuad(xPos, yPos, getDimensions()[0], getDimensions()[1], buttonHovered() ? mainColor.darker() : mainColor);
         textFont.drawString(text, stringX, yPos, buttonHovered() ? textColor.brighter() : textColor);
     }
 

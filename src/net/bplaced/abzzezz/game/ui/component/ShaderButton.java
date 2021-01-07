@@ -10,7 +10,6 @@ package net.bplaced.abzzezz.game.ui.component;
 
 import net.bplaced.abzzezz.core.ui.components.Button;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
-import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.shader.BlurShader;
 
@@ -49,8 +48,8 @@ public class ShaderButton extends Button {
 
     @Override
     public void drawComponent() {
-        RenderUtil.drawQuad(getXPos() - d, getYPos(), getDimen()[0], getDimen()[1], ColorUtil.MAIN_COLOR);
-        textFont.drawString(getText(), getXPos() + getDimensions()[0] / 2 - textFont.getStringWidth(getText()) / 2, getYPos() + d / 2, isEnabled() ? ColorUtil.TEXT_COLOR : ColorUtil.MAIN_COLOR);
+        RenderUtil.drawQuad(getXPos() - d, getYPos(), getDimen()[0], getDimen()[1], mainColor);
+        textFont.drawString(getText(), getXPos() + getDimensions()[0] / 2 - textFont.getStringWidth(getText()) / 2, getYPos() + d / 2, isEnabled() ? textColor : mainColor);
     }
 
     public int[] getDimen() {

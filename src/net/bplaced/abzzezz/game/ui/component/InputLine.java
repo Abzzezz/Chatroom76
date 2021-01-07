@@ -26,7 +26,7 @@ public class InputLine implements UIComponent {
     private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
 
     private final float xPos, yPos;
-    private final float width, height;
+    private final int width, height;
 
     public InputLine() {
         this.xPos = 15;
@@ -37,7 +37,6 @@ public class InputLine implements UIComponent {
 
     @Override
     public void initComponent() {
-
     }
 
     @Override
@@ -68,7 +67,8 @@ public class InputLine implements UIComponent {
         if (keyCode == KEY_RETURN) {
             CommandHandler.COMMAND_HANDLER.getCommands().forEach(command -> {
                 for (final String trigger : command.trigger()) {
-                    if (toString().startsWith(trigger)) {
+                    final String lineStart = toString().split("\\s+")[0];
+                    if (lineStart.equalsIgnoreCase(trigger)) {
                         command.execute(toString());
                         break;
                     }
@@ -126,21 +126,21 @@ public class InputLine implements UIComponent {
 
     @Override
     public float getXPos() {
-        return 0;
+        return xPos;
     }
 
     @Override
     public float getYPos() {
-        return 0;
+        return yPos;
     }
 
     @Override
     public int getWidth() {
-        return 0;
+        return width;
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return height;
     }
 }

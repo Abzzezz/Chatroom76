@@ -82,6 +82,10 @@ public class DialogLoader {
         this.dialogs.remove(dialog);
     }
 
+    public Dialog removeDialog(final int index) {
+       return this.dialogs.remove(index);
+    }
+
     public boolean exists() {
         return dialogDir.exists() && dialogsFile.exists();
     }

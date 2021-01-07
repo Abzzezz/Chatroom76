@@ -12,7 +12,7 @@ import net.bplaced.abzzezz.core.file.BasicFile;
 import net.bplaced.abzzezz.core.handler.FileHandler;
 import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.handler.TextureHandler;
-import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.ui.screen.BasicScreen;
 import net.bplaced.abzzezz.core.util.DeltaTime;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
@@ -261,7 +261,7 @@ public class Core implements Basic {
     public void setScreen(BasicScreen newScreen) {
         //Clear old screen
         this.basicScreen.close();
-        screens.push(this.basicScreen);
+        screenStack.push(this.basicScreen);
         //Init new screen
         newScreen.init();
         //Set new screen

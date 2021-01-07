@@ -8,7 +8,7 @@
 
 package net.bplaced.abzzezz.game.ui.screen;
 
-import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.ui.screen.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Progressbar;
 import net.bplaced.abzzezz.core.ui.components.Text;
 import net.bplaced.abzzezz.core.ui.components.TextField;

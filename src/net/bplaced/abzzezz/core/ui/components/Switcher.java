@@ -9,7 +9,6 @@
 package net.bplaced.abzzezz.core.ui.components;
 
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
-import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.FontUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 
@@ -50,7 +49,7 @@ public class Switcher<Item> implements UIComponent {
 
         final Item maxItem = listIn.stream().max(Comparator.comparingInt(value -> value.toString().length())).orElse(null);
         assert maxItem != null;
-        this.fontUtil = new FontUtil(ColorUtil.TEXT_FONT, textFont.determineFontSizeMax(maxItem.toString(), textWidth, 25));
+        this.fontUtil = new FontUtil(textFont.getFontName(), textFont.determineFontSizeMax(maxItem.toString(), textWidth, 25));
     }
 
     @Override
@@ -62,10 +61,10 @@ public class Switcher<Item> implements UIComponent {
     public void drawComponent() {
         textFont.drawString(title, xPos, titleY, textColor);
 
-        RenderUtil.drawQuad(xPos, yPos, width, height, ColorUtil.MAIN_COLOR);
+        RenderUtil.drawQuad(xPos, yPos, width, height,mainColor);
 
-        RenderUtil.drawQuad(xPos, yPos, leftArrowWidth, height, ColorUtil.MAIN_COLOR);
-        RenderUtil.drawQuad(rightArrowX, yPos, rightArrowWidth, height, ColorUtil.MAIN_COLOR);
+        RenderUtil.drawQuad(xPos, yPos, leftArrowWidth, height,mainColor);
+        RenderUtil.drawQuad(rightArrowX, yPos, rightArrowWidth, height, mainColor);
 
         textFont.drawString(leftArrow, xPos, midHeight, textColor);
         textFont.drawString(rightArrow, rightArrowX, midHeight, textColor);
@@ -138,80 +137,8 @@ public class Switcher<Item> implements UIComponent {
         return height;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getLeftArrow() {
-        return leftArrow;
-    }
-
-    public String getRightArrow() {
-        return rightArrow;
-    }
-
-    public int getTextWidth() {
-        return textWidth;
-    }
-
-    public SwitcherListener getSwitcherListener() {
-        return switcherListener;
-    }
-
     public void setSwitcherListener(SwitcherListener switcherListener) {
         this.switcherListener = switcherListener;
-    }
-
-    public FontUtil getFontUtil() {
-        return fontUtil;
-    }
-
-    public float getStringX() {
-        return stringX;
-    }
-
-    public void setStringX(float stringX) {
-        this.stringX = stringX;
-    }
-
-    public float getMidHeight() {
-        return midHeight;
-    }
-
-    public void setMidHeight(float midHeight) {
-        this.midHeight = midHeight;
-    }
-
-    public float getRightArrowX() {
-        return rightArrowX;
-    }
-
-    public void setRightArrowX(float rightArrowX) {
-        this.rightArrowX = rightArrowX;
-    }
-
-    public float getTitleY() {
-        return titleY;
-    }
-
-    public void setTitleY(float titleY) {
-        this.titleY = titleY;
-    }
-
-    public float getLeftArrowWidth() {
-        return leftArrowWidth;
-    }
-
-    public void setLeftArrowWidth(float leftArrowWidth) {
-        this.leftArrowWidth = leftArrowWidth;
-    }
-
-    public float getRightArrowWidth() {
-        return rightArrowWidth;
-    }
-
-    public void setRightArrowWidth(float rightArrowWidth) {
-        this.rightArrowWidth = rightArrowWidth;
     }
 
     public interface SwitcherListener {

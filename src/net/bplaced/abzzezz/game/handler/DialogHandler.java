@@ -13,6 +13,7 @@ import net.bplaced.abzzezz.core.util.AllowedCharacter;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.logging.LogType;
 import net.bplaced.abzzezz.core.util.logging.Logger;
+import net.bplaced.abzzezz.core.util.math.MathUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
@@ -107,7 +108,6 @@ public class DialogHandler {
         switch (split[0]) {
             case GOTO_KEY:
                 return dialog.indexOf(":".concat(split[1])) + 1;
-
             case END_KEY:
                 savePreviousDialog();
                 return 0;
@@ -346,6 +346,31 @@ public class DialogHandler {
     }
 
     /**
+     * Load in the given dialog. Load dialog, save the old one
+     *
+     * @param index Dialog to play
+     */
+    public void loadDialog(final int index) {
+        if (!MathUtil.inMaxBound(index, GameMain.INSTANCE.getDialogLoader().getDialogs().size())) return;
+
+        final Dialog newDialog = GameMain.INSTANCE.getDialogLoader().getDialogs().get(index);
+        if (newDialog == null) return;
+
+        this.savePreviousDialog();
+        this.unloadPreviousDialog();
+        //Set Dialog Object
+        this.dialogHolder = newDialog;
+        // this.lastLine = dialogObject.getLastLine();
+
+        try {
+            this.setDialog(FileUtil.readListFromFile(this.dialogHolder.getDialogFile()));
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+        Core.getInstance().setScreen(new GameScreen());
+    }
+
+    /**
      * Saves the previous dialog. Cleans up all played stuff. Sets the last line, etc.
      */
     public void savePreviousDialog() {
@@ -363,6 +388,13 @@ public class DialogHandler {
         if (dialog == null) return;
         GameMain.INSTANCE.getDialogLoader().removeDialog(dialog);
         dialog.delete();
+    }
+
+
+    public void deleteDialog(final int index) {
+        if (!MathUtil.inMaxBound(index, GameMain.INSTANCE.getDialogLoader().getDialogs().size())) return;
+        final Dialog removed = GameMain.INSTANCE.getDialogLoader().removeDialog(index);
+        if (removed != null) removed.delete();
     }
 
     public boolean isPending() {

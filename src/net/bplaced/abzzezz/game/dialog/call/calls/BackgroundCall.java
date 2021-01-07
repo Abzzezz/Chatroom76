@@ -22,7 +22,7 @@ public class BackgroundCall implements BasicCall {
 
     @Override
     public String[] formatted(String in, String color, Map<String, String> args) {
-        final float opacity = Float.parseFloat(args.getOrDefault(BACKGROUND_OPACITY_ARGUMENT, "100")) / 100;
+        final float opacity = Float.parseFloat(args.getOrDefault(OPACITY_ARGUMENT, "100")) / 100;
         final File file = new File(args.get(PATH_ARGUMENT));
         try {
             ShaderHandler.SHADER_HANDLER.getTextureShader().setSampler(TextureLoader.loadPNGTexture(file.toURI().toURL()));

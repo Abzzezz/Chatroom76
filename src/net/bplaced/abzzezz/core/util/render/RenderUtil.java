@@ -8,11 +8,13 @@
 
 package net.bplaced.abzzezz.core.util.render;
 
+import net.bplaced.abzzezz.core.Basic;
+
 import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class RenderUtil {
+public class RenderUtil implements Basic {
 
     public static void setupGL() {
         glPushMatrix();
@@ -58,7 +60,7 @@ public class RenderUtil {
 
     public static void drawTopTriangle(float xPos, float yPos, float offset, float size) {
         setupGL();
-        glColor4f(ColorUtil.ACCENT_COLOR.getRed() / 255.0F, ColorUtil.ACCENT_COLOR.getGreen() / 255.0F, ColorUtil.ACCENT_COLOR.getBlue() / 255.0F, ColorUtil.ACCENT_COLOR.getAlpha() / 255.0F);
+        glColor4f(accentColor.getRed() / 255.0F, accentColor.getGreen() / 255.0F, accentColor.getBlue() / 255.0F, accentColor.getAlpha() / 255.0F);
         glBegin(GL_TRIANGLES);
         {
             glVertex2f(xPos + offset, yPos);

@@ -8,8 +8,7 @@
 
 package net.bplaced.abzzezz.game.ui.screen;
 
-import net.bplaced.abzzezz.core.Core;
-import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.ui.screen.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Slider;
 import net.bplaced.abzzezz.core.ui.components.Switcher;
 import net.bplaced.abzzezz.core.ui.components.Text;
@@ -18,7 +17,6 @@ import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.setting.Setting;
 import net.bplaced.abzzezz.game.ui.component.DOSCheckBox;
 import net.bplaced.abzzezz.game.ui.component.InputLine;
-import org.lwjgl.input.Keyboard;
 
 
 public class SettingsScreen extends BasicScreen {

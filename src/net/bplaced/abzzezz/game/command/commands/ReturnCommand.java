@@ -17,8 +17,8 @@ public class ReturnCommand implements Command {
 
     @Override
     public void execute(final String in) {
-        if (!screens.isEmpty())
-            OPEN_GL_CORE_INSTANCE.returnTo(screens.pop());
+        if (!screenStack.isEmpty())
+            OPEN_GL_CORE_INSTANCE.returnTo(screenStack.pop());
     }
 
     @Override

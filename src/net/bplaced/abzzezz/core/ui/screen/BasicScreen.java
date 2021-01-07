@@ -1,12 +1,20 @@
 /*
  * @author Roman
+ * Last modified: 07.01.21, 18:03 by Roman
+ *
+ *
+ *
+ */
+
+/*
+ * @author Roman
  * Last modified: 03.01.21, 20:22 by kursc
  *
  *
  *
  */
 
-package net.bplaced.abzzezz.core.ui;
+package net.bplaced.abzzezz.core.ui.screen;
 
 import net.bplaced.abzzezz.core.Basic;
 import net.bplaced.abzzezz.core.handler.ShaderHandler;
@@ -19,10 +27,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class BasicScreen implements Basic {
-
-    private final List<UIComponent> uiComponents = new CopyOnWriteArrayList<>();
-    private final List<Option> options = new CopyOnWriteArrayList<>();
-
 
     /**
      * Int method to add things like buttons etc.

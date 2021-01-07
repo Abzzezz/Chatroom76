@@ -8,10 +8,8 @@
 
 package net.bplaced.abzzezz.game.ui.screen;
 
-import net.bplaced.abzzezz.core.Core;
-import net.bplaced.abzzezz.core.ui.BasicScreen;
+import net.bplaced.abzzezz.core.ui.screen.BasicScreen;
 import net.bplaced.abzzezz.core.ui.components.Text;
-import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.command.OptionType;
@@ -45,51 +43,6 @@ public class RoomScreen extends BasicScreen {
     }
 
     @Override
-    public void buttonPressed(float buttonID) {
-
-        if (buttonID == 1) Core.getInstance().setScreen(new ImportDialogScreen());
-        else if (buttonID == 2) GameMain.INSTANCE.getDialogHandler().deleteDialog(selected);
-        else if (buttonID == 0) GameMain.INSTANCE.getDialogHandler().loadDialog(selected);
-        super.buttonPressed(buttonID);
-    }
-
-    /*
-    @Override
-    public void keyTyped(int keyCode, char keyTyped) {
-
-        if (keyCode == Keyboard.KEY_ESCAPE)
-            Core.getInstance().setScreen(new MainMenu());
-        else if (keyCode == Keyboard.KEY_RETURN && selected != null)
-            GameMain.INSTANCE.getDialogHandler().loadDialog(selected);
-        else if (keyCode == Keyboard.KEY_UP) {
-            final int index = dialogs.indexOf(selected);
-            int previousIndex;
-            if (index == -1) return;
-            else if (index - 1 == -1) {
-                previousIndex = dialogs.size() - 1;
-            } else
-                previousIndex = index - 1;
-
-            if (previousIndex == -1) return;
-            selected = dialogs.get(previousIndex);
-        } else if (keyCode == Keyboard.KEY_DOWN) {
-            final int index = dialogs.indexOf(selected);
-            int nextIndex;
-            if (index == -1) return;
-            else if (index + 1 > dialogs.size() - 1) {
-                nextIndex = 0;
-            } else
-                nextIndex = index + 1;
-            selected = dialogs.get(nextIndex);
-        }
-        super.keyTyped(keyCode, keyTyped);
-
-
-    }
-
-     */
-
-    @Override
     public void draw() {
         int yBuffer = 0;
         for (final Dialog dialog : dialogs) {
@@ -97,10 +50,10 @@ public class RoomScreen extends BasicScreen {
             final int xPos = getWidth() / 2 - 100;
             final int yPos = getHeight() / 4 + yBuffer;
 
-            RenderUtil.drawQuad(xPos, yPos, 200, textFont.getHeight() * 2 + 5, dialog == selected ? ColorUtil.MAIN_COLOR : ColorUtil.MAIN_COLOR.darker());
+            RenderUtil.drawQuad(xPos, yPos, 200, textFont.getHeight() * 2 + 5, dialog == selected ? mainColor : mainColor.darker());
 
-            textFont.drawString(name, xPos, yPos, ColorUtil.TEXT_COLOR);
-            textFont.drawString(dialog.getCreationDate(), xPos, yPos + textFont.getHeight() + 5, ColorUtil.TEXT_COLOR);
+            textFont.drawString(name, xPos, yPos,textColor);
+            textFont.drawString(dialog.getCreationDate(), xPos, yPos + textFont.getHeight() + 5, textColor);
             if (dialog == selected)
                 RenderUtil.drawTopTriangle(xPos, yPos, 190, 10);
 
@@ -108,28 +61,4 @@ public class RoomScreen extends BasicScreen {
         }
         super.draw();
     }
-
-    @Override
-    public void mousePressed(int mouseButton) {
-        int yBuffer = 0;
-        /*
-        for (Dialog dialog : dialogs) {
-            if (MouseUtil.mouseHovered(getWidth() / 2 - 100, getHeight() / 4 + yBuffer, 200, textFont.getHeight() * 2 + 5)) {
-                if (selected == dialog) {
-                    deleteButton.setEnabled(false);
-                    playButton.setEnabled(false);
-                    selected = null;
-                } else {
-                    selected = dialog;
-                    deleteButton.setEnabled(true);
-                    playButton.setEnabled(true);
-                }
-            }
-            yBuffer += textFont.getHeight() + 5;
-        }
-
-         */
-        super.mousePressed(mouseButton);
-    }
-
 }

@@ -28,7 +28,7 @@ public interface Command extends Basic {
     String[] trigger();
 
     default String[] getArguments(final String in) {
-        final String[] rawArgs = in.split("\\s+");
+        final String[] rawArgs = in.trim().split("\\s+");
         return Arrays.copyOfRange(rawArgs, 1, rawArgs.length);
     }
 }
