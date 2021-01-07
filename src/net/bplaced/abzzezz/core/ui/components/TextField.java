@@ -12,8 +12,6 @@ import net.bplaced.abzzezz.core.util.AllowedCharacter;
 import net.bplaced.abzzezz.core.util.TimeUtil;
 import net.bplaced.abzzezz.core.util.io.KeyboardUtil;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
-import net.bplaced.abzzezz.core.util.render.ColorUtil;
-import net.bplaced.abzzezz.core.util.render.FontUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import org.lwjgl.input.Keyboard;
 
@@ -29,8 +27,7 @@ public class TextField implements UIComponent {
     private final int height;
     private final String title;
     private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
-    private boolean clicked, selectedAll;
-    private FontUtil fontUtil;
+    private boolean selected, selectedAll;
     private float titleY, displayStringY;
 
     /*
@@ -55,22 +52,21 @@ public class TextField implements UIComponent {
 
     @Override
     public void initComponent() {
-        fontUtil = new FontUtil(ColorUtil.TEXT_FONT, width / 16);
         refreshPositions();
     }
 
     @Override
     public void refreshPositions() {
         titleY = yPos - height;
-        displayStringY = yPos + height / 2 - fontUtil.getHeight() / 2;
+        displayStringY = yPos + height / 2 - textFont.getHeight() / 2;
     }
 
     @Override
     public void drawComponent() {
         final String text = displayText.toString();
-        RenderUtil.drawQuad(xPos, yPos, width, height, clicked ? mainColor : mainColor);
+        RenderUtil.drawQuad(xPos, yPos, width, height, selected ? mainColor : mainColor);
 
-        if (clicked) {
+        if (selected) {
             if (bounceTime.isTimeOver(1000)) {
                 if (bounceTime2.isTimeOver(1600)) {
                     bounceTime2.reset();
@@ -78,10 +74,10 @@ public class TextField implements UIComponent {
                 }
             } else {
                 final int tabHeight = 4;
-                RenderUtil.drawQuad(xPos + fontUtil.getStringWidth(text), yPos + height - tabHeight, tabHeight * 2, tabHeight, mainColor);
+                RenderUtil.drawQuad(xPos + textFont.getStringWidth(text), yPos + height - tabHeight, tabHeight * 2, tabHeight, mainColor);
             }
         }
-        fontUtil.drawString(text, xPos, displayStringY, selectedAll ? Color.LIGHT_GRAY : textColor);
+        textFont.drawString(text, xPos, displayStringY, selectedAll ? Color.LIGHT_GRAY : textColor);
         textFont.drawString(title, xPos, titleY, textColor);
     }
 
@@ -91,7 +87,7 @@ public class TextField implements UIComponent {
      */
     @Override
     public void keyListener(int keyCode, char keyTyped) {
-        if (isClicked()) {
+        if (isSelected()) {
 
             if (KeyboardUtil.ctrlADown()) {
                 selectedAll = true;
@@ -112,7 +108,7 @@ public class TextField implements UIComponent {
                     displayText.deleteCharAt(displayText.length() - 1);
 
                     if (backupText.length() > 0) {
-                        int index = backupText.length() - 1;
+                        final int index = backupText.length() - 1;
                         displayText.insert(0, backupText.charAt(index));
                         backupText.deleteCharAt(index);
                     }
@@ -124,9 +120,33 @@ public class TextField implements UIComponent {
                     displayText.append(keyTyped);
             }
 
-            while (fontUtil.getStringWidth(displayText.toString()) > width - 10) {
+            while (textFont.getStringWidth(displayText.toString()) > width - 10) {
                 backupText.append(displayText.charAt(0));
                 displayText.deleteCharAt(0);
+            }
+        }
+    }
+
+    public void append(final String string) {
+        //If text out of bounds append old characters to backuptext and delete from displayed string
+        displayText.append(string);
+
+        while (textFont.getStringWidth(displayText.toString()) > width - 10) {
+            backupText.append(displayText.charAt(0));
+            displayText.deleteCharAt(0);
+        }
+    }
+
+    public void delete(final int amount) {
+        for (int i = 0; i < amount; i++) {
+            if (displayText.length() > 0) {
+                displayText.deleteCharAt(displayText.length() - 1);
+
+                if (backupText.length() > 0) {
+                    final int index = backupText.length() - 1;
+                    displayText.insert(0, backupText.charAt(index));
+                    backupText.deleteCharAt(index);
+                }
             }
         }
     }
@@ -139,7 +159,7 @@ public class TextField implements UIComponent {
 
     @Override
     public void mouseListener(int mouseButton) {
-        if (isTextFieldHovered() && mouseButton == 0) clicked = !clicked;
+        if (isTextFieldHovered() && mouseButton == 0) selected = !selected;
     }
 
     @Override
@@ -159,8 +179,24 @@ public class TextField implements UIComponent {
         return String.valueOf(backupText) + displayText;
     }
 
-    public boolean isClicked() {
-        return clicked;
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public StringBuilder getDisplayText() {
+        return displayText;
+    }
+
+    public StringBuilder getBackupText() {
+        return backupText;
     }
 
     @Override

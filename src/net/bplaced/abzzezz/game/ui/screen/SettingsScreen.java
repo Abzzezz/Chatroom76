@@ -69,10 +69,4 @@ public class SettingsScreen extends BasicScreen {
         getUiComponents().add(new InputLine());
         super.init();
     }
-
-    @Override
-    public void keyTyped(int keyCode, char keyTyped) {
-        if (keyCode == Keyboard.KEY_ESCAPE) Core.getInstance().setScreen(new MainMenu());
-        super.keyTyped(keyCode, keyTyped);
-    }
 }

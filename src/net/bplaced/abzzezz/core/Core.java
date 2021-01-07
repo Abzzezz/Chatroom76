@@ -226,7 +226,7 @@ public class Core implements Basic {
         }
 
         while (Keyboard.next()) {
-            if (Keyboard.getEventKeyState() || Keyboard.isRepeatEvent())
+            if (Keyboard.getEventKeyState())
                 basicScreen.keyTyped(Keyboard.getEventKey(), Keyboard.getEventCharacter());
         }
     }
@@ -260,12 +260,21 @@ public class Core implements Basic {
 
     public void setScreen(BasicScreen newScreen) {
         //Clear old screen
-        this.basicScreen.getUiComponents().clear();
+        this.basicScreen.close();
         screens.push(this.basicScreen);
         //Init new screen
         newScreen.init();
         //Set new screen
         this.basicScreen = newScreen;
+    }
+
+    public void returnTo(BasicScreen oldScreen) {
+        //Clear old screen
+        this.basicScreen.close();
+        //Init new screen
+        oldScreen.init();
+        //Set new screen
+        this.basicScreen = oldScreen;
     }
 
     public void setOpenGLReference(OpenGLReference openGLReference) {

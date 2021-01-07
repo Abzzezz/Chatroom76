@@ -9,6 +9,7 @@
 package net.bplaced.abzzezz.game.ui.component;
 
 import net.bplaced.abzzezz.core.ui.components.UIComponent;
+import net.bplaced.abzzezz.game.command.OptionType;
 
 import java.util.function.Consumer;
 
@@ -18,18 +19,21 @@ public class Option implements UIComponent {
     private final float xPos;
     private final float yPos;
     private Consumer<Void> consumer;
+    private final OptionType optionType;
 
-    public Option(float xPos, float yPos, String text, final Consumer<Void> consumer) {
+    public Option(float xPos, float yPos, String text, OptionType optionType, final Consumer<Void> consumer) {
         this.title = text;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.optionType = optionType;
         this.consumer = consumer;
     }
 
-    public Option(float xPos, float yPos, String text) {
+    public Option(float xPos, float yPos, String text, OptionType optionType) {
         this.title = text;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.optionType = optionType;
     }
 
 
@@ -92,5 +96,9 @@ public class Option implements UIComponent {
     @Override
     public int getHeight() {
         return textFont.getHeight(title);
+    }
+
+    public OptionType getOptionType() {
+        return optionType;
     }
 }

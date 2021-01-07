@@ -271,7 +271,7 @@ public class DialogHandler {
      * @param downloadedBytes Consumer to send the already downloaded bytes to
      * @param downloadingFile Consumer to send the currently downloading file name to
      */
-    public void downloadDialog(final String input, final Consumer<Integer> totalBytes, final Consumer<Integer> downloadedBytes, final Consumer<String> downloadingFile) {
+    public void download(final String input, final Consumer<Integer> totalBytes, final Consumer<Integer> downloadedBytes, final Consumer<String> downloadingFile) {
         new Thread(() -> {
             if (input == null || input.isEmpty()) return;
             Logger.log("Starting dialog download", LogType.INFO);

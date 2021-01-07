@@ -14,6 +14,7 @@ import net.bplaced.abzzezz.core.util.TimeUtil;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.game.command.OptionType;
 import net.bplaced.abzzezz.game.ui.component.InputLine;
 import net.bplaced.abzzezz.game.ui.component.Option;
 
@@ -26,8 +27,8 @@ public class MainMenu extends BasicScreen {
         final int buttonWidth = 100;
         final int xPos = getWidth() / 2 - buttonWidth / 2;
 
-        getOptions().add(new Option(xPos, getHeight() / 2, "Rooms", consumer -> OPEN_GL_CORE_INSTANCE.setScreen(new RoomScreen())));
-        getOptions().add(new Option(xPos, getHeight() / 2 + 40, "Settings", consumer -> OPEN_GL_CORE_INSTANCE.setScreen(new SettingsScreen())));
+        getOptions().add(new Option(xPos, getHeight() / 2, "Rooms", OptionType.SCREEN, consumer -> OPEN_GL_CORE_INSTANCE.setScreen(new RoomScreen())));
+        getOptions().add(new Option(xPos, getHeight() / 2 + 40, "Settings", OptionType.SCREEN, consumer -> OPEN_GL_CORE_INSTANCE.setScreen(new SettingsScreen())));
 
         getUiComponents().add(new Text(getWidth() / 2, getHeight() / 6, GameMain.INSTANCE.getGameName(), mainColor, true, bigFont));
         getUiComponents().add(new InputLine());

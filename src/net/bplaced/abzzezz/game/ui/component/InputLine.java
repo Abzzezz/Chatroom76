@@ -70,6 +70,7 @@ public class InputLine implements UIComponent {
                 for (final String trigger : command.trigger()) {
                     if (toString().startsWith(trigger)) {
                         command.execute(toString());
+                        break;
                     }
                 }
             });

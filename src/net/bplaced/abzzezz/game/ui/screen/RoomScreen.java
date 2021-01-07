@@ -10,15 +10,14 @@ package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.ui.BasicScreen;
-import net.bplaced.abzzezz.core.ui.components.Button;
 import net.bplaced.abzzezz.core.ui.components.Text;
 import net.bplaced.abzzezz.core.util.render.ColorUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
+import net.bplaced.abzzezz.game.command.OptionType;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.game.ui.component.InputLine;
-import net.bplaced.abzzezz.game.ui.component.ShaderButton;
-import org.lwjgl.input.Keyboard;
+import net.bplaced.abzzezz.game.ui.component.Option;
 
 import java.util.List;
 
@@ -27,17 +26,15 @@ public class RoomScreen extends BasicScreen {
     private List<Dialog> dialogs;
     private Dialog selected;
 
-    private Button playButton, deleteButton;
-
     @Override
     public void init() {
         this.dialogs = GameMain.INSTANCE.getDialogLoader().getDialogs();
 
-        final int buttonWidth = 100, height = 15;
+        final int height = 15;
         final int yPos = getHeight() - height * 3;
-        getUiComponents().add(playButton = new ShaderButton(0, "Play", 50, yPos, buttonWidth, height, false));
-        getUiComponents().add(new ShaderButton(1, "Import", getWidth() / 2 - 50, yPos, buttonWidth, height));
-        getUiComponents().add(deleteButton = new ShaderButton(2, "Delete", getWidth() - 150, yPos, buttonWidth, height, false));
+
+        getOptions().add(new Option(getWidth() / 2 - 50, yPos, "Import", OptionType.SCREEN, con -> OPEN_GL_CORE_INSTANCE.setScreen(new ImportDialogScreen())));
+
 
         getUiComponents().add(new Text(getWidth() / 2, getHeight() / 6, "Rooms", mainColor, true, bigFont));
 
@@ -50,14 +47,16 @@ public class RoomScreen extends BasicScreen {
     @Override
     public void buttonPressed(float buttonID) {
 
-        if (buttonID == 1) Core.getInstance().setScreen(new ImportDialogScreen(this));
+        if (buttonID == 1) Core.getInstance().setScreen(new ImportDialogScreen());
         else if (buttonID == 2) GameMain.INSTANCE.getDialogHandler().deleteDialog(selected);
         else if (buttonID == 0) GameMain.INSTANCE.getDialogHandler().loadDialog(selected);
         super.buttonPressed(buttonID);
     }
 
+    /*
     @Override
     public void keyTyped(int keyCode, char keyTyped) {
+
         if (keyCode == Keyboard.KEY_ESCAPE)
             Core.getInstance().setScreen(new MainMenu());
         else if (keyCode == Keyboard.KEY_RETURN && selected != null)
@@ -84,7 +83,11 @@ public class RoomScreen extends BasicScreen {
             selected = dialogs.get(nextIndex);
         }
         super.keyTyped(keyCode, keyTyped);
+
+
     }
+
+     */
 
     @Override
     public void draw() {

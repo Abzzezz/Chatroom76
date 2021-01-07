@@ -35,7 +35,9 @@ public abstract class BasicScreen implements Basic {
      * Gets called whenever the screen is switched
      */
 
-    public void onClosed() {
+    public void close() {
+        getUiComponents().clear();
+        getOptions().clear();
     }
 
     /**
@@ -84,40 +86,6 @@ public abstract class BasicScreen implements Basic {
      * @param keyTyped
      */
     public void keyTyped(int keyCode, char keyTyped) {
-        /*
-        if (keyCode == Keyboard.KEY_UP) {
-            final int index = keyButtons.indexOf(getSelectedKeyButton());
-            int previousIndex;
-            if (index == -1) return;
-            else if (index - 1 == -1) {
-                previousIndex = keyButtons.size() - 1;
-            } else
-                previousIndex = index - 1;
-
-            if (previousIndex == -1) return;
-            selectedKeyButton.setSelected(false);
-            final KeyButton newSelected = keyButtons.get(previousIndex);
-
-            newSelected.setSelected(true);
-            setSelectedKeyButton(newSelected);
-        } else if (keyCode == Keyboard.KEY_DOWN) {
-            final int index = keyButtons.indexOf(getSelectedKeyButton());
-
-            int nextIndex;
-            if (index == -1) return;
-            else if (index + 1 > keyButtons.size() - 1) {
-                nextIndex = 0;
-            } else
-                nextIndex = index + 1;
-
-            selectedKeyButton.setSelected(false);
-            final KeyButton newSelected = keyButtons.get(nextIndex);
-            newSelected.setSelected(true);
-            setSelectedKeyButton(newSelected);
-        }
-
-         */
-        //  keyButtons.forEach(keyButton -> keyButton.keyListener(keyCode, keyTyped));
         uiComponents.forEach(uiComponent -> uiComponent.keyListener(keyCode, keyTyped));
     }
 
@@ -140,4 +108,5 @@ public abstract class BasicScreen implements Basic {
     public Button getButtonByID(float id) {
         return (Button) uiComponents.stream().filter(uiComponent -> uiComponent instanceof Button && ((Button) uiComponent).getId() == id).findFirst().orElse(null);
     }
+
 }
