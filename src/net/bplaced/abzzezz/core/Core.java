@@ -22,6 +22,7 @@ import net.bplaced.abzzezz.core.util.OpenGLListener;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import static org.lwjgl.opengl.Display.*;
@@ -29,7 +30,6 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Core implements Basic {
 
-    private int fpsSync;
     private long lastFrame;
 
     private OpenGLListener openGLListener;
@@ -50,16 +50,6 @@ public class Core implements Basic {
                 keyPressed(Keyboard.getEventKey(), Keyboard.getEventCharacter());
             }
         }
-
-        /*
-        Mouse Clicks not needed in this game
-        while (Mouse.next()) {
-            if(Mouse.getEventButtonState()) {
-                //TODO: Mouse clicks (actually pretty unnecessary)
-            }
-        }
-
-         */
     }
 
     /**
@@ -76,31 +66,25 @@ public class Core implements Basic {
      */
     public void draw() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     }
 
     private void runCycle() {
         while (!isCloseRequested()) {
-
-            update();
-            sync(fpsSync);
+            Display.update();
+            sync(60);
             update();
             draw();
-
         }
         destroy();
         if (openGLListener != null)
             openGLListener.onDisplayCloseRequested();
-        /*
-         * TODO: Shutdown process
-         */
 
         System.exit(0);
     }
 
     protected void initialiseGL(final int width, final int height) {
         try {
-            setDisplayModeAndFullscreen(new DisplayMode(width, height));
+            setDisplayMode(new DisplayMode(width, height));
             create();
             setTitle(gameName);
         } catch (final LWJGLException e) {
@@ -149,4 +133,7 @@ public class Core implements Basic {
         return (Sys.getTime() * 1000) / Sys.getTimerResolution();
     }
 
+    public void setOpenGLListener(OpenGLListener openGLListener) {
+        this.openGLListener = openGLListener;
+    }
 }

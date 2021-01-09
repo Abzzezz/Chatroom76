@@ -8,7 +8,7 @@
 
 package net.bplaced.abzzezz.game.command.commands;
 
-import net.bplaced.abzzezz.core.ui.components.TextField;
+import net.bplaced.abzzezz.core.ui.component.TextField;
 import net.bplaced.abzzezz.game.command.Command;
 import org.apache.commons.lang3.StringUtils;
 

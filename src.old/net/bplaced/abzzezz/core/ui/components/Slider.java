@@ -6,7 +6,7 @@
  *
  */
 
-package net.bplaced.abzzezz.core.ui.components;
+package net.bplaced.abzzezz.core.ui.component;
 
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.calc.MathUtil;
@@ -86,7 +86,7 @@ public class Slider implements UIComponent {
         return sliderTitle + ":" + MathUtil.NUMBER_FORMAT_TWO_DECIMALS.format(current);
     }
 
-    public void setSliderListener(net.bplaced.abzzezz.core.ui.components.Slider.SliderListener sliderListener) {
+    public void setSliderListener(net.bplaced.abzzezz.core.ui.component.Slider.SliderListener sliderListener) {
         this.sliderListener = sliderListener;
     }
 

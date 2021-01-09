@@ -23,13 +23,12 @@ public class FontUtil {
     private UnicodeFont unicodeFont;
     private Font awtFont;
 
-    public FontUtil(String fontName, int size) {
+    public FontUtil(String fontName, String suffix, int size) {
         this.size = size;
         this.fontName = fontName;
         try {
-            //TODO: Font path
-            final String fontDir = "";//Core.getInstance().getFontDir() + fontName + ".ttf";
-            final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fontDir);
+            final String fontPath = "./font/".concat(fontName.concat(".".concat(suffix)));
+            final InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fontPath);
             assert inputStream != null;
             this.awtFont = Font.createFont(Font.PLAIN, inputStream);
             this.unicodeFont = new UnicodeFont(awtFont, size, false, false);
@@ -41,21 +40,16 @@ public class FontUtil {
         }
     }
 
-    /**
-     * Font rendering using Slick
-     *
-     * @param text
-     * @param xPos
-     * @param yPos
-     * @param color
-     */
     public void drawString(String text, float xPos, float yPos, org.newdawn.slick.Color color) {
         unicodeFont.drawString(xPos, yPos, text, color);
     }
 
-
     public void drawString(String text, float xPos, float yPos, Color color) {
         unicodeFont.drawString(xPos, yPos, text, new org.newdawn.slick.Color(color.getRGB()));
+    }
+
+    public void drawWhiteString(String text, float xPos, float yPos) {
+        unicodeFont.drawString(xPos, yPos, text);
     }
 
     public int getStringWidth(String text) {

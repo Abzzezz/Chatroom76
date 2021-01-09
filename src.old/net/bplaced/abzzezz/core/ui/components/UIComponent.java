@@ -6,7 +6,7 @@
  *
  */
 
-package net.bplaced.abzzezz.core.ui.components;
+package net.bplaced.abzzezz.core.ui.component;
 
 
 import net.bplaced.abzzezz.core.Basic;

@@ -6,7 +6,7 @@
  *
  */
 
-package net.bplaced.abzzezz.core.util.timer;
+package net.bplaced.abzzezz.core.util.clock;
 
 import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.util.log.LogType;

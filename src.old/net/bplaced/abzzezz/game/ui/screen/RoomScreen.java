@@ -9,7 +9,7 @@
 package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.ui.screen.BasicScreen;
-import net.bplaced.abzzezz.core.ui.components.Text;
+import net.bplaced.abzzezz.core.ui.component.Text;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.command.OptionType;

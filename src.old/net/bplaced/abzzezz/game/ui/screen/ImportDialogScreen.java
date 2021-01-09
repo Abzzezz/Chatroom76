@@ -9,9 +9,9 @@
 package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.ui.screen.BasicScreen;
-import net.bplaced.abzzezz.core.ui.components.Progressbar;
-import net.bplaced.abzzezz.core.ui.components.Text;
-import net.bplaced.abzzezz.core.ui.components.TextField;
+import net.bplaced.abzzezz.core.ui.component.Progressbar;
+import net.bplaced.abzzezz.core.ui.component.Text;
+import net.bplaced.abzzezz.core.ui.component.TextField;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.command.OptionType;
 import net.bplaced.abzzezz.game.ui.component.InputLine;

@@ -8,7 +8,7 @@
 
 package net.bplaced.abzzezz.game.ui.component;
 
-import net.bplaced.abzzezz.core.ui.components.UIComponent;
+import net.bplaced.abzzezz.core.ui.component.UIComponent;
 import net.bplaced.abzzezz.game.command.OptionType;
 
 import java.util.function.Consumer;

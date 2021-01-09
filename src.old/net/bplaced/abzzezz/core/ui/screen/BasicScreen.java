@@ -18,8 +18,8 @@ package net.bplaced.abzzezz.core.ui.screen;
 
 import net.bplaced.abzzezz.core.Basic;
 import net.bplaced.abzzezz.core.handler.ShaderHandler;
-import net.bplaced.abzzezz.core.ui.components.Button;
-import net.bplaced.abzzezz.core.ui.components.UIComponent;
+import net.bplaced.abzzezz.core.ui.component.Button;
+import net.bplaced.abzzezz.core.ui.component.UIComponent;
 import net.bplaced.abzzezz.game.ui.component.Option;
 import org.lwjgl.opengl.Display;
 

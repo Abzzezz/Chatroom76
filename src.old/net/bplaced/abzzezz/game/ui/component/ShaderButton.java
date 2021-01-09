@@ -8,7 +8,7 @@
 
 package net.bplaced.abzzezz.game.ui.component;
 
-import net.bplaced.abzzezz.core.ui.components.Button;
+import net.bplaced.abzzezz.core.ui.component.Button;
 import net.bplaced.abzzezz.core.util.io.MouseUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.shader.BlurShader;

@@ -8,7 +8,7 @@
 
 package net.bplaced.abzzezz.game.ui.component;
 
-import net.bplaced.abzzezz.core.ui.components.CheckBox;
+import net.bplaced.abzzezz.core.ui.component.CheckBox;
 
 public class DOSCheckBox extends CheckBox {
 

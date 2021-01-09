@@ -8,7 +8,7 @@
 
 package net.bplaced.abzzezz.game.ui.component;
 
-import net.bplaced.abzzezz.core.ui.components.UIComponent;
+import net.bplaced.abzzezz.core.ui.component.UIComponent;
 import net.bplaced.abzzezz.core.util.AllowedCharacter;
 import net.bplaced.abzzezz.core.util.TimeUtil;
 import net.bplaced.abzzezz.core.util.io.KeyboardUtil;

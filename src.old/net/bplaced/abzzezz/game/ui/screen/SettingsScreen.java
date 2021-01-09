@@ -9,10 +9,10 @@
 package net.bplaced.abzzezz.game.ui.screen;
 
 import net.bplaced.abzzezz.core.ui.screen.BasicScreen;
-import net.bplaced.abzzezz.core.ui.components.Slider;
-import net.bplaced.abzzezz.core.ui.components.Switcher;
-import net.bplaced.abzzezz.core.ui.components.Text;
-import net.bplaced.abzzezz.core.ui.components.UIComponent;
+import net.bplaced.abzzezz.core.ui.component.Slider;
+import net.bplaced.abzzezz.core.ui.component.Switcher;
+import net.bplaced.abzzezz.core.ui.component.Text;
+import net.bplaced.abzzezz.core.ui.component.UIComponent;
 import net.bplaced.abzzezz.game.GameMain;
 import net.bplaced.abzzezz.game.setting.Setting;
 import net.bplaced.abzzezz.game.ui.component.DOSCheckBox;
