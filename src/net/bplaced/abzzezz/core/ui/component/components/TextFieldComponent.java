@@ -15,12 +15,11 @@ import java.util.function.Consumer;
 
 public class TextFieldComponent implements UIComponent {
 
-    private String text = "";
     private final String title;
     private final int yPos;
-    private int yStack;
-
     private final Consumer<String> enterAction;
+    private String text = "";
+    private int yStack;
 
     public TextFieldComponent(final String title, final int yPos, final Consumer<String> enterAction) {
         this.title = title;

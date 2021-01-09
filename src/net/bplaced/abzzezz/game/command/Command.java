@@ -18,7 +18,6 @@ public interface Command extends Basic {
     /**
      * Execute the command
      *
-     *
      * @param in string to get arguments from
      */
     String execute(final String in);

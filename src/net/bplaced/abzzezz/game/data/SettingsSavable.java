@@ -11,4 +11,19 @@ package net.bplaced.abzzezz.game.data;
 import net.bplaced.abzzezz.core.data.Savable;
 
 public class SettingsSavable extends Savable {
+
+
+    public SettingsSavable() {
+        super("Setting", "cfg");
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void load() {
+
+    }
 }

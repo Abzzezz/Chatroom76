@@ -16,8 +16,8 @@ public class ColorTextComponent implements UIComponent {
 
     private final String text;
     private final int yPos;
-    private int yStack;
     private final Color color;
+    private int yStack;
 
     public ColorTextComponent(final String text, final int yPos, final Color color) {
         this.text = text;

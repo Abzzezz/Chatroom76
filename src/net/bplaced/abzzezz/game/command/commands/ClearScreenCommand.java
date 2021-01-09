@@ -21,7 +21,7 @@ public class ClearScreenCommand implements Command {
 
     @Override
     public String[] trigger() {
-        return new String[] {"clear", "cls"};
+        return new String[]{"clear", "cls"};
     }
 
     @Override

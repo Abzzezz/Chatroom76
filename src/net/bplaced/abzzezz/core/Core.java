@@ -54,7 +54,8 @@ public class Core implements Basic {
 
     /**
      * gets called after a key press (or a key is held)
-     * @param keyCode the responsible keycode
+     *
+     * @param keyCode      the responsible keycode
      * @param keyCharacter the actual character typed
      */
     public void keyPressed(final int keyCode, final char keyCharacter) {

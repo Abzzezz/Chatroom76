@@ -9,7 +9,7 @@
 package net.bplaced.abzzezz.game.ui.components;
 
 import net.bplaced.abzzezz.core.ui.screen.Screen;
-import net.bplaced.abzzezz.core.util.Basic;
+import net.bplaced.abzzezz.core.util.UIBasic;
 import net.bplaced.abzzezz.core.util.io.KeyboardUtil;
 import net.bplaced.abzzezz.core.util.render.RenderUtil;
 import net.bplaced.abzzezz.game.Game;
@@ -23,19 +23,16 @@ import java.util.function.Consumer;
 
 import static org.lwjgl.input.Keyboard.*;
 
-public class CommandLine implements Basic {
+public class CommandLine implements UIBasic {
 
     private final StringBuilder backupText = new StringBuilder();
     private final StringBuilder displayText = new StringBuilder();
 
-
     private final int width, height;
 
     private final String arrow = "> ";
-
     private boolean nextInputRequested;
     private Consumer<String> requestedInput;
-
 
     private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
 
@@ -85,13 +82,14 @@ public class CommandLine implements Basic {
 
         //Enter action
         if (keyCode == KEY_RETURN) {
-            final String string = toString();
+            final String string = this.toString();
 
             Game.GAME.addTextToUI(arrow + string);
             //Important for text fields and decision making in the actual game
             if (isNextInputRequested()) {
-                requestedInput.accept(string);
-                this.nextInputRequested = false;
+                this.requestedInput.accept(string);
+                setNextInputRequested(false);
+                this.deleteAllText();
                 return;
             }
             //Loops through all commands. If no command trigger matches, a error message is printed
@@ -109,7 +107,8 @@ public class CommandLine implements Basic {
             }
             if (!commandFound)
                 Game.GAME.addTextToUI("Command not found! Try help for a list of all commands.");
-            deleteAllText();
+
+            this.deleteAllText();
         }
 
         //"Real" entering text
@@ -124,7 +123,6 @@ public class CommandLine implements Basic {
                 }
             }
         } else {
-            //If text out of bounds append old characters to backup-string and delete from displayed string
             boolean disallowed = !(keyCode == KEY_LSHIFT) && !(keyCode == KEY_RSHIFT) && !(keyCode == KEY_RCONTROL) && !(keyCode == KEY_LCONTROL);
             if (disallowed && AllowedCharacter.isAllowedCharacter(keyTyped))
                 displayText.append(keyTyped);
@@ -141,16 +139,16 @@ public class CommandLine implements Basic {
         backupText.delete(0, backupText.length());
     }
 
-    private void setNextInputRequested(boolean nextInputRequested) {
-        this.nextInputRequested = nextInputRequested;
-    }
-
     private boolean isNextInputRequested() {
         return nextInputRequested;
     }
 
+    private void setNextInputRequested(boolean nextInputRequested) {
+        this.nextInputRequested = nextInputRequested;
+    }
+
     public void requestNextInput(final Consumer<String> requestedInput) {
-        nextInputRequested = true;
+        this.setNextInputRequested(true);
         this.requestedInput = requestedInput;
     }
 

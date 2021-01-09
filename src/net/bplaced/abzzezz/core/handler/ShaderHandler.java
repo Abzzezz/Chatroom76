@@ -8,8 +8,8 @@
 
 package net.bplaced.abzzezz.core.handler;
 
-import net.bplaced.abzzezz.core.util.render.ShaderProgram;
 import net.bplaced.abzzezz.core.util.clock.UniformCacheTimer;
+import net.bplaced.abzzezz.core.util.render.ShaderProgram;
 import org.lwjgl.opengl.ARBShaderObjects;
 
 import java.util.*;

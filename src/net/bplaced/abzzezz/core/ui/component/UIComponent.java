@@ -16,9 +16,9 @@
 
 package net.bplaced.abzzezz.core.ui.component;
 
-import net.bplaced.abzzezz.core.util.Basic;
+import net.bplaced.abzzezz.core.util.UIBasic;
 
-public interface UIComponent extends Basic {
+public interface UIComponent extends UIBasic {
 
     void draw();
 

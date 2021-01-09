@@ -14,6 +14,7 @@ import net.bplaced.abzzezz.core.ui.component.components.TextComponent;
 import net.bplaced.abzzezz.core.ui.screen.Screen;
 import net.bplaced.abzzezz.core.util.Basic;
 import net.bplaced.abzzezz.core.util.OpenGLListener;
+import net.bplaced.abzzezz.game.data.SettingsSavable;
 import net.bplaced.abzzezz.game.ui.components.CommandLine;
 import net.bplaced.abzzezz.game.ui.screen.LoadingScreen;
 import org.apache.commons.lang3.text.WordUtils;
@@ -27,11 +28,10 @@ public class Game extends Core implements Basic {
     private Screen screen;
     private CommandLine commandLine;
 
-
-    /* ----------------- Handlers ----------------- */
-    private SavableHandler savableHandler;
-
-
+    /**
+     * Essentially the main method.
+     * Starts the "opengl core" and initialises all handlers
+     */
     public void initialise() {
         final int width = 600;
         final int height = 600;
@@ -39,7 +39,6 @@ public class Game extends Core implements Basic {
         this.setOpenGLListener(new OpenGLListener() {
             @Override
             public void onDisplayCreated() {
-
             }
 
             @Override
@@ -50,16 +49,25 @@ public class Game extends Core implements Basic {
 
             @Override
             public void onDisplayCloseRequested() {
-
+                SavableHandler.SAVABLE_HANDLER.saveAll();
             }
         });
         this.initialiseGL(width, height);
     }
 
+    /**
+     * Initialises all handlers, if they have no own instance
+     */
     private void initialiseHandlers() {
-        this.savableHandler = new SavableHandler();
+        SavableHandler.SAVABLE_HANDLER.addSavable(
+                new SettingsSavable()
+        );
+        SavableHandler.SAVABLE_HANDLER.loadAll();
     }
 
+    /**
+     * Overwrites the opengl draw loop
+     */
     @Override
     public void draw() {
         super.draw();
@@ -76,29 +84,25 @@ public class Game extends Core implements Basic {
         super.keyPressed(keyCode, keyCharacter);
     }
 
-    public void setScreen(final Screen newScreen) {
-        if (this.screen != null)
-            this.screen.close();
-        newScreen.initialise();
-        this.screen = newScreen;
-    }
-
     public void addTextToUI(final String text) {
-       getScreen().addUIComponent(new TextComponent(WordUtils.wrap(text, 40), Screen.yPos));
-    }
-
-    /* ----------------- Getters ----------------- */
-
-    public SavableHandler getSavableHandler() {
-        return savableHandler;
+        getScreen().addUIComponent(new TextComponent(WordUtils.wrap(text, 40), Screen.yPos));
     }
 
     public CommandLine getCommandLine() {
         return commandLine;
     }
 
+    /* ----------------- Getters ----------------- */
+
     public Screen getScreen() {
         return screen;
+    }
+
+    public void setScreen(final Screen newScreen) {
+        if (this.screen != null)
+            this.screen.close();
+        newScreen.initialise();
+        this.screen = newScreen;
     }
 
 }

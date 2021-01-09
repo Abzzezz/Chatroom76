@@ -9,9 +9,8 @@
 package net.bplaced.abzzezz.core.util;
 
 import net.bplaced.abzzezz.core.ui.component.UIComponent;
-import net.bplaced.abzzezz.core.util.render.FontUtil;
 
-import java.awt.*;
+import java.io.File;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
@@ -25,6 +24,8 @@ public interface Basic {
 
     String gameVersion = "alpha 1.0";
 
+    File workingDirectory = new File(System.getProperty("LOCALAPPDATA"), gameName);
+
     /* ----------------- Basic UI ----------------- */
 
     Queue<UIComponent> componentQueue = new ArrayDeque<>();
@@ -32,17 +33,5 @@ public interface Basic {
     List<UIComponent> uiComponents = new CopyOnWriteArrayList<>();
 
     int xPos = 0;
-
-    /* ----------------- Look and feel ----------------- */
-
-    String defaultFont = "Terminal";
-
-    int textFontSize = 30;
-
-    FontUtil textFont = new FontUtil(defaultFont, "ttf", textFontSize);
-
-    Color textColor = Color.WHITE;
-
-    Color mainColor = new Color(255, 255, 255, 75);
 
 }

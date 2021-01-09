@@ -13,4 +13,9 @@ public class Logger {
     public static void log(final String message, final LogType logType) {
         System.out.println("[".concat(logType.name()) + "] ".concat(message));
     }
+
+    public static void logf(final String message, final LogType logType, final Object... objects) {
+        System.out.printf("[".concat(logType.name()) + "] ".concat(message), objects);
+    }
+
 }

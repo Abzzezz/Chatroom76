@@ -9,15 +9,17 @@
 package net.bplaced.abzzezz.core.ui.screen;
 
 import net.bplaced.abzzezz.core.ui.component.UIComponent;
-import net.bplaced.abzzezz.core.util.Basic;
+import net.bplaced.abzzezz.core.util.UIBasic;
 
-public class Screen implements Basic {
+public class Screen implements UIBasic {
 
     public static int yPos = 20;
 
-    public void initialise() { }
+    public void initialise() {
+    }
 
-    public void close() { }
+    public void close() {
+    }
 
     public void draw() {
         this.uiComponents.forEach(UIComponent::draw);
