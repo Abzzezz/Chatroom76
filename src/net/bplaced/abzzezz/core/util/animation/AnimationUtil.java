@@ -12,13 +12,13 @@
  *
  */
 
-package net.bplaced.abzzezz.game.util.animation;
+package net.bplaced.abzzezz.core.util.animation;
 
-import net.bplaced.abzzezz.core.util.DeltaTime;
+import net.bplaced.abzzezz.core.util.clock.DeltaTime;
 import net.bplaced.abzzezz.core.util.calc.MathUtil;
 
-/**
- * @author: trey & Abzzezz
+/*
+  @author: trey & Abzzezz
  * @created on: 22.07.2018 16:25:46
  */
 
@@ -32,7 +32,6 @@ public class AnimationUtil {
     public float velocity, oppositeVelocity, min, max, step;
     public float time;
     public boolean reversed;
-    public String type;
 
     public AnimationUtil(final Animation animation, final float velocity, final float min, final float max, final float step, final boolean reversed) {
         this.velocity = velocity;
@@ -94,5 +93,21 @@ public class AnimationUtil {
 
     public double getDouble() {
         return velocity;
+    }
+
+    public float getMin() {
+        return min;
+    }
+
+    public void setMin(float min) {
+        this.min = min;
+    }
+
+    public float getMax() {
+        return max;
+    }
+
+    public void setMax(float max) {
+        this.max = max;
     }
 }

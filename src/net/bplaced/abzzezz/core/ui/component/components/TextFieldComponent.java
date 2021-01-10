@@ -17,14 +17,12 @@ public class TextFieldComponent implements UIComponent {
 
     private final String title;
     private final int yPos;
-    private final Consumer<String> enterAction;
     private String text = "";
     private int yStack;
 
     public TextFieldComponent(final String title, final int yPos, final Consumer<String> enterAction) {
         this.title = title;
         this.yPos = yPos;
-        this.enterAction = enterAction;
         Game.GAME.getCommandLine().requestNextInput(s -> {
             text = s;
             enterAction.accept(text);

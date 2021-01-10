@@ -15,7 +15,9 @@
 package net.bplaced.abzzezz.core.util.animation.easing;
 
 
-public class Elastic extends net.bplaced.abzzezz.game.util.animation.Animation {
+import net.bplaced.abzzezz.core.util.animation.Animation;
+
+public class Elastic extends Animation {
     @Override
     public float easeIn(float t, float b, float c, float d) {
         if (t == 0) return b;

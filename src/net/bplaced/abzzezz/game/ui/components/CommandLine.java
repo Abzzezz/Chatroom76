@@ -31,7 +31,7 @@ public class CommandLine implements UIBasic {
     private final int width, height;
 
     private final String arrow = "> ";
-    private boolean nextInputRequested;
+    private boolean nextInputRequested, inputRestricted;
     private Consumer<String> requestedInput;
 
     private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
@@ -51,10 +51,10 @@ public class CommandLine implements UIBasic {
             }
         } else {
             final int tabHeight = 4;
-            RenderUtil.drawQuad(xPos + textFont.getStringWidth(displayString), Screen.yPos + height - tabHeight, tabHeight * 2, tabHeight, mainColor);
+            RenderUtil.drawQuad(xPos + textFont.getStringWidth(displayString), Screen.currentY + height - tabHeight, tabHeight * 2, tabHeight, mainColor);
         }
 
-        textFont.drawWhiteString(displayString, xPos, Screen.yPos);
+        textFont.drawWhiteString(displayString, xPos, Screen.currentY);
     }
 
     /*
@@ -73,6 +73,8 @@ public class CommandLine implements UIBasic {
     }
 
     public void keyListener(int keyCode, char keyTyped) {
+        if (isInputRestricted()) return;
+
         //Keyboard shortcuts
         if (KeyboardUtil.shiftReturn()) {
             deleteAllText();
@@ -123,7 +125,7 @@ public class CommandLine implements UIBasic {
                 }
             }
         } else {
-            boolean disallowed = !(keyCode == KEY_LSHIFT) && !(keyCode == KEY_RSHIFT) && !(keyCode == KEY_RCONTROL) && !(keyCode == KEY_LCONTROL);
+            final boolean disallowed = !(keyCode == KEY_LSHIFT) && !(keyCode == KEY_RSHIFT) && !(keyCode == KEY_RCONTROL) && !(keyCode == KEY_LCONTROL);
             if (disallowed && AllowedCharacter.isAllowedCharacter(keyTyped))
                 displayText.append(keyTyped);
         }
@@ -145,6 +147,14 @@ public class CommandLine implements UIBasic {
 
     private void setNextInputRequested(boolean nextInputRequested) {
         this.nextInputRequested = nextInputRequested;
+    }
+
+    public boolean isInputRestricted() {
+        return inputRestricted;
+    }
+
+    public void setInputRestricted(boolean inputRestricted) {
+        this.inputRestricted = inputRestricted;
     }
 
     public void requestNextInput(final Consumer<String> requestedInput) {

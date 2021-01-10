@@ -6,7 +6,7 @@
  *
  */
 
-package net.bplaced.abzzezz.game.util.animation;
+package net.bplaced.abzzezz.core.util.animation;
 
 public abstract class Animation {
 

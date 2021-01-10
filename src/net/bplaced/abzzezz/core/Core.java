@@ -17,7 +17,7 @@
 package net.bplaced.abzzezz.core;
 
 import net.bplaced.abzzezz.core.util.Basic;
-import net.bplaced.abzzezz.core.util.DeltaTime;
+import net.bplaced.abzzezz.core.util.clock.DeltaTime;
 import net.bplaced.abzzezz.core.util.OpenGLListener;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;

@@ -85,7 +85,7 @@ public class Game extends Core implements Basic {
     }
 
     public void addTextToUI(final String text) {
-        getScreen().addUIComponent(new TextComponent(WordUtils.wrap(text, 40), Screen.yPos));
+        getScreen().addUIComponent(new TextComponent(WordUtils.wrap(text, 40), Screen.currentY));
     }
 
     public CommandLine getCommandLine() {

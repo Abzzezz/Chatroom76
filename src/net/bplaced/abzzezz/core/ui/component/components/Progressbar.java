@@ -9,6 +9,9 @@
 package net.bplaced.abzzezz.core.ui.component.components;
 
 import net.bplaced.abzzezz.core.ui.component.UIComponent;
+import net.bplaced.abzzezz.game.Game;
+
+import java.awt.*;
 
 public class Progressbar implements UIComponent {
 
@@ -23,12 +26,14 @@ public class Progressbar implements UIComponent {
     private final float max;
     private float current;
 
+    private boolean restrictsInput;
 
     private final int yPos;
     private int yStack;
     private final int height;
 
-    //TODO: Add command line locking
+
+    private Color progressColor = Color.WHITE;
 
     public Progressbar(final String title, final int yPos, float max, float current) {
         this.title = title;
@@ -36,8 +41,6 @@ public class Progressbar implements UIComponent {
         this.current = current;
         this.yPos = yPos;
         this.height = textFont.getHeight(title + "\n [==========]");
-
-        System.out.println(height);
 
         this.step = max / maxBar;
 
@@ -47,16 +50,32 @@ public class Progressbar implements UIComponent {
         }
     }
 
+    public Progressbar(String title, float max, float current, boolean restrictsInput, int yPos) {
+        this.title = title;
+        this.max = max;
+        this.current = current;
+        this.restrictsInput = restrictsInput;
+        this.yPos = yPos;
+        this.height = textFont.getHeight(title + "\n [==========]");
+
+        this.step = max / maxBar;
+
+        final int i = (int) (current / maxBar);
+        for (int j = 0; j < i; j++) {
+            this.text.insert(1, '=');
+        }
+
+        if (restrictsInput)
+            Game.GAME.getCommandLine().setInputRestricted(true);
+    }
 
     @Override
     public void draw() {
-        textFont.drawWhiteString(title + "\n" + text.toString(), xPos, yPos + yStack);
+        textFont.drawString(title + "\n" + text.toString(), xPos, yPos + yStack, progressColor);
     }
 
     @Override
-    public void setYStack(int increment) {
-
-    }
+    public void setYStack(int increment) { }
 
     public void incrementCurrent(float increment) {
         if (this.current < max) {
@@ -65,6 +84,11 @@ public class Progressbar implements UIComponent {
             if ((current / step) * maxBar % maxBar == 0) {
                 this.text.insert(1, '=');
             }
+        } else {
+            progressColor = accentColor;
+            //Stop restricting input
+            if (restrictsInput)
+                Game.GAME.getCommandLine().setInputRestricted(false);
         }
 
     }

@@ -25,4 +25,6 @@ public interface UIBasic extends Basic {
     Color textColor = Color.WHITE;
 
     Color mainColor = new Color(255, 255, 255, 75);
+
+    Color accentColor = Color.GREEN;
 }

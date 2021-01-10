@@ -10,7 +10,7 @@ package net.bplaced.abzzezz.core.util.render;
 
 
 import net.bplaced.abzzezz.core.handler.ShaderHandler;
-import net.bplaced.abzzezz.core.util.DeltaTime;
+import net.bplaced.abzzezz.core.util.clock.DeltaTime;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.log.LogType;
 import net.bplaced.abzzezz.core.util.log.Logger;

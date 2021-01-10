@@ -10,10 +10,13 @@ package net.bplaced.abzzezz.core.ui.screen;
 
 import net.bplaced.abzzezz.core.ui.component.UIComponent;
 import net.bplaced.abzzezz.core.util.UIBasic;
+import net.bplaced.abzzezz.core.util.animation.AnimationUtil;
+import net.bplaced.abzzezz.core.util.animation.easing.Quint;
 
 public class Screen implements UIBasic {
 
-    public static int yPos = 20;
+    public static int currentY = 20;
+    private final AnimationUtil slide = new AnimationUtil(new Quint(), 0, 0, currentY, 1, false);
 
     public void initialise() {
     }
@@ -22,6 +25,10 @@ public class Screen implements UIBasic {
     }
 
     public void draw() {
+        this.slide.animate();
+        if (slide.time < slide.max)
+            currentY = slide.getInt();
+
         this.uiComponents.forEach(UIComponent::draw);
     }
 
@@ -30,16 +37,21 @@ public class Screen implements UIBasic {
 
     public void addUIComponent(final UIComponent uiComponent) {
         this.uiComponents.add(uiComponent);
-        yPos += uiComponent.height();
+        final int yPos = currentY += uiComponent.height();
+        setSlide(yPos);
     }
 
     public void clear() {
         this.uiComponents.clear();
-        yPos = 20;
+        setSlide(20);
         this.initialise();
     }
 
     public void addLineBreak(int amount) {
-        yPos += amount *= textFontSize;
+        setSlide(currentY + amount * textFontSize);
+    }
+
+    private void setSlide(int max) {
+        slide.setMax(max);
     }
 }

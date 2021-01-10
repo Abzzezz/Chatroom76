@@ -15,7 +15,9 @@
 package net.bplaced.abzzezz.core.util.animation.easing;
 
 
-public class Linear extends net.bplaced.abzzezz.game.util.animation.Animation {
+import net.bplaced.abzzezz.core.util.animation.Animation;
+
+public class Linear extends Animation {
 
     public float easeNone(float t, float b, float c, float d) {
         return c * t / d + b;
