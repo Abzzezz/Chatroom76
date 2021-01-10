@@ -161,16 +161,16 @@ public class DialogHandler {
      *
      * @param keyChar key character to check against
      */
-    public void selectOption(final char keyChar) {
+    public void selectOption(final char keyChar, final Consumer<String> selectedOption) {
         if (pending) {
             if (!Character.isDigit(keyChar)) return;
             final String valueOf = String.valueOf(keyChar);
             final int num = Integer.parseInt(valueOf);
             if (num < options.size() && num >= 0) {
-                addToDialog(valueOf, Color.decode("#FB7E3F"));
                 lastLine = next(options.get(num)) - 1;
                 pending = false;
-                getNextDialog();
+                System.out.println(valueOf);
+                selectedOption.accept(valueOf);
             }
         }
     }
@@ -253,18 +253,6 @@ public class DialogHandler {
             lines.set(i, AllowedCharacter.replaceUmlaute(stringAt));
         }
         return lines;
-    }
-
-    /*
-     * Preparation etc.
-     */
-
-    private void addToDialog(final String string, final Color color) {
-        getDisplayDialog().add(new DialogLine(string, color));
-    }
-
-    public void addToDialog(final String string) {
-        getDisplayDialog().add(new DialogLine(string, Color.WHITE));
     }
 
     /**

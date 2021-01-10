@@ -19,8 +19,8 @@ package net.bplaced.abzzezz.core;
 import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.handler.TextureHandler;
 import net.bplaced.abzzezz.core.util.Basic;
-import net.bplaced.abzzezz.core.util.clock.DeltaTime;
 import net.bplaced.abzzezz.core.util.OpenGLListener;
+import net.bplaced.abzzezz.core.util.clock.DeltaTime;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -78,18 +78,18 @@ public class Core implements Basic {
             update();
             draw();
         }
-        destroy();
         if (openGLListener != null)
             openGLListener.onDisplayCloseRequested();
 
         //Shutdown process
         shutdown();
+        destroy();
+        System.exit(0);
     }
 
     private void shutdown() {
         ShaderHandler.SHADER_HANDLER.deletePrograms();
         TextureHandler.TEXTURE_HANDLER.deleteTextures();
-        System.exit(0);
     }
 
     protected void initialiseGL(final int width, final int height) {

@@ -20,9 +20,14 @@ public class GameScreen extends Screen {
 
     @Override
     public void initialise() {
+        //TODO: Fix char 0; Restrict input
         Game.GAME.getCommandLine().requestAllInput(s -> {
-            if(s.length() > 1)
-            Game.GAME.getDialogHandler().selectOption(s.charAt(0));
+            if (!s.isEmpty()) {
+                Game.GAME.getDialogHandler().selectOption(s.charAt(0), selected -> {
+                    addUIComponent(new ColorTextComponent(selected, currentY, Color.decode("#FB7E3F")));
+                    keyPressed(Keyboard.KEY_SPACE, ' ');
+                });
+            }
         });
         super.initialise();
     }
@@ -40,6 +45,7 @@ public class GameScreen extends Screen {
     @Override
     public void drawShader() {
         ShaderHandler.SHADER_HANDLER.getTextureShader().draw();
+        ShaderHandler.SHADER_HANDLER.getCrtShader().draw();
         super.drawShader();
     }
 }

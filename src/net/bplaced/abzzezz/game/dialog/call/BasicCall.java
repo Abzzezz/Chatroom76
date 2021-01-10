@@ -38,7 +38,7 @@ public interface BasicCall {
             final String result = optionResultSplit[1];
 
             GAME_MAIN.getDialogHandler().getOptions().add(result.substring(0, result.length() - 1));
-            GAME_MAIN.getDialogHandler().addToDialog(optionResultSplit[0].concat("(" + i + ")"));
+            GAME_MAIN.addTextToUI(optionResultSplit[0].concat("(" + i + ")"));
         }
         GAME_MAIN.getDialogHandler().setPending(true);
     }

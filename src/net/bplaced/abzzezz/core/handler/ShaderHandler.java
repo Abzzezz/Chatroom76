@@ -9,6 +9,7 @@
 package net.bplaced.abzzezz.core.handler;
 
 import net.bplaced.abzzezz.core.util.clock.UniformCacheTimer;
+import net.bplaced.abzzezz.game.shader.CRTShader;
 import net.bplaced.abzzezz.game.shader.TextureShader;
 import org.lwjgl.opengl.ARBShaderObjects;
 
@@ -23,6 +24,7 @@ public class ShaderHandler {
     private final List<Integer> programList = new ArrayList<>();
 
     private TextureShader textureShader;
+    private CRTShader crtShader;
 
     public ShaderHandler() {
         final Timer timer = new Timer("Shader-uniform cache timer");
@@ -31,6 +33,7 @@ public class ShaderHandler {
 
     public void setupShaders() {
         this.textureShader = new TextureShader();
+        this.crtShader = new CRTShader();
     }
 
     public void deletePrograms() {
@@ -39,6 +42,10 @@ public class ShaderHandler {
 
     public TextureShader getTextureShader() {
         return textureShader;
+    }
+
+    public CRTShader getCrtShader() {
+        return crtShader;
     }
 
     public void putUniformLocation(final int program, final String uniform, final int location) {
