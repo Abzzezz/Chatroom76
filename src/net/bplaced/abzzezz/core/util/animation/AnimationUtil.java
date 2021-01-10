@@ -14,8 +14,8 @@
 
 package net.bplaced.abzzezz.core.util.animation;
 
-import net.bplaced.abzzezz.core.util.clock.DeltaTime;
 import net.bplaced.abzzezz.core.util.calc.MathUtil;
+import net.bplaced.abzzezz.core.util.clock.DeltaTime;
 
 /*
   @author: trey & Abzzezz
@@ -63,28 +63,20 @@ public class AnimationUtil {
     }
 
     public void reset(boolean animated) {
-        if (animated) {
-            if (reversed) {
-                if (time < max) {
-                    time += step * (DeltaTime.deltaTime / 10F);
-                }
-            } else {
-                if (time > min) {
-                    time -= step * (DeltaTime.deltaTime / 10F);
-                }
-            }
-            velocity = animation.easeInOut(time, min, max, max);
-        } else {
-            if (reversed) time = max;
-            else time = min;
+        if (reversed) time = max;
+        else time = min;
 
-            velocity = min;
-        }
+        velocity = min;
+
         oppositeVelocity = (MathUtil.nabs(velocity));
     }
 
     public int getInt() {
         return (int) velocity;
+    }
+
+    public void setVelocity(float velocity) {
+        this.velocity = velocity;
     }
 
     public float getFloat() {

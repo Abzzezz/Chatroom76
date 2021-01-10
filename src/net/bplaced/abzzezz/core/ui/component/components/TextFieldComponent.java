@@ -19,10 +19,12 @@ public class TextFieldComponent implements UIComponent {
     private final int yPos;
     private String text = "";
     private int yStack;
+    private final int height;
 
     public TextFieldComponent(final String title, final int yPos, final Consumer<String> enterAction) {
         this.title = title;
         this.yPos = yPos;
+        this.height = textFont.getHeight();
         Game.GAME.getCommandLine().requestNextInput(s -> {
             text = s;
             enterAction.accept(text);
@@ -46,6 +48,6 @@ public class TextFieldComponent implements UIComponent {
 
     @Override
     public int height() {
-        return textFont.getHeight();
+        return height;
     }
 }

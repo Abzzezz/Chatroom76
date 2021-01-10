@@ -9,14 +9,13 @@
 package net.bplaced.abzzezz.core.ui.screen;
 
 import net.bplaced.abzzezz.core.ui.component.UIComponent;
+import net.bplaced.abzzezz.core.ui.component.components.OptionComponent;
 import net.bplaced.abzzezz.core.util.UIBasic;
-import net.bplaced.abzzezz.core.util.animation.AnimationUtil;
-import net.bplaced.abzzezz.core.util.animation.easing.Quint;
 
 public class Screen implements UIBasic {
 
     public static int currentY = 20;
-    private final AnimationUtil slide = new AnimationUtil(new Quint(), 0, 0, currentY, 1, false);
+    private final int minY = 20;
 
     public void initialise() {
     }
@@ -24,34 +23,35 @@ public class Screen implements UIBasic {
     public void close() {
     }
 
-    public void draw() {
-        this.slide.animate();
-        if (slide.time < slide.max)
-            currentY = slide.getInt();
 
-        this.uiComponents.forEach(UIComponent::draw);
+    public void update() {
     }
 
     public void keyPressed(int keyCode, char keyCharacter) {
     }
 
+
+    /* ----------------- UI Components ----------------- */
+
     public void addUIComponent(final UIComponent uiComponent) {
         this.uiComponents.add(uiComponent);
-        final int yPos = currentY += uiComponent.height();
-        setSlide(yPos);
+        currentY += uiComponent.height();
+    }
+
+    public void addOption(final OptionComponent optionComponent) {
+        this.activeOptions.add(optionComponent);
+        currentY += optionComponent.height();
     }
 
     public void clear() {
         this.uiComponents.clear();
-        setSlide(20);
+        this.activeOptions.clear();
+        currentY = minY;
         this.initialise();
     }
 
     public void addLineBreak(int amount) {
-        setSlide(currentY + amount * textFontSize);
+        currentY += amount * textFontSize;
     }
 
-    private void setSlide(int max) {
-        slide.setMax(max);
-    }
 }

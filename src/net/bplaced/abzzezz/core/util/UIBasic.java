@@ -18,7 +18,7 @@ public interface UIBasic extends Basic {
 
     String defaultFont = "Terminal";
 
-    int textFontSize = 30;
+    int textFontSize = 25;
 
     FontUtil textFont = new FontUtil(defaultFont, "ttf", textFontSize);
 

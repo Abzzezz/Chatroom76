@@ -1,4 +1,7 @@
-[ ] warp text to display width
+[x] warp text to display width
 [ ] add dialogs to play and take the input from the command line
 [x] Text input from the command line
 [ ] implement scrolling
+[ ] replace all ui objects with strings and the component is represented trough a index. The string at that index is then altered?
+[ ] settings
+[ ] textures

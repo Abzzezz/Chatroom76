@@ -33,7 +33,7 @@ public class Progressbar implements UIComponent {
     private final int height;
 
 
-    private Color progressColor = Color.WHITE;
+    private Color progressColor = textColor;
 
     public Progressbar(final String title, final int yPos, float max, float current) {
         this.title = title;
@@ -75,7 +75,8 @@ public class Progressbar implements UIComponent {
     }
 
     @Override
-    public void setYStack(int increment) { }
+    public void setYStack(int increment) {
+    }
 
     public void incrementCurrent(float increment) {
         if (this.current < max) {

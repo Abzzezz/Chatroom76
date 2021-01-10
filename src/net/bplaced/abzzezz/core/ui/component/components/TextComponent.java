@@ -15,10 +15,12 @@ public class TextComponent implements UIComponent {
     private final String text;
     private final int yPos;
     private int yStack;
+    private final int height;
 
     public TextComponent(final String text, final int yPos) {
         this.text = text;
         this.yPos = yPos;
+        this.height = textFont.getHeight(getText());
     }
 
     @Override
@@ -38,7 +40,7 @@ public class TextComponent implements UIComponent {
 
     @Override
     public int height() {
-        return textFont.getHeight(getText());
+        return height;
     }
 
     public String getText() {

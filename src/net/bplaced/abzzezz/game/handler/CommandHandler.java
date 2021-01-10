@@ -10,7 +10,9 @@ package net.bplaced.abzzezz.game.handler;
 
 import net.bplaced.abzzezz.game.command.Command;
 import net.bplaced.abzzezz.game.command.commands.ClearScreenCommand;
+import net.bplaced.abzzezz.game.command.commands.ExecuteCommand;
 import net.bplaced.abzzezz.game.command.commands.HelpCommand;
+import net.bplaced.abzzezz.game.command.commands.ReturnCommand;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +26,9 @@ public class CommandHandler {
     public CommandHandler() {
         addCommands(
                 new ClearScreenCommand(),
-                new HelpCommand()
+                new HelpCommand(),
+                new ExecuteCommand(),
+                new ReturnCommand()
         );
     }
 

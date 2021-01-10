@@ -39,7 +39,7 @@ public class Core implements Basic {
      * Gets called every time the screen is updated
      * Calculates the delta time for now
      */
-    private void update() {
+    protected void update() {
         final long time = getTime();
         final int deltaTime = (int) (time - lastFrame);
         this.lastFrame = time;
@@ -65,7 +65,7 @@ public class Core implements Basic {
     /**
      * Draws the actual components on screen
      */
-    public void draw() {
+    protected void draw() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
