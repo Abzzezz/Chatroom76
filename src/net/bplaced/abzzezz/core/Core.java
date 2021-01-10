@@ -16,6 +16,8 @@
 
 package net.bplaced.abzzezz.core;
 
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
+import net.bplaced.abzzezz.core.handler.TextureHandler;
 import net.bplaced.abzzezz.core.util.Basic;
 import net.bplaced.abzzezz.core.util.clock.DeltaTime;
 import net.bplaced.abzzezz.core.util.OpenGLListener;
@@ -80,6 +82,13 @@ public class Core implements Basic {
         if (openGLListener != null)
             openGLListener.onDisplayCloseRequested();
 
+        //Shutdown process
+        shutdown();
+    }
+
+    private void shutdown() {
+        ShaderHandler.SHADER_HANDLER.deletePrograms();
+        TextureHandler.TEXTURE_HANDLER.deleteTextures();
         System.exit(0);
     }
 

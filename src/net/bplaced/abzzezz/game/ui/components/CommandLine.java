@@ -19,6 +19,7 @@ import net.bplaced.abzzezz.game.util.AllowedCharacter;
 import net.bplaced.abzzezz.game.util.TimeUtil;
 import org.lwjgl.opengl.Display;
 
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 
 import static org.lwjgl.input.Keyboard.*;
@@ -31,7 +32,8 @@ public class CommandLine implements UIBasic {
     private final int width, height;
 
     private final String arrow = "> ";
-    private boolean nextInputRequested, inputRestricted;
+    private boolean nextInputRequested, inputRestricted, allInputRequested;
+
     private Consumer<String> requestedInput;
 
     private final TimeUtil bounceTime = new TimeUtil(), bounceTime2 = new TimeUtil();
@@ -64,23 +66,17 @@ public class CommandLine implements UIBasic {
 
     }
 
-    public int yPos() {
-        return 0;
-    }
-
-    public int height() {
-        return 0;
-    }
+    /* ----------------- Input logic ----------------- */
 
     public void keyListener(int keyCode, char keyTyped) {
         if (isInputRestricted()) return;
 
         //Keyboard shortcuts
-        if (KeyboardUtil.shiftReturn()) {
+        if (KeyboardUtil.shiftReturn())
             deleteAllText();
-        } else if (KeyboardUtil.ctrlVDown()) {
+        else if (KeyboardUtil.ctrlVDown())
             displayText.append(KeyboardUtil.getClipboard());
-        }
+
 
         //Enter action
         if (keyCode == KEY_RETURN) {
@@ -90,10 +86,15 @@ public class CommandLine implements UIBasic {
             //Important for text fields and decision making in the actual game
             if (isNextInputRequested()) {
                 this.requestedInput.accept(string);
-                setNextInputRequested(false);
+                this.setNextInputRequested(false);
+                this.deleteAllText();
+                return;
+            } else if (isAllInputRequested()) {
+                this.requestedInput.accept(string);
                 this.deleteAllText();
                 return;
             }
+
             //Loops through all commands. If no command trigger matches, a error message is printed
             boolean commandFound = false;
             loop:
@@ -102,7 +103,9 @@ public class CommandLine implements UIBasic {
                     final String line0 = string.split("\\s+")[0];
                     if (line0.equalsIgnoreCase(trigger)) {
                         commandFound = true;
-                        Game.GAME.addTextToUI(command.execute(string));
+                        final String exec = command.execute(string);
+                        if (exec != null && !exec.isEmpty())
+                            Game.GAME.addTextToUI(exec);
                         break loop;
                     }
                 }
@@ -136,10 +139,13 @@ public class CommandLine implements UIBasic {
         }
     }
 
+
     private void deleteAllText() {
         displayText.delete(0, displayText.length());
         backupText.delete(0, backupText.length());
     }
+
+    /* ----------------- Input requested ----------------- */
 
     private boolean isNextInputRequested() {
         return nextInputRequested;
@@ -149,6 +155,13 @@ public class CommandLine implements UIBasic {
         this.nextInputRequested = nextInputRequested;
     }
 
+    public void requestNextInput(final Consumer<String> requestedInput) {
+        this.setNextInputRequested(true);
+        this.requestedInput = requestedInput;
+    }
+
+    /* ----------------- Input restricted ----------------- */
+
     public boolean isInputRestricted() {
         return inputRestricted;
     }
@@ -157,9 +170,34 @@ public class CommandLine implements UIBasic {
         this.inputRestricted = inputRestricted;
     }
 
-    public void requestNextInput(final Consumer<String> requestedInput) {
-        this.setNextInputRequested(true);
+    /* ----------------- request all input ----------------- */
+
+    public void requestAllInput(final Consumer<String> requestedInput) {
+        this.setAllInputRequested(true);
         this.requestedInput = requestedInput;
+    }
+
+    public void stopRequestingAllInput() {
+        this.allInputRequested = false;
+    }
+
+    public boolean isAllInputRequested() {
+        return allInputRequested;
+    }
+
+    private void setAllInputRequested(boolean allInputRequested) {
+        this.allInputRequested = allInputRequested;
+    }
+
+    /* ----------------- Other ----------------- */
+
+
+    public int yPos() {
+        return 0;
+    }
+
+    public int height() {
+        return 0;
     }
 
     /**

@@ -10,6 +10,7 @@ package net.bplaced.abzzezz.game;
 
 import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.handler.SavableHandler;
+import net.bplaced.abzzezz.core.handler.ShaderHandler;
 import net.bplaced.abzzezz.core.ui.component.UIComponent;
 import net.bplaced.abzzezz.core.ui.component.components.OptionComponent;
 import net.bplaced.abzzezz.core.ui.component.components.TextComponent;
@@ -17,6 +18,7 @@ import net.bplaced.abzzezz.core.ui.screen.Screen;
 import net.bplaced.abzzezz.core.util.Basic;
 import net.bplaced.abzzezz.core.util.OpenGLListener;
 import net.bplaced.abzzezz.game.data.SettingsSavable;
+import net.bplaced.abzzezz.game.dialog.DialogLoader;
 import net.bplaced.abzzezz.game.handler.DialogHandler;
 import net.bplaced.abzzezz.game.ui.components.CommandLine;
 import net.bplaced.abzzezz.game.ui.screen.MainScreen;
@@ -48,6 +50,7 @@ public class Game extends Core implements Basic {
 
             @Override
             public void onGLInitialised() {
+                ShaderHandler.SHADER_HANDLER.setupShaders();
                 commandLine = new CommandLine();
                 setScreen(new MainScreen());
             }
@@ -55,6 +58,7 @@ public class Game extends Core implements Basic {
             @Override
             public void onDisplayCloseRequested() {
                 SavableHandler.SAVABLE_HANDLER.saveAll();
+                DialogLoader.DIALOG_LOADER.saveDialogs();
             }
         });
         this.initialiseGL(width, height);
@@ -70,6 +74,7 @@ public class Game extends Core implements Basic {
                 new SettingsSavable()
         );
         SavableHandler.SAVABLE_HANDLER.loadAll();
+        DialogLoader.DIALOG_LOADER.loadDialogs();
     }
 
     /**
@@ -88,6 +93,8 @@ public class Game extends Core implements Basic {
     @Override
     public void draw() {
         super.draw();
+        //Draw shader
+        this.screen.drawShader();
         //Draw components
         this.uiComponents.forEach(UIComponent::draw);
         this.activeOptions.forEach(OptionComponent::draw);
@@ -129,7 +136,6 @@ public class Game extends Core implements Basic {
      * @param oldScreen screen to return to
      */
     public void returnTo(final Screen oldScreen) {
-        System.out.printf("Returning to:%s", oldScreen);
         //Clear old screen
         this.screen.close();
         //Init new screen

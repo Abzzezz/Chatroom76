@@ -11,6 +11,10 @@ package net.bplaced.abzzezz.core.ui.screen;
 import net.bplaced.abzzezz.core.ui.component.UIComponent;
 import net.bplaced.abzzezz.core.ui.component.components.OptionComponent;
 import net.bplaced.abzzezz.core.util.UIBasic;
+import net.bplaced.abzzezz.game.Game;
+import net.bplaced.abzzezz.game.command.Command;
+import net.bplaced.abzzezz.game.handler.CommandHandler;
+import net.bplaced.abzzezz.game.ui.screen.GameScreen;
 
 public class Screen implements UIBasic {
 
@@ -23,13 +27,15 @@ public class Screen implements UIBasic {
     public void close() {
     }
 
+    public void drawShader() {
+    }
 
     public void update() {
     }
 
     public void keyPressed(int keyCode, char keyCharacter) {
-    }
 
+    }
 
     /* ----------------- UI Components ----------------- */
 
@@ -44,6 +50,7 @@ public class Screen implements UIBasic {
     }
 
     public void clear() {
+        if (this instanceof GameScreen) return;
         this.uiComponents.clear();
         this.activeOptions.clear();
         currentY = minY;

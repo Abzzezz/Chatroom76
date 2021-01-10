@@ -24,7 +24,7 @@ public interface Basic {
 
     String gameVersion = "alpha 1.0";
 
-    File workingDirectory = new File(System.getProperty("LOCALAPPDATA"), gameName);
+    File workingDirectory = new File(System.getProperty("user.home"), gameName);
 
     /* ----------------- Basic UI ----------------- */
 

@@ -4,4 +4,4 @@
 [ ] implement scrolling
 [ ] replace all ui objects with strings and the component is represented trough a index. The string at that index is then altered?
 [ ] settings
-[ ] textures
+[x] textures

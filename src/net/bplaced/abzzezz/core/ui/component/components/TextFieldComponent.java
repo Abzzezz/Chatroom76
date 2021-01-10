@@ -50,4 +50,8 @@ public class TextFieldComponent implements UIComponent {
     public int height() {
         return height;
     }
+
+    public String getText() {
+        return text;
+    }
 }

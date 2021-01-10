@@ -19,7 +19,7 @@ public class ExecuteCommand implements Command {
         if (arguments.length == 1) {
             final String optionTitle = arguments[0];
             activeOptions.stream().filter(option -> option.getOptionName().equalsIgnoreCase(optionTitle)).findFirst().ifPresent(OptionComponent::trigger);
-            return "Executing: " + arguments[0];
+            return null;
         } else
             return "Not enough arguments specified.";
     }

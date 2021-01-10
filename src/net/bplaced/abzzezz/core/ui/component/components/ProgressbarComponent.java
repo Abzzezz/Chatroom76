@@ -13,8 +13,7 @@ import net.bplaced.abzzezz.game.Game;
 
 import java.awt.*;
 
-public class Progressbar implements UIComponent {
-
+public class ProgressbarComponent implements UIComponent {
 
     private final String title;
 
@@ -23,7 +22,7 @@ public class Progressbar implements UIComponent {
     private final int maxBar = 10;
     private final float step;
 
-    private final float max;
+    private float max;
     private float current;
 
     private boolean restrictsInput;
@@ -35,7 +34,7 @@ public class Progressbar implements UIComponent {
 
     private Color progressColor = textColor;
 
-    public Progressbar(final String title, final int yPos, float max, float current) {
+    public ProgressbarComponent(final String title, final int yPos, float max, float current) {
         this.title = title;
         this.max = max;
         this.current = current;
@@ -50,7 +49,7 @@ public class Progressbar implements UIComponent {
         }
     }
 
-    public Progressbar(String title, float max, float current, boolean restrictsInput, int yPos) {
+    public ProgressbarComponent(String title, int yPos, float max, float current, boolean restrictsInput) {
         this.title = title;
         this.max = max;
         this.current = current;
@@ -65,13 +64,12 @@ public class Progressbar implements UIComponent {
             this.text.insert(1, '=');
         }
 
-        if (restrictsInput)
-            Game.GAME.getCommandLine().setInputRestricted(true);
+        this.restrictsInput = restrictsInput;
     }
 
     @Override
     public void draw() {
-        textFont.drawString(title + "\n" + text.toString(), xPos, yPos + yStack, progressColor);
+        textFont.drawString(title + ":" + text.toString(), xPos, yPos + yStack, progressColor);
     }
 
     @Override
@@ -79,6 +77,9 @@ public class Progressbar implements UIComponent {
     }
 
     public void incrementCurrent(float increment) {
+        if (restrictsInput && !Game.GAME.getCommandLine().isInputRestricted())
+            Game.GAME.getCommandLine().setInputRestricted(true);
+
         if (this.current < max) {
             this.current += increment;
 
@@ -92,6 +93,18 @@ public class Progressbar implements UIComponent {
                 Game.GAME.getCommandLine().setInputRestricted(false);
         }
 
+    }
+
+    public boolean doesRestrictsInput() {
+        return restrictsInput;
+    }
+
+    public void setMax(float max) {
+        this.max = max;
+    }
+
+    public void setCurrent(float current) {
+        this.current = current;
     }
 
     public float getMax() {

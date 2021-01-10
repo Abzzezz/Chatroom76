@@ -8,18 +8,18 @@
 
 package net.bplaced.abzzezz.game.handler;
 
-import net.bplaced.abzzezz.core.Core;
 import net.bplaced.abzzezz.core.sound.SoundPlayer;
+import net.bplaced.abzzezz.core.util.calc.MathUtil;
 import net.bplaced.abzzezz.core.util.data.FileUtil;
 import net.bplaced.abzzezz.core.util.log.LogType;
 import net.bplaced.abzzezz.core.util.log.Logger;
-import net.bplaced.abzzezz.core.util.calc.MathUtil;
 import net.bplaced.abzzezz.game.Game;
 import net.bplaced.abzzezz.game.dialog.Dialog;
 import net.bplaced.abzzezz.game.dialog.DialogLine;
 import net.bplaced.abzzezz.game.dialog.DialogLoader;
 import net.bplaced.abzzezz.game.dialog.call.BasicCall;
 import net.bplaced.abzzezz.game.dialog.call.calls.*;
+import net.bplaced.abzzezz.game.ui.screen.GameScreen;
 import net.bplaced.abzzezz.game.ui.screen.MainScreen;
 import net.bplaced.abzzezz.game.util.AllowedCharacter;
 
@@ -79,22 +79,25 @@ public class DialogHandler {
     /**
      * Get the next available dialog text to add
      */
-    public void getNextDialog() {
+    public String[] getNextDialog() {
         //if no input expected
         if (!pending) {
             //Next = last + 1 (obviously?)
             int next = lastLine + 1;
             //If next bigger or equal to size return. Dialog finished
-            if (next >= dialog.size()) return;
+            if (next >= dialog.size()) return null;
             //If the dialog started goto "startpoint"
             next = next(dialog.get(next));
 
             final String[] format = formatNext(next);
 
-            if (format.length == 2 && format[0] != null && !format[0].isEmpty())
-                addToDialog(format[0], Color.decode(format[1]));
             lastLine = next;
+
+            if (format.length == 2 && format[0] != null && !format[0].isEmpty())
+                return new String[]{format[0], format[1]};
+
         }
+        return null;
     }
 
     /**
@@ -256,7 +259,7 @@ public class DialogHandler {
      * Preparation etc.
      */
 
-    public void addToDialog(final String string, final Color color) {
+    private void addToDialog(final String string, final Color color) {
         getDisplayDialog().add(new DialogLine(string, color));
     }
 
@@ -343,8 +346,8 @@ public class DialogHandler {
         } catch (final IOException e) {
             e.printStackTrace();
         }
-        //TODO: game screen
-       // Core.getInstance().setScreen(new GameScreen());
+
+        Game.GAME.setScreen(new GameScreen());
     }
 
     /**
@@ -369,8 +372,7 @@ public class DialogHandler {
         } catch (final IOException e) {
             e.printStackTrace();
         }
-        //TODO: Game screen
-        //Game.GAME.setScreen(new GameScreen());
+        Game.GAME.setScreen(new GameScreen());
     }
 
     /**

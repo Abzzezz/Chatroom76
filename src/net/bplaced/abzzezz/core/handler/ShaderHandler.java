@@ -9,7 +9,7 @@
 package net.bplaced.abzzezz.core.handler;
 
 import net.bplaced.abzzezz.core.util.clock.UniformCacheTimer;
-import net.bplaced.abzzezz.core.util.render.ShaderProgram;
+import net.bplaced.abzzezz.game.shader.TextureShader;
 import org.lwjgl.opengl.ARBShaderObjects;
 
 import java.util.*;
@@ -22,7 +22,7 @@ public class ShaderHandler {
     private final Map<Integer, Map<String, Integer>> programUniformLocationMap = new HashMap<>();
     private final List<Integer> programList = new ArrayList<>();
 
-    private ShaderProgram backgroundShader;
+    private TextureShader textureShader;
 
     public ShaderHandler() {
         final Timer timer = new Timer("Shader-uniform cache timer");
@@ -30,19 +30,15 @@ public class ShaderHandler {
     }
 
     public void setupShaders() {
-
+        this.textureShader = new TextureShader();
     }
 
     public void deletePrograms() {
         getProgramList().forEach(ARBShaderObjects::glDeleteObjectARB);
     }
 
-    public ShaderProgram getBackgroundShader() {
-        return backgroundShader;
-    }
-
-    public void setBackgroundShader(ShaderProgram backgroundShader) {
-        this.backgroundShader = backgroundShader;
+    public TextureShader getTextureShader() {
+        return textureShader;
     }
 
     public void putUniformLocation(final int program, final String uniform, final int location) {

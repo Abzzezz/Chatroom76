@@ -25,7 +25,7 @@ public class SavableHandler implements Basic {
 
 
     public SavableHandler() {
-        if (!workingDirectory.exists()) Logger.log("Creating working directory: " + workingDirectory, LogType.INFO);
+        if (!workingDirectory.exists()) Logger.log("Creating working directory: " + workingDirectory.mkdirs(), LogType.INFO);
     }
 
     public void loadAll() {
